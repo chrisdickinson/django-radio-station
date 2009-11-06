@@ -1,0 +1,27 @@
+{% extends "radio_events/base.html" %}
+{% block body_id %}{{ block.super }}-list{% endblock %}
+{% block radio_events_content_header %}
+    <h1 class="header">Events for {{ day|date:"l, F jS Y" }}</h1>
+{% endblock %}
+
+{% block radio_events_content_main %}
+    {% if object_list %}
+        <ul class="object-list">
+        {% for event in events %}
+            {% include "radio_events/includes/event_list_item.html" %}
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="object-list-item">
+            <h1>There don&rsquo;t appear to be any events that day.</h1>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block radio_events_content_sub %}
+{% load radio_events_calendar %}
+<div id="calendar">
+    <h1 class="header">Calendar : {{ day|date:"F"}}</h1>
+    {% calendar_block day %}
+</div>
+{% endblock %}

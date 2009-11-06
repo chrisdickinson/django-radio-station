@@ -1,0 +1,228 @@
+{% extends "station/schedule/admin/base.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.ui.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.schedule.js"></script>
+<script type="text/javascript">
+    var spots = {{ controller.spots_to_json }};
+    $(function () {
+        var today = 0;
+        var repeat_mode = 0;
+        $('#schedule-canvas').schedule({
+            'dj-class':'dj',
+            'spot-class':'spot',
+            'show-class':'show',
+            'spots':spots,
+        });
+
+        var days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+        ];
+
+        var repeat = [
+            'Every',
+            'Every 1st',
+            'Every 2nd',
+            'Every 3rd',
+            'Every 4th',
+            'Every 5th',
+            'Every 6th',
+        ];
+
+        $('#dj-chrome ul').dj_list({
+            'url':'/rest/djs',
+        });
+
+        var enable_appropriate_droppables = function (day) {
+            $('.spot .dj-dropzone').droppable('disable');
+            $('.weekday-'+day+' .dj-dropzone').droppable('enable');
+            console.log('.weekday-'+day+' .dj-dropzone');
+        };
+
+        $('#schedule-prev-day').click(function (event) {
+            if(today < 1) {
+                $('#schedule-canvas').animate({'left':'50px'}, 150, 'swing', function () {
+                    $('#schedule-canvas').animate({'left':'0px'}, 100, 'swing'); 
+                });
+            } else {
+                var off = (today-1) * -428;
+                $('#schedule-canvas').animate({'left':off+'px'}, 250, 'swing', function () {
+                    today -= 1;
+                    $('#day').text(days[today]);
+                    enable_appropriate_droppables(today);
+                });
+            }
+            event.preventDefault();
+        });
+        
+        $('#schedule-next-day').click(function (event) {
+            if(today > 5) {
+                var off = -428*6-50;
+                $('#schedule-canvas').animate({'left':off+'px'}, 150, 'swing', function () {
+                    $('#schedule-canvas').animate({'left':(off+50)+'px'}, 100, 'swing'); 
+                });
+            } else {
+                var off = (today+1) * -428;
+                $('#schedule-canvas').animate({'left':off+'px'}, 250, 'swing', function () {
+                    today += 1;
+                    $('#day').text(days[today]);
+                    enable_appropriate_droppables(today);
+                });
+            }
+            event.preventDefault();
+        });
+
+        $('#repeat').text(repeat[repeat_mode]);
+        $('#day').text(days[today]);
+        enable_appropriate_droppables(today);
+    });
+</script>
+<style>
+    .active {
+        background-color:#5B80B2 !important;
+        color:white;
+    }
+
+    #schedule-canvas {
+        height:515px;
+        width:3000px;
+        position:relative;
+    }
+
+    #schedule-chrome {
+        width:430px;
+    }   
+
+    #schedule-container {
+        display:inline-block;
+        position:relative;
+        width:427px;
+        overflow:hidden;
+        border:1px solid #CCC;
+        float:left;
+    }
+
+    #day-controller {
+        width:100%;
+        overflow:hidden;
+        position:relative;
+        padding-bottom:10px;
+    }
+
+    #day-controller > a {
+        padding:5px;
+    }
+
+    #schedule-prev-day {
+        position:absolute;
+        left:0px;
+    }
+
+    #schedule-next-day {
+        position:absolute;
+        right:0px;
+    }
+
+    #day-controller h1 {
+        margin:0pt auto;
+        display:inline-block;
+        float:left;
+        width:100%;
+        text-align:center;
+    }
+
+    #schedule-prev-day {
+        float:left;
+        display:inline-block;
+    }
+
+    #schedule-next-day {
+        float:left;
+        display:inline-block;
+    }
+
+    #meta-column {
+        margin-left:15px;
+        width:300px;
+        float:left;
+    }
+
+    #meta-column h1 {
+        position:relative;
+    }
+
+    #meta-column h1 .addlink {
+        position:absolute;
+        right:0px;
+        font-size:12px;
+        font-weight:normal;
+    }
+
+    #meta-column ul {
+        height:200px;
+        position:relative;
+        background:#232323;
+        border:1px solid #CCC;
+        padding:0px;
+    }
+
+    #meta-column ul li {
+        margin-left:0px;
+        border-bottom:1px solid #CCC;
+        padding:5px 5px;
+        list-style:none;
+        background:white;
+    }
+
+</style>
+{% endblock %}
+
+{% block inner_content %}
+<form method="POST" action="">
+    <div id="schedule-chrome">
+        <div id="day-controller">
+            <a href="#" id="schedule-prev-day">&laquo; previous</a>
+            <h1 id="when"><span id="repeat"></span> <span id="day"></span></h1>
+            <a href="#" id="schedule-next-day">next &raquo;</a>
+        </div>
+        <div id="schedule-container">
+            <div id="schedule-canvas">
+            </div>
+        </div>
+    </div>
+
+    <div id="meta-column">
+        <div id="dj-chrome">
+            <h1>Available DJs <a href="#" class="addlink" title="add a new show">add</a></h1>
+            <div>
+                <div>
+                <input type="text" id="dj-search" />
+                </div>
+                <ul>
+            
+                </ul>
+            </div>
+        </div>
+        <div id="show-chrome">
+            <h1>Available Shows <a href="#" class="addlink" title="add a new show">add</a></h1>
+            <div>
+                <div>
+                <input type="text" id="show-search" />
+                </div>
+                <ul>
+            
+                </ul>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+

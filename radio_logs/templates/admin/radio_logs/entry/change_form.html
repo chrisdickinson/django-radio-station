@@ -1,0 +1,40 @@
+{% block object-tools %}
+{{ block.super }}
+{% load radio_logs %}
+{% load human_date_tags %}
+<div class="playlist-table">
+    {% grab_latest_logs as latest_logs %}
+    <table>
+        <thead>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Track</th>
+            <th>When</th>
+            <th>Who</th>
+        </thead>
+        <tbody>
+            {% for log in latest_logs %}
+            <td>
+                {{ log.artist.name }}
+            </td>
+            <td>
+                {{ log.album.name }}
+            </td>
+            <td>
+                {{ log.track.name }}
+            </td>
+            <td>
+                <abbr title="{{ log.submitted }}">{% human_relative_date log.submitted %}</abbr>
+            </td>
+            <td>
+                {% ifequal log.dj.account user %}
+                    <strong>You</strong>
+                {% else %}
+                    {{ log.dj.account }}
+                {% endif %}
+            </td>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

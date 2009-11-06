@@ -1,0 +1,12 @@
+<li class="object-list-item {% if event.highlight %}active{% endif %}">
+    <h3><a class="object-list-item-link" href="{% url event-detail event.slug %}" title="{{ event.name }}">{{ event.name }}</a></h3>
+    <div class="object-list-item-description">
+        <div class="start-time">{{ event.start_time|time:"g:ia" }}</div>
+        {% if event.location %}
+            <div class="location">{{ event.location.name }}</div>
+        {% endif %}
+        {% if event.description %}
+            <div class="event-description">{{ event.description }}</div>
+        {% endif %}
+    </div>
+</li>    

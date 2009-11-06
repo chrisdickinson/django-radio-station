@@ -1,0 +1,32 @@
+{% extends "station/base.html" %}
+{% block page_menu %}
+    {% include "station/show_navigation.html" %}
+{% endblock %}
+
+{% block content_main %}
+    <div class="object-description-block">
+    <h2 class="header">
+        {{ object.name }}
+    </h2>
+    <div class="object-description">
+        {{ object.description }}
+    </div>
+    </div>
+{% endblock %}
+
+{% block content_sub %}
+    {% load station %}
+    {% with object.get_current_spot as current_spot %}
+    {% with object.get_other_spots as other_spots %}
+    <div class="object-detail-list">
+        {% if spot %}
+        <div class="object-detail">
+            <span class="object-detail-label">On the air</span>{{ spot.offset|seconds_to_time|time:"g:ia"}}
+        </div>
+        <span class="object-detail">DJ</span><a class="object-detail-link" href="{% url dj-detail spot.dj.slug %}" title="DJ" >{{ spot.dj.get_first_name }} {{ spot.dj.get_last_name }}</a>
+        <br />
+        {% endif %}
+    </div>
+    {% endwith %}
+    {% endwith %}
+{% endblock %}

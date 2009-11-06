@@ -1,0 +1,11 @@
+<li class="object-list-item">
+    <span class="object-list-title">
+        <a class="object-list-link" href="{% url event-detail event.date.year event.date.month event.date.day event.slug %}" title="{{ event.name }}">{{ event.name }}</a>
+        <span class="object-list-link-meta">{{ event.time_start|time:"g:ia" }}{% if event.time_end %} until {{event.time_end|time:"g:ia"}}{% endif %}</span>
+    </span>
+    {% if event.description %}
+    <div class="object-list-meta">
+        {{ event.description }}                                        
+    </div>
+    {% endif %}
+</li>

@@ -1,0 +1,5 @@
+{% extends "radio_events/event_list.html" %}
+{% block body_id %}{{ block.super }}-location-list{% endblock %}
+{% block radio_events_content_header %}
+    <h1 class="header">Events for {{ location }}</h1>
+{% endblock %}

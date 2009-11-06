@@ -1,0 +1,18 @@
+{% for week in calendar %} 
+    <div class="calendar-week">
+    {% for day in week %}
+        <a class="calendar-date 
+                  {% ifequal day 0 %}
+                    inactive
+                  {% else %}
+                    {% ifequal day today.day %}
+                        active
+                    {% endifequal %}
+                  {% endifequal %}
+                  {% if day.has_event %}
+                        has-event
+                  {% endif %}"
+         href="{% ifequal day 0 %}#{% else %}{% url events-for-day today.year today.month day %}{% endifequal %}">{% ifnotequal day 0 %}{{ day }}{% endifnotequal %}</a>
+    {% endfor %}
+    </div>
+{% endfor %} 

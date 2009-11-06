@@ -1,0 +1,7 @@
+{% load station %}
+<li class="object-list-item">
+<a class="object-list-link" href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a> <span class="object-list-link-meta">{{ spot.offset|seconds_to_time|time:"g:ia" }}</span>
+<div class="object-list-description">
+{{ spot.show.blurb }}
+</div>
+</li>

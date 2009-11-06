@@ -1,0 +1,14 @@
+{% extends "station/schedule/admin/base.html" %}
+{% load i18n admin_modify adminmedia %}
+
+{% block inner_content %}
+<form method="POST" action="">
+    <input type="text" name="increment" value="36000" />
+    <div class="submit-row">
+            <input type="submit" value="Save" class="default" name="_save" />
+            {% if error %}
+                <div class="error">{{ error }}</div>
+            {% endif %}
+    </div>
+</form>
+{% endblock %}

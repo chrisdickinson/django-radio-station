@@ -1,0 +1,37 @@
+{% extends "radio_events/base.html" %}
+{% block body_id %}{{ block.super }}-detail{% endblock %}
+{% block header %}
+    {{ event.name }}
+{% endblock %}
+
+{% block radio_events_content_main %}
+    <div class="object-description">
+        {{ event.description }}
+    </div>
+    <div class="object-detail-list">
+        {% if object.location %}
+        <div class="object-detail">
+            <span class="object-detail-label">Location</span>{{ event.location.name }}
+        </div>
+        {% endif %}
+        <div class="object-detail">
+            <span class="object-detail-label">Starts at</span>{{ event.time_start|time:"g:ia" }}
+        </div>
+        <div class="object-detail">
+            <span class="object-detail-label">Ends at</span>{{ event.time_end|time:"g:ia" }}
+        </div>
+        {% if object.cost %}
+        <div class="object-detail">
+            <span class="object-detail-label">Cost</span>{{ event.cost }}
+        </div>
+        {% endif %} 
+    </div>
+{% endblock %}
+
+{% block radio_events_content_sub %}
+    {% load radio_events_calendar %}
+    <div id="calendar">
+        <h1 class="header">Calendar : {{ event.date|date:"F"}}</h1>
+        {% calendar_block object.date %}
+    </div>
+{% endblock %}

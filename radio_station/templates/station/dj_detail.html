@@ -1,0 +1,53 @@
+{% extends "station/base.html" %}
+{% block body_id %}{{ block.super }}-dj-detail{% endblock %}
+
+
+{% block content_main %}
+<div class="object-description-block">
+    <h2 class="header-sub">{{ object.get_first_name }} {{ object.get_last_name }}</h2>
+    <div class="object-description">
+        {{ object.description }}
+    </div>
+</div>
+{% endblock %}
+
+{% block content_sub %}
+{% load station %}
+{% with object.get_current_spot as spot %}
+{% with object.get_top_tracks as top_tracks %}
+{% with object.get_top_artists as top_artists %}
+    
+<div class="object-detail-list">
+    {% if spot %}
+        <div class="object-detail">
+            <span class="object-detail-label">show</span><a class="object-detail-link" href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a>
+            <span class="object-detail-link-meta">at {{ spot.offset|seconds_to_time|time:"g:ia" }} on {{ spot.day_of_week|day_of_week_to_time|date:"l" }}s</span>
+        </div>
+    {% endif %}
+
+    {% if top_tracks %}
+    <h2 class="header-sub">top tracks</h2>
+    <ul class="object-detail-ul">
+        {% for track in top_tracks %}
+            <li class="object-detail-ul-item">
+                <a href="#" class="object-detail-link">{{ track.name }} by {{ track.album.artist.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if top_artists %}
+    <h2 class="header-sub">top artists</h2>
+    <ul class="object-detail-ul">
+        {% for artist in top_artists %}
+            <li class="object-detail-ul-item">
+                <a href="#" class="object-detail-link">{{ artist.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}    
+</div>
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endblock %}

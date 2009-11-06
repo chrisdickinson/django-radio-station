@@ -1,0 +1,18 @@
+{% load relative_date %}
+
+{% if event %}
+    {% get_date 5 days from event.date as 5_days_from_now %}
+    {% get_date 2 days before event.date as 2_days_ago %}
+    {% alias event.date to our_today %} 
+{% else %}
+    {% get_date 5 days from day as 5_days_from_now %}
+    {% get_date 2 days before day as 2_days_ago %}
+    {% alias day to our_today %} 
+{% endif %}
+
+{% get_date_range from 2_days_ago until 5_days_from_now as week %}
+    {% for date in week %}
+        <li class="object-nav-item {% ifequal date our_today %}active{% endifequal %}">
+            <a href="{% url events-for-day date.year date.month date.day %}">{{ date|date:"l" }}</a>
+        </li>
+    {% endfor %}

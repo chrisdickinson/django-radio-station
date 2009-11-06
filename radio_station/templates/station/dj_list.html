@@ -1,0 +1,29 @@
+{% extends "station/base.html" %}
+{% block body_id %}{{ block.super }}-dj-list{% endblock %}
+
+{% block page_menu %}
+
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <div id="content-container">
+            <h1 class="header">
+                djs
+            </h1>
+            <ul class="object-list-pagination">
+                {% include "station/dj_pagination.html" %}
+            </ul>
+
+            <ul class="object-list">
+            {% for dj in object_list %}
+                {% include "station/dj_list_item.html" %}
+            {% endfor %}
+            </ul>
+
+            <ul class="object-list-pagination">
+                {% include "station/dj_pagination.html" %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
