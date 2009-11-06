@@ -1,0 +1,19 @@
+{% block body_id %}-schedule{% endblock %}
+
+{% block radio_station_content_header %}
+<h1>Schedule for {{ weekday }}</h1>
+{% endblock %}
+{% block radio_station_content_main %}
+<ul class="object-list">
+    {% for spot in spots %}
+        {% include "radio_station/includes/spot_listitem.html" %}
+    {% endfor %}
+</ul>
+{% endblock %}
+
+{% block radio_station_content_sub %}
+    <h2>Past Schedules</h2>
+    <ul class="object-list">
+
+    </ul>
+{% endblock %}

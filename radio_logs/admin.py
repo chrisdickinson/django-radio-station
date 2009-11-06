@@ -13,28 +13,18 @@ class RequestAdmin(admin.ModelAdmin):
     verbose_name_plural = "Requests"
 
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj', 'playcount')
+    list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
     list_filter = ('genre', 'submitted',)
+    exclude = ('dj', 'show',)
     verbose_name = "Entry"
     verbose_name_plural = "Entries"
 
-    def playcount(self, obj):
-        return obj.playcount 
-
-    def build_extra_context_for_request(self, request):
-        user = request.user
-        entries = Entry.objects.filter(dj__account=request.user).order_by('submitted')[:30]
-        return {
-            'entries':entries
-        }
-
-    def add_view(self, request, extra_context=None):
-        extra_context = self.build_extra_context_for_request(request)
-        return super(EntryAdmin, self).add_view(request, extra_context) 
-
-    def change_view(self, request, object_id, extra_context=None):
-        extra_context = self.build_extra_context_for_request(request)
-        return super(EntryAdmin, self).change_view(request, object_id, extra_context) 
+    def save_model(self, request, obj, form, change):
+        if obj.dj in (None, ''):
+            obj.dj = request.user.get_profile()
+        if obj.show in (None, ''):
+            obj.show = Spot.objects.get_current_spot().show
+        return super(self.__class__, self).save_model(request, obj, form, change)
 
     class Media:
         js = ('site/js/ac_global_fns.js', 'site/js/last_logs.js')

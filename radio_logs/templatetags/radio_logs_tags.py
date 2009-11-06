@@ -1,6 +1,6 @@
+from tag_utils import define_parsed_tag 
+from radio_logs.models import Entry
 from django import template
-from ..models import Entry
-from tag_utils import define_parsed_node 
 import datetime
 register = template.Library()
 
@@ -22,5 +22,5 @@ def grab_latest_logs(context, target, number=None):
     })
     return u''
 
-define_parsed_node(register, grab_latest_logs, "(get <number:int> )as <target:var>")
+define_parsed_tag(register, grab_latest_logs, "(get <number:int> )as <target:var>")
 playlist_table = register.inclusion_tag('radio_logs/includes/playlist.html')(playlist_table)

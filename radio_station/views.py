@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import request_context
+from django.template import RequestContext 
 from django.db.models import Count
 from radio_library.models import Artist
 from models import Spot, Schedule, Show, DJ
@@ -9,7 +9,7 @@ def create_r2r(func):
         return render_to_response('radio_station/%s.html'%func.func_name, func(request, *args, **kwargs), context_instance=RequestContext(request))
     return wrapped
 
-def schedule_or_404(pk):
+def get_schedule_or_404(pk):
     try:
         if pk is None:
             return Schedule.objects.get_current_schedule()

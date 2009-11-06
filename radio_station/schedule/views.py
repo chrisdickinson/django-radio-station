@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import simplejson
 
-from station.models import Schedule, Spot, Show, DJ
+from radio_station.models import Schedule, Spot, Show, DJ
 from generators import spot_dict_from_object, spot_generate_dicts
 from controller import ScheduleController
 from exceptions import BadSpotIncrement

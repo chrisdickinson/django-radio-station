@@ -66,4 +66,4 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), "templates"),
 )
 
-
+AUTH_PROFILE_MODULE = 'radio_station.DJ'

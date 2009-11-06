@@ -1,0 +1,22 @@
+{% block body_id %}-dj{% endblock %}
+
+{% block radio_station_content_header %}
+<h1>{{ dj.display_name }}</h1>
+{% endblock %}
+{% block radio_station_content_main %}
+    {{ dj.description }}
+{% endblock %}
+{% block radio_station_content_sub %}
+    {% for spot in spots %}
+        <div class="object-meta-object">
+            <h3><a href="{% url show-detail show.slug %}" title="{{ spot.show }}">{{ spot.show }}</a></h3>
+            on <a href="{% url schedule-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.human_time }}</a>
+        </div>
+    {% endfor %}
+    <dl>
+        {% for artist in favorite_artists %}
+            <dt>{{ artist.name }}</dt>
+            <dd>{{ artist.playcount }}</dd>
+        {% endfor %}
+    </dl>
+{% endblock %}

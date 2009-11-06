@@ -60,6 +60,7 @@ class Schedule(models.Model):
     end_date = models.DateField()
 
 class DJ(models.Model):
+    display_name = models.CharField(max_length=255)
     account = models.OneToOneField(User)
     slug = models.SlugField(unique=True)
     summary = models.TextField()
