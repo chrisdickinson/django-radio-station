@@ -1,7 +1,7 @@
 from django.db import models
 from d51_admin_autofk import fields as d51fields
 from radio_library.models import Artist, Album, Track, Genre
-from radio_station.models import DJ
+from radio_station.models import DJ, Show
 
 def instant_artist(widget, data, name):
     value = data.get(name, None)
@@ -49,6 +49,7 @@ class Entry(models.Model):
     submitted = models.DateTimeField(auto_now_add=True)
     is_rotation = models.BooleanField()
     dj = models.ForeignKey(DJ)
+    show = models.ForeignKey(Show)
     def __unicode__(self):
         return "%s [%s]" % (self.artist, self.track)
     class Meta:

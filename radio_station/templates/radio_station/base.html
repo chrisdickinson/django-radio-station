@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block body_id %}station{% endblock %}
+
+{% block page_menu %}
+    {% block radio_station_page_menu %}
+    {% include "radio_station/includes/side_navigation.html" %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% block radio_station_content %}
+        {% block radio_station_content_header %}
+
+        {% endblock %}
+        {% block radio_station_content_main %}
+
+        {% endblock %}
+        {% block radio_station_content_sub %}
+
+        {% endblock %}
+    {% endblock %}
+{% endblock %}

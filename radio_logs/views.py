@@ -2,6 +2,7 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.db.models import Count
+from django.http import Http404
 from radio_library.models import Artist, Album 
 from models import Entry 
 import datetime
@@ -63,6 +64,7 @@ def chart_view(request, year=None, month=None, week=None, what=None, rotation=Fa
         year = when.year
         month = when.month
         week = when.day/7+1
+    week = int(week)
     if week < 0 or week > 6:
         raise Http404()
 
@@ -71,15 +73,18 @@ def chart_view(request, year=None, month=None, week=None, what=None, rotation=Fa
     start_week = month_start + datetime.timedelta(days=7*week)
     end_week = start_week + datetime.timedelta(days=7)
 
-    previous_week = start_week - datetime.timedelta(days=1)
-    previous_week_no = previous_week.day/7+1 
+    prev_week = start_week - datetime.timedelta(days=1)
+    prev_week_no = prev_week.day/7+1 
 
-    next_week = next_week+datetime.timedelta(days=1)
+    next_week = end_week+datetime.timedelta(days=1)
     next_week_no = next_week.day/7+1
 
     what_model = None
     prefix = u''
     try:
+        if what is None:
+            what = 'album'
+
         what_model = {'artist':Artist, 'album':Album}[str(what)]
         prefix = {'artist':'', 'album':'artist__'}[str(what)]
     except IndexError:
@@ -90,7 +95,7 @@ def chart_view(request, year=None, month=None, week=None, what=None, rotation=Fa
         '%sentry__submitted__gte'%prefix:start_week,
     }
     annotate_kwargs = {
-        'playcount'%prefix:Count('%sentry'%prefix),
+        'playcount':Count('%sentry'%prefix),
     }
 
     items = what_model.objects.filter(**submitted_kwargs)
