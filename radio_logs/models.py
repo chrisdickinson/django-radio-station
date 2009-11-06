@@ -49,7 +49,7 @@ class Entry(models.Model):
     submitted = models.DateTimeField(auto_now_add=True)
     is_rotation = models.BooleanField()
     dj = models.ForeignKey(DJ)
-    show = models.ForeignKey(Show)
+    show = models.ForeignKey(Show, null=True, blank=True)
     def __unicode__(self):
         return "%s [%s]" % (self.artist, self.track)
     class Meta:
