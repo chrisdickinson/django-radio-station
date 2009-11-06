@@ -28,10 +28,10 @@
                 <abbr title="{{ log.submitted }}">{% human_relative_date log.submitted %}</abbr>
             </td>
             <td>
-                {% ifequal log.dj.account user %}
+                {% ifequal log.dj.user user %}
                     <strong>You</strong>
                 {% else %}
-                    {{ log.dj.account }}
+                    {{ log.dj.user }}
                 {% endifequal %}
             </td>
             {% endfor %}

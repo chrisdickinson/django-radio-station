@@ -7,7 +7,7 @@ def instant_artist(widget, data, name):
     value = data.get(name, None)
     if value is not None and value != '':
         (obj, created) = widget.model.objects.get_or_create(name=value)
-        value = obj.pk
+        value = obj
     return value 
 
 def instant_album(widget, data, name):
@@ -16,7 +16,7 @@ def instant_album(widget, data, name):
     if value is not None and artist_value is not None and value != '' and artist_value != '':
         artist = Artist.objects.get(name__exact=artist_value)
         (obj, created) = widget.model.objects.get_or_create(name=value, artist=artist)
-        value = obj.pk
+        value = obj
     return value 
 
 def instant_track(widget, data, name):
@@ -30,7 +30,7 @@ def instant_track(widget, data, name):
             if album_value is not None and album_value != '':
                 album = Album.objects.get(name__exact=album_value, artist=artist)
             (track, created) = widget.model.objects.get_or_create(name=value, album=album)
-            value = track.pk
+            value = track
         else:
             value = None
     return value 

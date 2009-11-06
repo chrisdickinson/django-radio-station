@@ -61,7 +61,7 @@ class Schedule(models.Model):
 
 class DJ(models.Model):
     display_name = models.CharField(max_length=255)
-    account = models.OneToOneField(User)
+    user = models.OneToOneField(User)
     slug = models.SlugField(unique=True)
     summary = models.TextField()
     description = models.TextField()

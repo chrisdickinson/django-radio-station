@@ -46,7 +46,7 @@ def generate_schedule(request, schedule_pk):
         increment = request.POST['increment']
         spots = spot_generate_dicts(int(increment))
         request.session['spots'] = spots
-        return HttpResponseRedirect(reverse('edit_schedule', kwargs={'schedule_pk':schedule_pk}))
+        return HttpResponseRedirect(reverse('admin:edit_schedule', kwargs={'schedule_pk':schedule_pk}))
     except BadSpotIncrement, e:
         context.update({
             'error':e
@@ -77,7 +77,7 @@ def edit_schedule(request, schedule_pk):
         raise Http404()
 
     if spots is None:
-        return HttpResponseRedirect(reverse('generate_schedule', kwargs={'schedule_pk':schedule_pk}))
+        return HttpResponseRedirect(reverse('admin:generate_schedule', kwargs={'schedule_pk':schedule_pk}))
 
     context = get_edit_schedule_context(request, spots)
     if 'error' not in context.keys():

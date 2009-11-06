@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 from django.http import HttpResponseRedirect
 from django.db.models import Count, Sum
 from radio_library.models import *
+from radio_station.models import Spot
 from models import *
 
 class RequestAdmin(admin.ModelAdmin):
@@ -20,10 +21,15 @@ class EntryAdmin(admin.ModelAdmin):
     verbose_name_plural = "Entries"
 
     def save_model(self, request, obj, form, change):
-        if obj.dj in (None, ''):
+        try:
+            getattr(obj, 'dj')
+        except:
             obj.dj = request.user.get_profile()
-        if obj.show in (None, ''):
-            obj.show = Spot.objects.get_current_spot().show
+        try:
+            if obj.show in (None, ''):
+                obj.show = Spot.objects.get_current_spot().show
+        except:
+            pass
         return super(self.__class__, self).save_model(request, obj, form, change)
 
     class Media:
