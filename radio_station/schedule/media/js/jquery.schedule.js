@@ -79,13 +79,7 @@ Array.prototype.has = function (obj) {
                     spot.dom.removeClass('complete');
                 }
                 if(and_previous) {
-                    var i = 0;
-                    for(i; i < spot_objects.length; ++i) {
-                        if(spot_objects[i] == spot) {
-                            break;
-                        }
-                    }
-                    var prev_spot = spot_objects[i-1];
+                    var prev_spot = spot_objects[spot_objects.indexOf(spot)-1];
                     this.update(prev_spot);        
                 } 
             };
@@ -148,6 +142,7 @@ Array.prototype.has = function (obj) {
                         results = self.attempt_action(slot, results);
                         complete(results);
                     } catch (err) {
+                        console.log(err);
                     }
                 };
             };
@@ -245,7 +240,9 @@ Array.prototype.has = function (obj) {
                             },
                             function(results) {
                                 self.dom.remove();
-                                spot_objects.splice(spot_objects.indexOf(self), 1);
+                                var our_index = spot_objects.indexOf(self);
+                                spot_objects.splice(our_index, 1);
+                                renderer.update(spot_objects[our_index-1]);
                             });
 
             async_function('repeat_every',
@@ -261,20 +258,25 @@ Array.prototype.has = function (obj) {
                     event.preventDefault();
                     return;
                 }
-
                 var delta = 900;
                 if(event.shiftKey) {
                     delta *= 4;
                 }
                 var offset = self.offset;
-                if(event.keyCode == 38) {
-                    offset -= delta;
+                if([38, 40].has(event.keyCode)) {
+                    if(event.keyCode == 38) {
+                        offset -= delta;
+                    }
+                    else if(event.keyCode == 40) {
+                        offset += delta;
+                    }
+                    self.attempt_offset({'type':'keyOff', 'offset':offset});
+                    event.preventDefault();
+                } else if ([8].has(event.keyCode)) {
+                    self.attempt_delete(event);
+                } else if ([65].has(event.keyCode)) {
+                    self.attempt_add(event);
                 }
-                else if(event.keyCode == 40) {
-                    offset += delta;
-                }
-                self.attempt_offset({'type':'keyOff', 'offset':offset});
-                event.preventDefault();
             };
 
             this.focus = function (event) {
@@ -380,7 +382,10 @@ Array.prototype.has = function (obj) {
             if(event.keyCode == 27) {
                 apply_to_active_spots('blur', event, function (s) { s.dom.removeClass('active'); }); 
             }
-            apply_to_active_spots('keypress', event); 
+            apply_to_active_spots('keypress', event);
+            if(event.keyCode == 8) {
+                event.preventDefault();
+            } 
         };
 
         if(options['apply_to_all_id']) {

@@ -121,6 +121,12 @@
         border-top:1px solid #232323;
         cursor:move;
     }
+    
+    .spot:hover {
+        z-index:1000;
+        opacity:0.8;
+    }
+
     .dj, .show {
         cursor:move;
     }
@@ -131,6 +137,7 @@
 
     .spot.ui-draggable-dragging {
         height:100%;
+        z-index:auto;
     }
 
     #apply-all,
