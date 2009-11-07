@@ -69,9 +69,9 @@ Array.prototype.has = function (obj) {
                 spot.dom.css(this.spot_chrome);
                 spot.dom.css(graph.offset_to_css(spot));
                 this.update_height(spot);
-                spot.dom.children('.time').text(to_human_time(spot.offset));
-                spot.dom.children(dj_class_dot).text($('#dj-'+spot.dj_pk).text());
-                spot.dom.children(show_class_dot).text($('#show-'+spot.show_pk).text());
+                spot.dom.find('.time').text(to_human_time(spot.offset));
+                spot.dom.find(dj_class_dot).text($('#dj-'+spot.dj_pk).text());
+                spot.dom.find(show_class_dot).text($('#show-'+spot.show_pk).text());
 
                 if(![spot.show_pk, spot.dj_pk].has(-1)) {
                     spot.dom.addClass('complete');
@@ -136,18 +136,17 @@ Array.prototype.has = function (obj) {
             }
         };
 
-        function Spot(index, details) {
+        function Spot(details) {
             var self = this;
-            self.index = index;
             $.extend(this, details);
             this.dom = $('<div></div>').addClass(spot_class).addClass('weekday-'+self.day_of_week);
 
             var async_function = function(slot, attempt, complete) {
                 self['attempt_'+slot] = function (event) { 
-                    var results = attempt(event);
                     try {
-                        var result = self.attempt_action(slot, results);
-                        complete(result);
+                        var results = attempt(event);
+                        results = self.attempt_action(slot, results);
+                        complete(results);
                     } catch (err) {
                     }
                 };
@@ -162,6 +161,26 @@ Array.prototype.has = function (obj) {
                                     return_value = graph.css_to_offset(self.dom);
                                 }
                                 return_value = parseInt(Math.round(return_value/900)) * 900;
+
+                                var prev = self.dom.prev('.weekday-'+self.day_of_week);
+                                var prev_offset = 0;
+                                if(prev.length > 0) {
+                                    prev_offset = graph.css_to_offset(prev);
+                                }
+                                if(return_value < prev_offset) {
+                                    self.dom.animate(graph.offset_to_css(self),200);
+                                    throw "Not allowed!";   
+                                }
+                                var next = self.dom.next('.weekday-'+self.day_of_week);
+                                var next_offset = self.dom.parent().height();
+                                if(next.length > 0) {
+                                    next_offset = graph.css_to_offset(next);
+                                }
+                                if(return_value > next_offset) {
+                                    self.dom.animate(graph.offset_to_css(self),200);
+                                    throw "Not allowed!";   
+                                }
+
                                 return return_value;
                            },
                            function (results) {
@@ -191,18 +210,42 @@ Array.prototype.has = function (obj) {
 
             async_function('add',
                            function(event) {
-
+                                var $next = self.dom.next('.weekday-'+self.day_of_week);
+                                var next_offset = 24*60*60;
+                                if($next.length > 0) {
+                                    next_offset = graph.css_to_offset($next);
+                                }
+                                var new_offset = parseInt((next_offset - self.offset) / 2.0) + self.offset;
+                                new_offset = parseInt(Math.round(new_offset/900)) * 900;
+                                if([next_offset, self.offset].has(new_offset)) {
+                                    throw "Not enough room for a new spot!";
+                                }
+                                return new_offset;
                            },
                            function(results) {
-
-                           });
+                                var new_spot = new Spot({
+                                    'dj_pk':-1,
+                                    'show_pk':-1,
+                                    'repeat_every':0,
+                                    'day_of_week':self.day_of_week,
+                                    'offset':results
+                                });
+                                spot_objects.splice(spot_objects.indexOf(self),0,new_spot);
+                                self.dom.after(new_spot.dom);
+                                renderer.update(new_spot);
+                                renderer.update(self);
+                            });
 
             async_function('delete',
                             function(event) {
-
+                                if(self.offset == 0) {
+                                    throw "Cannot delete the first spot on a day.";
+                                }
+                                return true;
                             },
                             function(results) {
-
+                                self.dom.remove();
+                                spot_objects.splice(spot_objects.indexOf(self), 1);
                             });
 
             async_function('repeat_every',
@@ -267,6 +310,7 @@ Array.prototype.has = function (obj) {
                 });
 
                 this.dom.bind('dragstart', function (event, ui) {
+                    self.dom.css({'height':'100%'});
                     self.dom.bind('dragstop', function(event, ui) {
                         self.attempt_offset(event);
                         self.dom.unbind('dragstop');
@@ -295,15 +339,36 @@ Array.prototype.has = function (obj) {
                 'tolerance':'pointer'
             });
 
-            this.dom.append('<span class="time">'+to_human_time(this.offset)+'</span>');
-            this.dom.append(' - <span class="dj"></span>');
-            this.dom.append(' - <span class="show"></span>');
-            obj.append(this.dom);
+            this.create_controls = function () {
+                var container = $('<div></div>');
+                container.append($('<span />').addClass('time'));
+                container.append($('<span />').addClass('dj'));
+                container.append($('<span />').addClass('show'));
+                container.addClass('spot-container');
+
+                var controls = $('<div></div>').addClass('spot-controls');
+                controls.append($('<a href="#">add spot after</a>').click(function (event) {
+                    event.preventDefault();
+                    self.attempt_add();
+                }));
+                controls.append($('<a href="#">remove spot</a>').click(function (event) {
+                    event.preventDefault();
+                    self.attempt_delete();
+                }));
+                controls.append($('<a href="#">edit repeat</a>').click(function (event) {
+                    event.preventDefault();
+                    self.attempt_repeat_every();
+                }));
+                container.append(controls);
+                return container;
+            };
+            this.dom.append(this.create_controls());
         };
 
 
         for (var i = 0; i < spots.length; ++i) {
-            var spot = new Spot(i, spots[i]);
+            var spot = new Spot(spots[i]);
+            obj.append(spot.dom);
             spot_objects.push(spot);
         }
         renderer.update_tops();
@@ -318,6 +383,29 @@ Array.prototype.has = function (obj) {
             apply_to_active_spots('keypress', event); 
         };
 
+        if(options['apply_to_all_id']) {
+            var apply_to_all = $(options['apply_to_all_id']);
+            apply_to_all.droppable({
+                'accept':'li',
+                'drop':function (event) {
+                    classes = $(event.originalTarget).attr('class').split(' ');
+                    var fn = null;
+                    if(classes.has(dj_class)) {
+                        apply_to_active_spots('attempt_dj', event.originalTarget);
+                    } else if(classes.has(show_class)) {
+                        apply_to_active_spots('attempt_show', event.originalTarget);
+                    }
+                    $('.hovered').removeClass('hovered');
+                },
+                'over':function(event) {
+                    $(this).addClass('hovered');
+                },
+                'out':function(event) {
+                    $(this).removeClass('hovered');
+                },
+                'tolerance':'pointer'
+            });
+        }
         $(document).bind('keydown', delegate_keypress);
     }
 })(jQuery);

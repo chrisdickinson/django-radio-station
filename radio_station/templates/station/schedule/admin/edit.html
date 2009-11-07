@@ -22,6 +22,7 @@
             'spot-class':'spot',
             'show-class':'show',
             'spots':spots,
+            'apply_to_all_id':'#apply-all',
         })
 
         var days = [
@@ -117,7 +118,6 @@
         background-color:white;
         padding-top:24px;
         padding-left:20px;
-        border-left:1px solid #232323;
         border-top:1px solid #232323;
         cursor:move;
     }
@@ -129,10 +129,25 @@
         cursor:-moz-grabbing;
     }
 
+    .spot.ui-draggable-dragging {
+        height:100%;
+    }
+
+    #apply-all,
     .spot.active {
         background-color:#5B80B2;
         color:white;
     }
+
+    #apply-all {
+        margin-left:15px;
+        border:1px solid #9BC0F2;
+        text-align:center;
+        padding:24px 20px;
+        float:left;
+        cursor:pointer !important;
+    }
+
     .spot.hovered {
         background-color:#9BC0F2;
     }
@@ -143,6 +158,39 @@
     
     .spot.complete.active {
         background-color:#5B80B2;
+    }
+
+    .spot-container span {
+        margin-right:20px;
+    }
+
+    .spot-controls {
+        display:none;
+        text-align:right;
+        padding-right:24px;
+    }
+
+    .spot:hover .spot-controls {
+        display:block;
+    }
+
+    .spot-controls a {
+        display:block;
+        font-size:0.8em;
+    }
+
+    .active .spot-controls a {
+        color:#9BC0F2;
+    }
+
+    .active .spot-controls a:hover {
+        color:white;
+    }
+
+    .spot-controls {
+        position:absolute;
+        top:14px;
+        right:20px;
     }
 
     #schedule-canvas {
@@ -236,6 +284,7 @@
         background:white;
     }
 
+
 </style>
 {% endblock %}
 
@@ -276,6 +325,9 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div id="apply-all">
+        Apply to selected
     </div>
 </form>
 {% endblock %}
