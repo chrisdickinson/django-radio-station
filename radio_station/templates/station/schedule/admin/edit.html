@@ -2,9 +2,16 @@
 
 {% block extrahead %}
 {{ block.super }}
-<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.ui.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}site/js/jquery.schedule.js"></script>
+<script type="text/javascript" src="/admin_media/js/core.js"></script>
+<script type="text/javascript" src="/admin_media/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/admin_media/js/getElementsBySelector.js"></script>
+
+<script type="text/javascript" src="/admin_media/js/actions.js"></script>
+
+
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.ui.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.schedule.js"></script>
 <script type="text/javascript">
     var spots = {{ controller.spots_to_json }};
     $(function () {
@@ -37,14 +44,35 @@
             'Every 6th',
         ];
 
-        $('#dj-chrome ul').dj_list({
-            'url':'/rest/djs',
+        var get_username = function (dj) {
+            return dj['user']['username'];
+        };
+        var get_pk = function (dj) {
+            return dj['id'];
+        };
+
+        $('#dj-chrome ul').obj_list({
+            'url':'{% url admin:admin-piston-radio_station-dj 'json' %}',
+            'class':'dj',
+            'primary_key':get_pk,
+            'display':get_username
+        });
+
+        var get_showname = function (show) {
+            return show['name'];
+        };
+
+        $('#show-chrome ul').obj_list({
+            'url':'{% url admin:admin-piston-radio_station-show 'json' %}',
+            'class':'show',
+            'primary_key':get_pk,
+            'display':get_showname
+
         });
 
         var enable_appropriate_droppables = function (day) {
-            $('.spot .dj-dropzone').droppable('disable');
-            $('.weekday-'+day+' .dj-dropzone').droppable('enable');
-            console.log('.weekday-'+day+' .dj-dropzone');
+            $('.spot.dj-dropzone').droppable('disable');
+            $('.weekday-'+day+'.dj-dropzone').droppable('enable');
         };
 
         $('#schedule-prev-day').click(function (event) {
@@ -86,9 +114,19 @@
     });
 </script>
 <style>
-    .active {
-        background-color:#5B80B2 !important;
+    .spot {
+        background-color:white;
+        padding-top:24px;
+        padding-left:20px;
+        border-left:1px solid #232323;
+        border-top:1px solid #232323;
+    }
+    .spot.active {
+        background-color:#5B80B2;
         color:white;
+    }
+    .spot.hovered {
+        background-color:#9BC0F2;
     }
 
     #schedule-canvas {
@@ -201,7 +239,7 @@
 
     <div id="meta-column">
         <div id="dj-chrome">
-            <h1>Available DJs <a href="#" class="addlink" title="add a new show">add</a></h1>
+            <h1>Available DJs <a href="{% url admin:radio_station_dj_add %}" onClick="javascript:return showAddAnotherPopup(this);" class="addlink" title="add a new show">add</a></h1>
             <div>
                 <div>
                 <input type="text" id="dj-search" />
