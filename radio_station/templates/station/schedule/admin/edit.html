@@ -22,7 +22,7 @@
             'spot-class':'spot',
             'show-class':'show',
             'spots':spots,
-        });
+        })
 
         var days = [
             'Monday',
@@ -67,7 +67,6 @@
             'class':'show',
             'primary_key':get_pk,
             'display':get_showname
-
         });
 
         var enable_appropriate_droppables = function (day) {
@@ -120,13 +119,30 @@
         padding-left:20px;
         border-left:1px solid #232323;
         border-top:1px solid #232323;
+        cursor:move;
     }
+    .dj, .show {
+        cursor:move;
+    }
+
+    .ui-draggable-dragging {
+        cursor:-moz-grabbing;
+    }
+
     .spot.active {
         background-color:#5B80B2;
         color:white;
     }
     .spot.hovered {
         background-color:#9BC0F2;
+    }
+
+    .spot.complete {
+        background-color:#C2FFC2;
+    }
+    
+    .spot.complete.active {
+        background-color:#5B80B2;
     }
 
     #schedule-canvas {

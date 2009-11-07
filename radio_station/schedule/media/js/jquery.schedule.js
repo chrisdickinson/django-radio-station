@@ -1,11 +1,22 @@
+Array.prototype.has = function (obj) {
+    for(var i = 0; i < this.length; ++i) {
+        if(this[i] == obj) {
+            return true;
+        }
+    }
+    return false;
+};
+
 (function ($) {
     $.fn.schedule = function (options) {
         var obj = $(this);
         var spots = options['spots'];
         var spot_objects = [];
         var dj_class = options['dj-class'];
+        var dj_class_dot = '.'+dj_class;
         var spot_class = options['spot-class'];
         var show_class = options['show-class'];
+        var show_class_dot = '.'+show_class;
         
         var SECONDS_IN_DAY = 60.0*60.0*24.0;
 
@@ -54,10 +65,29 @@
                 'border':'1px solid #333',
             };
 
-            this.update = function(spot) {
+            this.update = function(spot, and_previous) {
                 spot.dom.css(this.spot_chrome);
                 spot.dom.css(graph.offset_to_css(spot));
                 this.update_height(spot);
+                spot.dom.children('.time').text(to_human_time(spot.offset));
+                spot.dom.children(dj_class_dot).text($('#dj-'+spot.dj_pk).text());
+                spot.dom.children(show_class_dot).text($('#show-'+spot.show_pk).text());
+
+                if(![spot.show_pk, spot.dj_pk].has(-1)) {
+                    spot.dom.addClass('complete');
+                } else {
+                    spot.dom.removeClass('complete');
+                }
+                if(and_previous) {
+                    var i = 0;
+                    for(i; i < spot_objects.length; ++i) {
+                        if(spot_objects[i] == spot) {
+                            break;
+                        }
+                    }
+                    var prev_spot = spot_objects[i-1];
+                    this.update(prev_spot);        
+                } 
             };
 
             this.update_tops = function() {
@@ -100,7 +130,7 @@
                 }
             };
             if(current_active_spot !== null) {
-                for(var i in current_active_spot) {
+                for(var i = 0; i < current_active_spot.length; ++i) {
                     fn(current_active_spot[i]);
                 }
             }
@@ -131,12 +161,12 @@
                                 } else {
                                     return_value = graph.css_to_offset(self.dom);
                                 }
+                                return_value = parseInt(Math.round(return_value/900)) * 900;
                                 return return_value;
                            },
                            function (results) {
                                 self.offset = results;
-                                self.dom.children('.time').text(to_human_time(self.offset));
-                                renderer.update(self);
+                                renderer.update(self, true);
                            });
 
             async_function('dj',
@@ -145,10 +175,19 @@
                                 return $dj.data('pk');
                            },
                            function(results) {
-                                self.dom.children('.dj').text($('#dj-'+results).text());
                                 self.dj_pk = results;
+                                renderer.update(self);
                            });
 
+            async_function('show',
+                           function(show) {
+                                var $show = $(show);
+                                return $show.data('pk');
+                           },
+                           function(results) {
+                                self.show_pk = results;
+                                renderer.update(self);
+                           });
 
             async_function('add',
                            function(event) {
@@ -237,9 +276,14 @@
 
             self.dom.addClass('dj-dropzone');
             self.dom.droppable({
-                'accept':'.dj',
+                'accept':'li',
                 'drop':function (event) {
-                    self.attempt_dj(event.originalTarget);
+                    classes = $(event.originalTarget).attr('class').split(' ');
+                    if(classes.has(dj_class)) {
+                        self.attempt_dj(event.originalTarget);
+                    } else if(classes.has(show_class)) {
+                        self.attempt_show(event.originalTarget);
+                    }
                     $('.hovered').removeClass('hovered');
                 },
                 'over':function(event) {
@@ -283,7 +327,7 @@
         var obj = $(this);
         var obj_callback = function (data) {
             obj.html('');
-            for(var i in data) {
+            for(var i = 0; i < data.length; ++i) {
                 var obj_data = data[i];
                 var display_title = options.display(obj_data);
                 var pk = options.primary_key(obj_data);
