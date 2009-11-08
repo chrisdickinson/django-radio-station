@@ -17,7 +17,7 @@ Array.prototype.has = function (obj) {
         var spot_class = options['spot-class'];
         var show_class = options['show-class'];
         var show_class_dot = '.'+show_class;
-        
+        var deleted_existing_pks = [];        
         var SECONDS_IN_DAY = 60.0*60.0*24.0;
 
         var to_human_time = function(offset) {
@@ -80,7 +80,10 @@ Array.prototype.has = function (obj) {
                 }
                 if(and_previous) {
                     var prev_spot = spot_objects[spot_objects.indexOf(spot)-1];
-                    this.update(prev_spot);        
+                    if(prev_spot === undefined) {
+                    } else {
+                        this.update(prev_spot);
+                    } 
                 } 
             };
 
@@ -142,7 +145,7 @@ Array.prototype.has = function (obj) {
                         results = self.attempt_action(slot, results);
                         complete(results);
                     } catch (err) {
-                        console.log(err);
+                        renderer.update(self);
                     }
                 };
             };
@@ -163,7 +166,6 @@ Array.prototype.has = function (obj) {
                                     prev_offset = graph.css_to_offset(prev);
                                 }
                                 if(return_value < prev_offset) {
-                                    self.dom.animate(graph.offset_to_css(self),200);
                                     throw "Not allowed!";   
                                 }
                                 var next = self.dom.next('.weekday-'+self.day_of_week);
@@ -206,7 +208,7 @@ Array.prototype.has = function (obj) {
             async_function('add',
                            function(event) {
                                 var $next = self.dom.next('.weekday-'+self.day_of_week);
-                                var next_offset = 24*60*60;
+                                var next_offset = SECONDS_IN_DAY;
                                 if($next.length > 0) {
                                     next_offset = graph.css_to_offset($next);
                                 }
@@ -219,6 +221,7 @@ Array.prototype.has = function (obj) {
                            },
                            function(results) {
                                 var new_spot = new Spot({
+                                    'pk':-1,
                                     'dj_pk':-1,
                                     'show_pk':-1,
                                     'repeat_every':0,
@@ -241,6 +244,9 @@ Array.prototype.has = function (obj) {
                             function(results) {
                                 self.dom.remove();
                                 var our_index = spot_objects.indexOf(self);
+                                if(self.pk != -1) {
+                                    deleted_existing_pks.push(self.pk);
+                                }
                                 spot_objects.splice(our_index, 1);
                                 renderer.update(spot_objects[our_index-1]);
                             });
@@ -254,16 +260,16 @@ Array.prototype.has = function (obj) {
                             });
 
             this.keypress = function(event) {
-                if(this.offset == 0) {
-                    event.preventDefault();
-                    return;
-                }
                 var delta = 900;
                 if(event.shiftKey) {
                     delta *= 4;
                 }
                 var offset = self.offset;
                 if([38, 40].has(event.keyCode)) {
+                    if(this.offset == 0) {
+                        event.preventDefault();
+                        return;
+                    }
                     if(event.keyCode == 38) {
                         offset -= delta;
                     }
@@ -384,7 +390,9 @@ Array.prototype.has = function (obj) {
             }
             apply_to_active_spots('keypress', event);
             if(event.keyCode == 8) {
-                event.preventDefault();
+                if(!$(event.originalTarget).is(':input')) {
+                    event.preventDefault();
+                }
             } 
         };
 
@@ -434,6 +442,27 @@ Array.prototype.has = function (obj) {
             }
         };
         $.getJSON(options['url'], {}, obj_callback);
+        if(options['search']) {
+            var search = $(options['search']);
+            var on_keypress = function (event) {
+                var our_text = search.val();
+                if(our_text.length > 0) {
+                    obj.find('li:not(:contains('+our_text+'))').hide();
+                } else {
+                    obj.find('li').show();
+                }
+            };
+            var a_button = $('<a href="#">clear</a>').addClass('deletelink').css({
+                'paddingLeft':'15px',
+                'marginLeft':'10px'
+            });
+            a_button.click(function(event) {
+                search.val(''); obj.find('li').show();
+                event.preventDefault();
+            });
+            search.after(a_button);
+            search.keyup(on_keypress);
+        }
     };
 })(jQuery);
 

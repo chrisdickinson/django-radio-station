@@ -56,7 +56,8 @@
             'url':'{% url admin:admin-piston-radio_station-dj 'json' %}',
             'class':'dj',
             'primary_key':get_pk,
-            'display':get_username
+            'display':get_username,
+            'search':'#dj-search'
         });
 
         var get_showname = function (show) {
@@ -67,7 +68,8 @@
             'url':'{% url admin:admin-piston-radio_station-show 'json' %}',
             'class':'show',
             'primary_key':get_pk,
-            'display':get_showname
+            'display':get_showname,
+            'search':'#show-search'
         });
 
         var enable_appropriate_droppables = function (day) {
@@ -122,11 +124,6 @@
         cursor:move;
     }
     
-    .spot:hover {
-        z-index:1000;
-        opacity:0.8;
-    }
-
     .dj, .show {
         cursor:move;
     }
