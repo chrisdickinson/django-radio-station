@@ -8,3 +8,4 @@ downloads/*
 eggs/*
 parts/*
 project/local_settings.py
+media/usr
