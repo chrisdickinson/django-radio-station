@@ -3,7 +3,7 @@
     <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{% block title %}WLUW {% block extra_title %}{% endblock %}{% endblock %}</title>
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/styles.css"/>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css"/>
         <!--[if IE]>
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css"/>
         <![endif]-->
@@ -51,6 +51,9 @@
             {% block content %}
             {% endblock %}
             {% block footer %}
+            <div id="footer">
+
+            </div>
             {% endblock %}
         </div>
     </body>
