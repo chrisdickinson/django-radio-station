@@ -1,0 +1,54 @@
+{% extends "abstract_base.html" %}
+
+{% block content %}
+            <div id="stage">
+            {% block stage %}
+                {% block page_menu %}
+                <ul id="page-menu">
+                    <li>
+                        <a href="#">Saturday</a>
+                    </li>
+                    <li>
+                        <a href="#">Sunday</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Today</a>
+                    </li>
+                    <li>
+                        <a href="#">Tuesday</a>
+                    </li>
+                    <li>
+                        <a href="#">Wednesday</a>
+                    </li>
+                    <li>
+                        <a href="#">Thursday</a>
+                    </li>
+                    <li>
+                        <a href="#">Friday</a>
+                    </li>
+                </ul>
+                {% endblock %}
+                <div id="content">
+                    {% block content_all %}
+                        {% block content_header %}
+                            <div id="content-header">
+                            </div>
+                        {% endblock %}
+                        <div id="content-container">
+                            <div id="content-main">
+                                {% block content_main %}
+
+                                {% endblock %}
+                                <div id="content-sub">
+                                    {% block content_sub %}
+                                    {% endblock %}
+                                </div>
+                            </div>
+                            {% block content_after %}
+                            {% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+            </div>
+{% endblock %}

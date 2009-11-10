@@ -11,8 +11,8 @@
 {% block radio_station_content_sub %}
     {% for spot in spots %}
         <div class="object-meta-object">
-            <h3><a href="{% url dj-detail dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
-            on <a href="{% url schedule-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.human_time }}</a>
+            <h3><a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
+            on <a href="{% url schedule-with-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
         </div>
     {% endfor %}
     <dl>

@@ -4,8 +4,15 @@ from django.template import RequestContext
 from django.db.models import Count
 from radio_library.models import Artist
 from models import Spot, Schedule, Show, DJ
+import datetime
 def create_r2r(func):
     def wrapped(request, *args, **kwargs):
+        when = datetime.datetime.now()
+        start_of_week = when - datetime.timedelta(days=when.weekday()) 
+        context = func(request, *args, **kwargs)
+        context.update({
+            'week':(start_of_week + datetime.timedelta(days=i) for i in range(0, 7))
+        })
         return render_to_response('radio_station/%s.html'%func.func_name, func(request, *args, **kwargs), context_instance=RequestContext(request))
     return wrapped
 
@@ -20,18 +27,27 @@ def get_schedule_or_404(pk):
 
 def schedule_weekday(request, day_of_week, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
-    weekday = 'MTWRFSU'.index(str(day_of_week))
+    try:
+        weekday = int(day_of_week)
+    except TypeError:
+        weekday = datetime.datetime.now().weekday()
+    except ValueError:
+        weekday = 'MTWRFSU'.index(str(day_of_week))
+    when = datetime.datetime.now()
+    start_of_week = when - datetime.timedelta(days=when.weekday()) 
+    when = start_of_week + datetime.timedelta(days=weekday)
+
     spots = Spot.objects.filter(schedule=schedule, day_of_week=weekday).order_by('day_of_week', 'offset', 'repeat_every')
     return {
-        'weekday':weekday,
+        'weekday':when,
         'schedule':schedule,
         'spots':spots,
     }
 
 def show_detail(request, show_slug, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
-    show = get_object_or_404(Show, spot_set__schedule=schedule, slug=show_slug)
-    favorite_artists = Artist.object.filter(entry__show=show).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
+    show = get_object_or_404(Show, slug=show_slug)
+    favorite_artists = Artist.objects.filter(entry__show=show).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
     spots = Spot.objects.filter(schedule=schedule, show=show)
     return {
         'show':show,
@@ -42,8 +58,8 @@ def show_detail(request, show_slug, schedule_pk=None):
 
 def dj_detail(request, dj_slug, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
-    dj = get_object_or_404(dj, spot_set__schedule=schedule, slug=dj_slug)
-    favorite_artists = Artist.object.filter(entry__dj=dj).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
+    dj = get_object_or_404(DJ, slug=dj_slug)
+    favorite_artists = Artist.objects.filter(entry__dj=dj).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
     spots = Spot.objects.filter(schedule=schedule, dj=dj)
     return {
         'dj':dj,

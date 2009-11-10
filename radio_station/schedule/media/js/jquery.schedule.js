@@ -371,6 +371,16 @@ Array.prototype.has = function (obj) {
                 return container;
             };
             this.dom.append(this.create_controls());
+            this.output = function (i) {
+                    var out = {};
+                    out['offset'+i]=self.offset;
+                    out['day_of_week'+i]=self.day_of_week;
+                    out['repeat_every'+i]=self.repeat_every;
+                    out['show_pk'+i]=self.show_pk;
+                    out['dj_pk'+i]=self.dj_pk;
+                    out['pk'+i]=self.pk;
+                    return out;
+                };
         };
 
 
@@ -419,6 +429,35 @@ Array.prototype.has = function (obj) {
                 'tolerance':'pointer'
             });
         }
+        if(options['controls']) {
+            var controls = $(options['controls']);
+            var save_schedule = $('<a href="#">Save</a>');
+            var attempt_save = function(event) {
+                event.preventDefault();
+                var loc = '' + document.location;
+                loc = loc.replace('http://', '');
+                loc = loc.split('/');
+                var home = loc.splice(0,1);
+                loc = '/'+loc.join('/');
+                var spots_out = {} 
+                for(var i = 0; i < spot_objects.length; ++i) {
+                    $.extend(spots_out, spot_objects[i].output(i));
+                }
+                spots_out['num'] = spot_objects.length;
+                spots_out['deleted'] = deleted_existing_pks;
+
+                var get_response = function (results) {
+                    results = eval('('+results+')');
+                    if(results.status == 'ok') {
+                        document.location = 'http://' + home + results.redirect;
+                    } else {
+                    }
+                };
+                $.post(loc, spots_out, get_response);
+            };
+            save_schedule.click(attempt_save);
+            controls.append(save_schedule);
+        }
         $(document).bind('keydown', delegate_keypress);
     }
 })(jQuery);
@@ -439,6 +478,9 @@ Array.prototype.has = function (obj) {
                 $dom.data('pk', obj_data['id']);
                 $dom.attr('id', options['class']+'-'+obj_data['id']);
                 obj.append($dom);
+            }
+            if(options['on_finish']) {
+                options['on_finish']();
             }
         };
         $.getJSON(options['url'], {}, obj_callback);

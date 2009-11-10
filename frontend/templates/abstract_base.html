@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <title>{% block title %}WLUW {% block extra_title %}{% endblock %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/styles.css"/>
+        <!--[if IE]>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css"/>
+        <![endif]-->
+        {% block extra_head %}
+        {% endblock %}
+    </head>
+    {% block body %}
+    <body id="{% block body_id %}page-home{% endblock %}">
+        <div id="wrap">
+            <div id="header">
+                {% block header %}
+                <div class="row">
+                    <a id="header-image" href="/" title="WLUW 88.7"><img src="{{MEDIA_URL}}site/img/header.png" alt="WLUW 88.7" /></a>
+                    {% block flash_player %}
+                    {% endblock %}
+                </div>
+                <div class="row">
+                    {% block menu %}
+                    <ul id="menu">
+                        <li class="brown {% block schedule-active %}{% endblock %}">
+                            <span class="arrow-right"><a href="{% url schedule-weekday %}">Shows</a><span class="arrow-right-end"> </span></span>
+                        </li>
+                        <li class="teal {% block events-list %}{% endblock %}">
+                            <span class="arrow-right"><a href="{% url events-list %}">Events</a><span class="arrow-right-end"> </span></span>
+
+                        </li>
+                        <li class="brown {% block music-active %}{% endblock %}">
+                            <span class="arrow-right"><a href="{% url logs-time-now %}">Music</a><span class="arrow-right-end"> </span></span>
+
+                        </li>
+                        <li class="teal {% block about-active %}{% endblock %}">
+                            <span class="arrow-right"><a href="/about/">About</a><span class="arrow-right-end"> </span></span>
+
+                        </li>
+                        <li>
+                            <div id="request-div">
+                                REQUEST BUTTON
+                            </div>
+                        </li>
+                    </ul>
+                    {% endblock %}
+                </div>
+                {% endblock %}
+            </div>
+            {% block content %}
+            {% endblock %}
+            {% block footer %}
+            {% endblock %}
+        </div>
+    </body>
+    {% endblock %}
+</html>

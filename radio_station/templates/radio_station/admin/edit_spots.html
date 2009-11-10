@@ -1,0 +1,356 @@
+{% extends "station/schedule/admin/base.html" %}
+
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript" src="/admin_media/js/core.js"></script>
+<script type="text/javascript" src="/admin_media/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/admin_media/js/getElementsBySelector.js"></script>
+
+<script type="text/javascript" src="/admin_media/js/actions.js"></script>
+
+
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.ui.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}schedule_media/js/jquery.schedule.js"></script>
+<script type="text/javascript">
+    var spots = {{ spots }};
+    $(function () {
+
+        var loaded = 0;
+        var load_schedule = null;
+        var enable_schedule_on_finish = function () {
+            loaded += 1;
+            if(loaded > 1) {
+                load_schedule();
+            }
+        };
+
+
+        var get_username = function (dj) {
+            return dj['user']['username'];
+        };
+        var get_pk = function (dj) {
+            return dj['id'];
+        };
+
+        $('#dj-chrome ul').obj_list({
+            'url':'{% url admin:admin-piston-radio_station-dj 'json' %}',
+            'class':'dj',
+            'primary_key':get_pk,
+            'display':get_username,
+            'search':'#dj-search',
+            'on_finish':enable_schedule_on_finish
+        });
+
+        var get_showname = function (show) {
+            return show['name'];
+        };
+
+        $('#show-chrome ul').obj_list({
+            'url':'{% url admin:admin-piston-radio_station-show 'json' %}',
+            'class':'show',
+            'primary_key':get_pk,
+            'display':get_showname,
+            'search':'#show-search',
+            'on_finish':enable_schedule_on_finish
+        });
+
+        load_schedule = function () {
+            var days = [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday',
+            ];
+
+            var repeat = [
+                'Every',
+                'Every 1st',
+                'Every 2nd',
+                'Every 3rd',
+                'Every 4th',
+                'Every 5th',
+                'Every 6th',
+            ];
+            
+            var today = 0;
+            var repeat_mode = 0;
+            $('#schedule-canvas').schedule({
+                'dj-class':'dj',
+                'spot-class':'spot',
+                'show-class':'show',
+                'spots':spots,
+                'apply_to_all_id':'#apply-all',
+                'controls':'#global-controls',
+            });
+            var enable_appropriate_droppables = function (day) {
+                $('.spot.dj-dropzone').droppable('disable');
+                $('.weekday-'+day+'.dj-dropzone').droppable('enable');
+            };
+
+            $('#schedule-prev-day').click(function (event) {
+                if(today < 1) {
+                    $('#schedule-canvas').animate({'left':'50px'}, 150, 'swing', function () {
+                        $('#schedule-canvas').animate({'left':'0px'}, 100, 'swing'); 
+                    });
+                } else {
+                    var off = (today-1) * -428;
+                    $('#schedule-canvas').animate({'left':off+'px'}, 250, 'swing', function () {
+                        today -= 1;
+                        $('#day').text(days[today]);
+                        enable_appropriate_droppables(today);
+                    });
+                }
+                event.preventDefault();
+            });
+            
+            $('#schedule-next-day').click(function (event) {
+                if(today > 5) {
+                    var off = -428*6-50;
+                    $('#schedule-canvas').animate({'left':off+'px'}, 150, 'swing', function () {
+                        $('#schedule-canvas').animate({'left':(off+50)+'px'}, 100, 'swing'); 
+                    });
+                } else {
+                    var off = (today+1) * -428;
+                    $('#schedule-canvas').animate({'left':off+'px'}, 250, 'swing', function () {
+                        today += 1;
+                        $('#day').text(days[today]);
+                        enable_appropriate_droppables(today);
+                    });
+                }
+                event.preventDefault();
+            });
+
+            $('#repeat').text(repeat[repeat_mode]);
+            $('#day').text(days[today]);
+            enable_appropriate_droppables(today);
+        };
+    });
+</script>
+<style>
+    .spot {
+        background-color:white;
+        padding-top:24px;
+        padding-left:20px;
+        border-top:1px solid #232323;
+        cursor:move;
+    }
+    
+    .dj, .show {
+        cursor:move;
+    }
+
+    .ui-draggable-dragging {
+        cursor:-moz-grabbing;
+    }
+
+    .spot.ui-draggable-dragging {
+        height:100%;
+        z-index:auto;
+    }
+
+    #global-controls,
+    #apply-all,
+    .spot.active {
+        background-color:#5B80B2;
+        color:white;
+    }
+
+    #global-controls,
+    #apply-all {
+        margin-left:15px;
+        border:1px solid #9BC0F2;
+        text-align:center;
+        padding:24px 20px;
+        float:left;
+    }
+
+    .spot.hovered {
+        background-color:#9BC0F2;
+    }
+
+    .spot.complete {
+        background-color:#C2FFC2;
+    }
+    
+    .spot.complete.active {
+        background-color:#5B80B2;
+    }
+
+    .spot-container span {
+        margin-right:20px;
+    }
+
+    .spot-controls {
+        display:none;
+        text-align:right;
+        padding-right:24px;
+    }
+
+    .spot:hover .spot-controls {
+        display:block;
+    }
+
+    .spot-controls a {
+        display:block;
+        font-size:0.8em;
+    }
+
+    .active .spot-controls a {
+        color:#9BC0F2;
+    }
+
+    .active .spot-controls a:hover {
+        color:white;
+    }
+
+    .spot-controls {
+        position:absolute;
+        top:14px;
+        right:20px;
+    }
+
+    #schedule-canvas {
+        height:515px;
+        width:3000px;
+        position:relative;
+    }
+
+    #schedule-chrome {
+        width:430px;
+    }   
+
+    #schedule-container {
+        display:inline-block;
+        position:relative;
+        width:427px;
+        overflow:hidden;
+        border:1px solid #CCC;
+        float:left;
+    }
+
+    #day-controller {
+        width:100%;
+        overflow:hidden;
+        position:relative;
+        padding-bottom:10px;
+    }
+
+    #day-controller > a {
+        padding:5px;
+    }
+
+    #schedule-prev-day {
+        position:absolute;
+        left:0px;
+    }
+
+    #schedule-next-day {
+        position:absolute;
+        right:0px;
+    }
+
+    #day-controller h1 {
+        margin:0pt auto;
+        display:inline-block;
+        float:left;
+        width:100%;
+        text-align:center;
+    }
+
+    #schedule-prev-day {
+        float:left;
+        display:inline-block;
+    }
+
+    #schedule-next-day {
+        float:left;
+        display:inline-block;
+    }
+
+    #meta-column {
+        margin-left:15px;
+        width:300px;
+        float:left;
+    }
+
+    #meta-column h1 {
+        position:relative;
+    }
+
+    #meta-column h1 .addlink {
+        position:absolute;
+        right:0px;
+        font-size:12px;
+        font-weight:normal;
+    }
+
+    #meta-column ul {
+        height:200px;
+        position:relative;
+        background:#232323;
+        border:1px solid #CCC;
+        padding:0px;
+    }
+
+    #meta-column ul li {
+        margin-left:0px;
+        border-bottom:1px solid #CCC;
+        padding:5px 5px;
+        list-style:none;
+        background:white;
+    }
+
+
+</style>
+{% endblock %}
+
+{% block inner_content %}
+<form method="POST" action="">
+    <div id="schedule-chrome">
+        <div id="day-controller">
+            <a href="#" id="schedule-prev-day">&laquo; previous</a>
+            <h1 id="when"><span id="repeat"></span> <span id="day"></span></h1>
+            <a href="#" id="schedule-next-day">next &raquo;</a>
+        </div>
+        <div id="schedule-container">
+            <div id="schedule-canvas">
+            </div>
+        </div>
+    </div>
+
+    <div id="meta-column">
+        <div id="dj-chrome">
+            <h1>Available DJs <a href="{% url admin:radio_station_dj_add %}" onClick="javascript:return showAddAnotherPopup(this);" class="addlink" title="add a new show">add</a></h1>
+            <div>
+                <div>
+                <input type="text" id="dj-search" />
+                </div>
+                <ul>
+            
+                </ul>
+            </div>
+        </div>
+        <div id="show-chrome">
+            <h1>Available Shows <a href="#" class="addlink" title="add a new show">add</a></h1>
+            <div>
+                <div>
+                <input type="text" id="show-search" />
+                </div>
+                <ul>
+            
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="global-controls">
+    </div>
+    <div id="apply-all">
+        Apply to selected
+    </div>
+</form>
+{% endblock %}
+

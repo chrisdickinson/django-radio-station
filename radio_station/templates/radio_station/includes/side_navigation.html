@@ -1,0 +1,7 @@
+<ul class="page-menu">
+    {% for day in week %}
+        <li>
+            <a href="{% url schedule-with-weekday %}" title="{{day|date:"l"}}">{{day|date:"l"}}</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -15,7 +15,7 @@ class SpotManager(models.Manager):
         kwargs = {
             'schedule':schedule,
             'day_of_week':when.weekday(),
-            'repeat_every__in':(0, get_nth_day_of_week(when)),
+            'repeat_every__in':(0, get_nth_day_of_month(when)),
             'offset__lte':get_offset_in_seconds(when),
         }
         return self.filter(**kwargs).order_by('-offset')[0]
@@ -24,7 +24,7 @@ class SpotManager(models.Manager):
         if when is None:
             when = datetime.datetime.now()
 
-        base_filter = self.filter(repeat_every__in=get_nth_day_of_month(when))
+        base_filter = self.filter(repeat_every__in=(0, get_nth_day_of_month(when)))
 
         lhs_kwargs = {
             'offset__gte':get_offset_in_seconds(when),

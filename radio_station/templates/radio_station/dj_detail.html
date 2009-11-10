@@ -1,3 +1,4 @@
+{% extends "radio_station/base.html" %}
 {% block body_id %}-dj{% endblock %}
 
 {% block radio_station_content_header %}
@@ -9,8 +10,8 @@
 {% block radio_station_content_sub %}
     {% for spot in spots %}
         <div class="object-meta-object">
-            <h3><a href="{% url show-detail show.slug %}" title="{{ spot.show }}">{{ spot.show }}</a></h3>
-            on <a href="{% url schedule-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.human_time }}</a>
+            <h3><a href="{% url show-detail spot.show.slug %}" title="{{ spot.show }}">{{ spot.show }}</a></h3>
+            on <a href="{% url schedule-with-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
         </div>
     {% endfor %}
     <dl>

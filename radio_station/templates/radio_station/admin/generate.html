@@ -1,0 +1,15 @@
+{% extends "station/schedule/admin/base.html" %}
+{% load i18n admin_modify adminmedia %}
+
+{% block inner_content %}
+<form method="POST" action="">
+    <div id="generate_form">
+        {{ generate_form.as_p }}
+    </div>
+    <h2>&ndash; OR &ndash;</h2>
+    <div id="copy_form">
+        {{ copy_form.as_p }}
+    </div>
+    <input type="submit" value="Save" class="default" name="_save" />
+</form>
+{% endblock %}

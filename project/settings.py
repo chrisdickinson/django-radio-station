@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'radio_library',
     'radio_logs',
     'radio_station',
+    'frontend',
 )
 
 TEMPLATE_LOADERS = (

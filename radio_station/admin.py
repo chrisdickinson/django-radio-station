@@ -18,6 +18,7 @@ class ScheduleAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(ScheduleAdmin, self).get_urls()
         my_urls = patterns('',
+            url(r'^existing/(?P<schedule_pk>\d+)/', 'radio_station.schedule.views.edit_existing_schedule', name='existing_schedule'),
             url(r'^generate/(?P<schedule_pk>\d+)/', 'radio_station.schedule.views.generate_schedule', name='generate_schedule'),
             url(r'^edit/(?P<schedule_pk>\d+)/', 'radio_station.schedule.views.edit_schedule', name='edit_schedule')
         )

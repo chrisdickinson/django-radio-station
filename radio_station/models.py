@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from managers import SpotManager, ScheduleManager
+import datetime
 
 class Spot(models.Model):
     objects = SpotManager()
@@ -29,6 +30,13 @@ class Spot(models.Model):
     dj = models.ForeignKey('DJ')
     show = models.ForeignKey('Show')
     schedule = models.ForeignKey('Schedule')
+
+    def to_datetime(self):
+        when = datetime.datetime.now()
+        when = datetime.datetime(year=when.year, month=when.month, day=when.day, hour=0, minute=0)
+        when = when - datetime.timedelta(days=when.weekday()) + datetime.timedelta(days=self.day_of_week)
+        when = when + datetime.timedelta(seconds=self.offset)
+        return when
 
 class Show(models.Model):
     name = models.CharField(max_length=255)
@@ -65,3 +73,10 @@ class DJ(models.Model):
     slug = models.SlugField(unique=True)
     summary = models.TextField()
     description = models.TextField()
+
+    def __unicode__(self):
+        if self.display_name:
+            return self.display_name
+        else:
+            return '%s %s' % (self.user.firstname, self.user.lastname[0])
+

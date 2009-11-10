@@ -16,6 +16,7 @@ urlpatterns = patterns(
     (r'^station/', include('radio_station.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    (r'^', include('frontend.urls')),
 )
 
 if settings.DEBUG:
