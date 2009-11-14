@@ -103,7 +103,7 @@ def edit_schedule(request, schedule_pk):
     if request.method == 'POST':
         try:
             spots = get_spots_from_post(request.POST)
-            deleted_spots = request.POST.get('deleted_spots', None)
+            deleted_spots = request.POST.getlist('deleted')
             spot_objects = []
             for spot in spots:
                 spot_object = None
@@ -126,10 +126,11 @@ def edit_schedule(request, schedule_pk):
             for spot_object in spot_objects:
                 spot_object.schedule = schedule
                 spot_object.save()
-            
+           
             if deleted_spots:
-                Spot.objects.all().delete(pk__in=[int(spot) for spot in deleted_spots])
+                Spot.objects.filter(pk__in=[int(spot) for spot in deleted_spots]).delete()
             request.user.message_set.create(message="Updated schedule.")
+            request.session['spots'] = []
             response = {
                 'status':'ok',
                 'redirect':reverse('admin:existing_schedule', kwargs={'schedule_pk':schedule_pk}),
