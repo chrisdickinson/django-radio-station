@@ -11,7 +11,7 @@ class ShowAdmin(admin.ModelAdmin):
 
 class ScheduleAdmin(admin.ModelAdmin):
     list_filter = ('start_date','end_date',)
-    list_display = ('start_date', 'end_date', )
+    list_display = ('start_date', 'end_date', 'get_edit_view', )
     verbose_name = "Schedule"
     verbose_name_plural = "Schedules"
 

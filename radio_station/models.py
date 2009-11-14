@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from managers import SpotManager, ScheduleManager
 import datetime
 
@@ -66,6 +68,11 @@ class Schedule(models.Model):
     objects = ScheduleManager()
     start_date = models.DateField()
     end_date = models.DateField()
+
+    def get_edit_view(self):
+        return mark_safe(u'<a href="%s" title="edit schedule">Edit Spots</a>' % reverse('admin:existing_schedule', kwargs={'schedule_pk':self.pk}))
+    get_edit_view.allow_tags = True
+
 
 class DJ(models.Model):
     display_name = models.CharField(max_length=255)
