@@ -133,7 +133,7 @@ def edit_schedule(request, schedule_pk):
             request.session['spots'] = []
             response = {
                 'status':'ok',
-                'redirect':reverse('admin:existing_schedule', kwargs={'schedule_pk':schedule_pk}),
+                'redirect':reverse('admin:radio_station_schedule_changelist'),
             }
         except (Show.DoesNotExist, DJ.DoesNotExist, Spot.DoesNotExist):
             response = {

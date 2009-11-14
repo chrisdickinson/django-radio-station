@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 from django.conf.urls.defaults import *
 from models import *
 
@@ -23,6 +25,19 @@ class ScheduleAdmin(admin.ModelAdmin):
             url(r'^edit/(?P<schedule_pk>\d+)/', 'radio_station.schedule.views.edit_schedule', name='edit_schedule')
         )
         return my_urls + urls
+
+    def response_add(self, request, obj, *args, **kwargs):
+        response = super(ScheduleAdmin, self).response_add(request, obj, *args, **kwargs)
+        if isinstance(response, HttpResponseRedirect):
+            if response['Location'] in ('../', '../../../'):
+                if len(Spot.objects.filter(schedule=obj)[:1]):
+                    #we've got a changed schedule object, pass the response back just the same
+                    return response
+                else:
+                    return HttpResponseRedirect(reverse('admin:generate_schedule', kwargs={'schedule_pk':obj.pk}))
+        return response
+
+
 
 class DJAdmin(admin.ModelAdmin):
     verbose_name = "DJ Profiles"
