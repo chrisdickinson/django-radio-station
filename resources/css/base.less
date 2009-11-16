@@ -106,8 +106,8 @@ body {
     table {
         border-left:1px solid @color-dark-text;
         th {
-            background:@color-black-bg;
-            font-size:@size-c;
+            background:@color-dark-text;
+            font-size:@size-d;
             font-family:@display_font;
             color:white;
             padding:@default-padding;
@@ -199,6 +199,9 @@ body {
                 li {
                     padding:@default-padding;
                     margin-bottom:8px;
+                    font-family:@display_font;
+                    font-size:@size-e;
+                    color:@color-midtone-0;
                     a {
                         font-family:@display_font;
                         font-size:@size-e;
@@ -206,6 +209,19 @@ body {
                         text-transform:lowercase;
                     }
                     background:@color-midtone-2;
+                }
+                .active {
+                    background:@color-highlight-3;
+                    a {
+                        font-weight:bold;
+                    }
+                    ul {
+                        padding-top:8px;
+                        li {
+                            text-decoration:none;
+                            background:@color-highlight-3;
+                        }
+                    }
                 }
             }
 
@@ -302,11 +318,47 @@ body {
     }
 }
 
-
 #radio-logs {
     h1 {
         .header;
-        background:@color-highlight-3;
+        background:@color-black-bg;
         margin-left:16px;
+    }
+    #content-main {
+        .navigation {
+            .clear-children;
+            background:@color-dark-text;
+            position:relative;
+            height:30px;
+            li {
+                position:absolute;
+                background:@color-dark-text;
+                padding:@default-padding;
+                a {
+                    font-family:@body_font;
+                    text-transform:uppercase;
+                    font-size:@size-e;
+                    color:white;
+                    text-decoration:underline;
+                }
+            } 
+            li:hover {
+                background:@color-text;
+            }
+            .prev {
+                left:0px;
+                border-right:1px solid @color-text;
+                a:before {
+                    content:"\00ab\00a0";
+                }
+            }
+            .next {
+                right:0px;
+                border-left:1px solid @color-text;
+                a:after {
+                    content:"\00a0\00bb";
+                }
+            }
+        }
     }
 }

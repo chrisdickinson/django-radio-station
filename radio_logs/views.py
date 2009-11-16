@@ -6,10 +6,12 @@ from django.http import Http404
 from radio_library.models import Artist, Album 
 from models import Entry 
 import datetime
+import math
 
 def time_view(request, year=None, month=None, day=None, hour=None):
     when = None
     now = datetime.datetime.now()
+    now = datetime.datetime(now.year, now.month, now.day, int(3 * math.ceil(now.hour/3.0)), 0)
     if None in (year, month, day, hour):
         when = datetime.datetime(now.year, now.month, now.day, now.hour, 0)
     else:
@@ -26,13 +28,17 @@ def time_view(request, year=None, month=None, day=None, hour=None):
     time_range = []
     special_names = {
         0:'Midnight',
+        3:'3a.m.',
         6:'Morning',
+        9:'9a.m.',
         12:'Noon',
+        15:'3p.m.',
         18:'Evening',
+        21:'9p.m.',
     }
-    for i in range(0, 24, 6):
+    for i in range(0, 24, 3):
         offset = time_range_start + datetime.timedelta(seconds=i*60*60)
-        if offset < now:
+        if offset <= now:
             name = special_names[i]
             time_range.append({
                 'name':name,
@@ -40,10 +46,11 @@ def time_view(request, year=None, month=None, day=None, hour=None):
             })
 
     date_range = []
-    start_date_range = min(3, abs((now-when).days))
-    for i in range(-start_date_range, start_date_range+7):
+    start_date_range = 3 
+    for i in range(-start_date_range, start_date_range+6):
         offset = when + datetime.timedelta(days=i)
-        date_range.append(datetime.datetime(offset.year, offset.month, offset.day, offset.hour, 0))
+        if offset.date() <= now.date():
+            date_range.append(datetime.datetime(offset.year, offset.month, offset.day, offset.hour, 0))
 
     ctxt = {
         'logs':logs,
