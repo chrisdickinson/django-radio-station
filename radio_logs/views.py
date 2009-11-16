@@ -14,10 +14,10 @@ def time_view(request, year=None, month=None, day=None, hour=None):
         when = datetime.datetime(now.year, now.month, now.day, now.hour, 0)
     else:
         when = datetime.datetime(*[int(i) for i in year, month, day, hour, 0])
-    logs = Entry.objects.filter(submitted__lte=when)
     three_hours = datetime.timedelta(seconds=60*60*3)
     prev_time = when - three_hours 
     next_time = when + three_hours
+    logs = Entry.objects.filter(submitted__lte=when, submitted__gt=prev_time).order_by('-submitted')
 
     if next_time > now:
         next_time = None
@@ -98,7 +98,8 @@ def chart_view(request, year=None, month=None, week=None, what=None, rotation=Fa
         'playcount':Count('%sentry'%prefix),
     }
 
-    items = what_model.objects.filter(**submitted_kwargs)
+    items = what_model.objects.filter(**submitted_kwargs).annotate(**annotate_kwargs).order_by('-playcount')
+
     if rotation:
         is_rotation_kwargs = {
             '%sentry__is_rotation'%prefix:True,
