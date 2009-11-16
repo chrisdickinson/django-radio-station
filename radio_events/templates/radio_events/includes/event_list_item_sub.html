@@ -1,7 +1,7 @@
 <li class="object-list-item {% if event.highlight %}active{% endif %}">
-    <h3><a class="object-list-item-link" href="{% url event-detail event.slug %}" title="{{ event.name }}">{{ event.name }}</a></h3>
+    <h3><a class="object-list-item-link" href="{{ event.get_absolute_url }}" title="{{ event.name }}">{{ event.name }}</a></h3>
     <div class="object-list-item-description">
-        <div class="start-time">{{ event.start_time|time:"g:ia" }}</div>
+        <div class="start-time">{{ event.time_start|time:"g:ia" }}</div>
         {% if event.location %}
             <div class="location">{{ event.location.name }}</div>
         {% endif %}

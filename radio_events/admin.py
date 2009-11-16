@@ -1,4 +1,12 @@
 from django.contrib import admin
 from models import *
-admin.site.register(Location)
-admin.site.register(Event)
+
+class LocationAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    pass
+
+class EventAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    pass
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Event, EventAdmin)

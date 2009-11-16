@@ -34,8 +34,18 @@
         <li><a class="event-list-link" href="{% url events-for-day day_after_tomorrow.year day_after_tomorrow.month day_after_tomorrow.day %}" title="{{ day_after_tomorrow|date:"l" }}">{{ day_after_tomorrow|date:"l" }}</a></li>
         <li><a class="event-list-link" href="{% url events-list %}" title="see more">see more</a></li>
     </ul>
-    <ul class="object-list-sub">
-    {% for event in events %}
+    <ul class="object-list-sub today active">
+    {% for event in events.today %}
+        {% include "radio_events/includes/event_list_item_sub.html" %}
+    {% endfor %}
+    </ul>
+    <ul class="object-list-sub tomorrow inactive">
+    {% for event in events.tomorrow %}
+        {% include "radio_events/includes/event_list_item_sub.html" %}
+    {% endfor %}
+    </ul>
+    <ul class="object-list-sub day_after inactive">
+    {% for event in events.day_after %}
         {% include "radio_events/includes/event_list_item_sub.html" %}
     {% endfor %}
     </ul>

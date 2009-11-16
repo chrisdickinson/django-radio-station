@@ -256,6 +256,9 @@ body {
                             margin-right:-72px;
                             .object-list {
                                 width:390px;
+                                li {
+                                    width:320px;
+                                }
                             }
                         }
                         #content-sub {
@@ -360,5 +363,40 @@ body {
                 }
             }
         }
+    }
+}
+
+
+#calendar {
+    width:300px;
+    h1 {
+        margin-bottom:12px;
+    }
+    .calendar-week {
+        .clear-children;
+        .calendar-date {
+            padding:@default-padding;
+            width:20px;
+            height:26px;
+            font-size:@size-e;
+            background:@color-black-bg;
+            color:@color-text;
+            display:block;
+            float:left;
+            border-right:1px solid @color-dark-text;
+        }
+        .inactive {
+        }
+        .has-event {
+            font-weight:bold;
+            color:@color-highlight-3;
+        }
+        .active {
+            background:@color-dark-text;
+        }
+        .active.has-event {
+            color:white;
+            background:@color-highlight-3;
+        } 
     }
 }

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.localflavor.us.models import * 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 class Location(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -21,6 +22,15 @@ class Event(models.Model):
     date = models.DateField()
     time_start = models.TimeField()
     time_end = models.TimeField()
+
+    def get_absolute_url(self):
+        return reverse('event-detail', kwargs = {
+            'year':self.date.year,
+            'month':self.date.month,
+            'day':self.date.day,
+            'slug':self.slug
+        })
+
 
     def __unicode__(self):
         return u"%s" % self.name

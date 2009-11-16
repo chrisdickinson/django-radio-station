@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block radio_events_content_main %}
-    {% if object_list %}
+    <div id="content-main-object-list-container">
+    {% if events %}
         <ul class="object-list">
         {% for event in events %}
             {% include "radio_events/includes/event_list_item.html" %}
@@ -16,6 +17,7 @@
             <h1>There don&rsquo;t appear to be any events that day.</h1>
         </div>
     {% endif %}
+    </div>
 {% endblock %}
 
 {% block radio_events_content_sub %}

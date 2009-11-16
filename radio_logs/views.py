@@ -47,7 +47,7 @@ def time_view(request, year=None, month=None, day=None, hour=None):
 
     date_range = []
     start_date_range = 3 
-    for i in range(-start_date_range, start_date_range+6):
+    for i in range(-start_date_range, start_date_range):
         offset = when + datetime.timedelta(days=i)
         if offset.date() <= now.date():
             date_range.append(datetime.datetime(offset.year, offset.month, offset.day, offset.hour, 0))

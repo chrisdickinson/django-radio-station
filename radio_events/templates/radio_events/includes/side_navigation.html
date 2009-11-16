@@ -1,3 +1,4 @@
+<ul id="page-menu">
 {% load relative_date %}
 
 {% if event %}
@@ -16,3 +17,4 @@
             <a href="{% url events-for-day date.year date.month date.day %}">{{ date|date:"l" }}</a>
         </li>
     {% endfor %}
+</ul>

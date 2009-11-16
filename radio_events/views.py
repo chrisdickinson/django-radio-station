@@ -19,11 +19,11 @@ def event_detail(request, slug, year=None, month=None, day=None):
     return render_to_response('radio_events/event_detail.html', ctxt, context_instance=RequestContext(request))
 
 def events_for_day(request, year=None, month=None, day=None):
-    when = get_when_or_now(year, month, day) 
+    when = get_when_or_now(year, month, day).date()
     events = Event.objects.filter(date=when)
     ctxt = {
         'events':events,
-        'day':day,
+        'day':when,
     }
     return render_to_response('radio_events/event_list.html', ctxt, context_instance=RequestContext(request))
 
