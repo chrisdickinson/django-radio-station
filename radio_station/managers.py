@@ -1,7 +1,8 @@
 from django.db import models
 from django.db.models import Q
-from utils import get_offset_in_seconds, get_nth_day_of_month
+from utils import get_offset_in_seconds, get_nth_day_of_month, subscriptable_iterchain
 import datetime
+import itertools
 class SpotManager(models.Manager):
     def __init__(self, *args, **kwargs):
         return super(SpotManager, self).__init__(*args, **kwargs)
@@ -33,7 +34,15 @@ class SpotManager(models.Manager):
         rhs_kwargs = {
             'day_of_week__gt':when.weekday(),
         }
-        return base_filter.filter(Q(**lhs_kwargs) | Q(**rhs_kwargs)).order_by('day_of_week', 'offset') 
+        our_spots = base_filter.filter(Q(**lhs_kwargs) | Q(**rhs_kwargs)).order_by('day_of_week', 'offset') 
+        if when.weekday() == 6:
+            # this is a HACK
+            tomorrow = when + datetime.timedelta(days=1)
+            new_when = datetime.datetime(year=tomorrow.year, month=tomorrow.month, day=tomorrow.day, hour=0, minute=0)
+            next_spots = self.filter_next_spots(new_when)
+            our_spots = subscriptable_iterchain(our_spots, next_spots)
+        return our_spots    
+
 
     def filter_schedule_for_day(self, when=None):
         if when is None:
