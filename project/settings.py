@@ -51,11 +51,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     'human_date',
+    'frontend',
     'radio_events',
     'radio_library',
     'radio_logs',
     'radio_station',
-    'frontend',
 )
 
 TEMPLATE_LOADERS = (

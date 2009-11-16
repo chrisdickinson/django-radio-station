@@ -56,21 +56,23 @@
             </thead>
             <tbody>
                 {% for log in logs %}
-                <td>
-                    {{ log.artist.name }}
-                </td>
-                <td>
-                    {{ log.album.name }}
-                </td>
-                <td>
-                    {{ log.track.name }}
-                </td>
-                <td>
-                    <abbr title="{{ log.submitted }}">{% human_relative_date log.submitted %}</abbr>
-                </td>
-                <td>
-                    {{ log.dj.user }}
-                </td>
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td>
+                        {{ log.artist.name }}
+                    </td>
+                    <td>
+                        {{ log.album.name }}
+                    </td>
+                    <td>
+                        {{ log.track.name }}
+                    </td>
+                    <td>
+                        <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }}</abbr>
+                    </td>
+                    <td>
+                        {{ log.dj.user }}
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
