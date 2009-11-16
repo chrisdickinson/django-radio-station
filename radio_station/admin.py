@@ -37,6 +37,9 @@ class ScheduleAdmin(admin.ModelAdmin):
                     return HttpResponseRedirect(reverse('admin:generate_schedule', kwargs={'schedule_pk':obj.pk}))
         return response
 
+class SpotAdmin(admin.ModelAdmin):
+    list_filter = ('repeat_every', 'day_of_week')
+    list_display = ('__unicode__', 'dj', 'show')
 
 
 class DJAdmin(admin.ModelAdmin):
@@ -47,4 +50,4 @@ class DJAdmin(admin.ModelAdmin):
 admin.site.register(Show, ShowAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(DJ, DJAdmin)
-admin.site.register(Spot)
+admin.site.register(Spot, SpotAdmin)

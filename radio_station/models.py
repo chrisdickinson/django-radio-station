@@ -40,6 +40,11 @@ class Spot(models.Model):
         when = when + datetime.timedelta(seconds=self.offset)
         return when
 
+    def __unicode__(self):
+        when = self.to_datetime()
+        return '%s / %s / %s' % (when.strftime('%I:%M%p'), dict(self.REPEAT_CHOICES)[self.repeat_every], when.strftime('%a')) 
+
+
 class Show(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
