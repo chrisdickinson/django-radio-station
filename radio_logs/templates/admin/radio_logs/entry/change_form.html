@@ -1,10 +1,54 @@
 {% extends "admin/change_form.html" %}
+{% block extrahead %}
+    {{ block.super }}
+    <!-- test test test -->
+
+    <style>
+        .submit-row .default {
+            display:none;
+        }
+        .add-another {
+            display:none;
+        }
+    </style>
+
+    <script>
+
+        match_artist_and_startswith = function(obj, name_field) {
+            var dict = {};
+            var artist_value = $('#id_artist').val();
+            dict[name_field+'__startswith']=$(obj).val();
+            if(artist_value) {
+                dict['artist__name__startswith']=artist_value;
+            }
+            return dict;
+        }
+
+        match_album_and_startswith = function(obj, name_field) {
+            var dict = {};
+            var album_value = $('#id_album').val();
+            dict[name_field+'__startswith']=$(obj).val();
+            if(album_value) {
+                dict['album__name__startswith']=album_value;
+            } else {
+                var artist_value = $('#id_artist').val();
+                if(artist_value) {
+                    dict['album__artist__name__startswith']=artist_value;
+                }
+            }
+            return dict;
+        }
+
+    </script>
+
+{% endblock %}
+
 {% block object-tools %}
 {{ block.super }}
 {% load radio_logs_tags %}
 {% load human_date_tags %}
 <div class="playlist-table">
-    {% grab_latest_logs as latest_logs %}
+    {% grab_latest_logs get 10 as latest_logs %}
     <table>
         <thead>
             <th>Artist</th>

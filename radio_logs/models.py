@@ -26,9 +26,12 @@ def instant_track(widget, data, name):
     if value is not None and value != '':
         if artist_value is not None and artist_value != '':
             artist = Artist.objects.get(name__exact=artist_value)
-            (album, created) = Album.objects.get_or_create(name="Unknown Album", artist=artist)
+            (album, created) = Album.objects.get_or_create(name="<Untitled Album>", artist=artist)
             if album_value is not None and album_value != '':
-                album = Album.objects.get(name__exact=album_value, artist=artist)
+                try:
+                    album = Album.objects.filter(name__exact=album_value, artist=artist)[0]
+                except IndexError:
+                    pass
             (track, created) = widget.model.objects.get_or_create(name=value, album=album)
             value = track
         else:
@@ -43,8 +46,8 @@ class Request(models.Model):
 
 class Entry(models.Model):
     artist = d51fields.ForeignKey(Artist, instantiate_fn=instant_artist)
-    album = d51fields.ForeignKey(Album, instantiate_fn=instant_album)
-    track = d51fields.ForeignKey(Track, instantiate_fn=instant_track)
+    album = d51fields.ForeignKey(Album, js_methods=['match_artist_and_startswith'], instantiate_fn=instant_album)
+    track = d51fields.ForeignKey(Track, js_methods=['match_album_and_startswith'], instantiate_fn=instant_track)
     genre = models.ForeignKey(Genre)
     submitted = models.DateTimeField(auto_now_add=True)
     is_rotation = models.BooleanField()

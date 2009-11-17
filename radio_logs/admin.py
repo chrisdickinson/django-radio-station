@@ -19,7 +19,7 @@ class EntryAdmin(admin.ModelAdmin):
     exclude = ('dj', 'show',)
     verbose_name = "Entry"
     verbose_name_plural = "Entries"
-
+    radio_fields = {'genre':admin.VERTICAL}
     def save_model(self, request, obj, form, change):
         try:
             getattr(obj, 'dj')
