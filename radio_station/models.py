@@ -86,6 +86,13 @@ class DJ(models.Model):
     summary = models.TextField()
     description = models.TextField()
 
+    def get_absolute_url(self):
+        reversed = reverse('dj-detail', kwargs={
+            'dj_slug':self.slug,
+        })
+        return reversed
+
+
     def __unicode__(self):
         if self.display_name:
             return self.display_name

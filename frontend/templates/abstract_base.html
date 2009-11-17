@@ -21,6 +21,21 @@
                     {% block flash_player %}
                     {% endblock %}
                     <div id="header-right" class="row">
+                        {% load radio_logs_tags %}
+                        {% load gravatar %}
+                        {% grab_latest_logs get 1 as latest_log %}
+                        {% for log in latest_log %}
+                        <div id="whats-playing">
+                            <h2 class="header">just played:</h2>
+                            <img src="{% gravatar_for_email log.dj.user.email %}" height="60" width="60" />
+                            <ul>
+                                <li>{{ log.artist }}</li>
+                                <li>{{ log.track }}</li>
+                                <li>{{ log.submitted|timesince }}</li>
+                                <li>DJ:<a href="{{ log.dj.get_absolute_url }}">{{ log.dj.display_name }}</a></li>
+                            </ul>
+                        </div>
+                        {% endfor %}
                         {% block menu %}
                         <ul id="menu">
                             <li class="black {% block schedule-active %}{% endblock %}">

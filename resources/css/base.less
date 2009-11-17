@@ -162,6 +162,38 @@ body {
                         float:left;
                         height:104px;
                         position:relative;
+                        #whats-playing {
+                            .clear-children;
+                            position:absolute;
+                            right:0px;
+                            .header {
+                                font-size:@size-d;
+                                background:@color-highlight-3;
+                                float:left;
+                            }
+
+                            img {
+                                float:left;
+                            }
+                            ul {
+                                position:absolute;
+                                top:0px;
+                                right:0px;
+                                width:50%;
+                                li {
+                                    float:left;
+                                    font-size:@size-e;
+                                    color:@color-text;
+                                    a {
+                                        display:inline;
+                                        background:none;
+                                        font-size:@size-d;
+                                        color:@color-dark-text;
+                                    }
+                                }
+                            }
+                        }
+
                         ul {
                             position:absolute;
                             bottom:0px;
