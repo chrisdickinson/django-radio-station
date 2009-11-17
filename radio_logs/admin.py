@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Count, Sum
 from radio_library.models import *
 from radio_station.models import Spot
+from radio_twitter.models import PendingUpdate
 from models import *
 
 class RequestAdmin(admin.ModelAdmin):
@@ -20,6 +21,23 @@ class EntryAdmin(admin.ModelAdmin):
     verbose_name = "Entry"
     verbose_name_plural = "Entries"
     radio_fields = {'genre':admin.VERTICAL}
+
+    def post_pending_update(self, entry):
+        fields = [
+            entry.artist.name,
+            entry.album.name,
+            entry.track.name,
+        ]
+        length = sum([len(x) for x in fields])
+        if length > 134 or entry.album.name == '<Untitled Album>':
+            fields = [ entry.artist.name, entry.track.name ]
+        length = sum([len(x) for x in fields])
+        if length > 134:
+            fields = [ entry.artist.name[:60], entry.track.name[:60] ]
+        status = ' - '.join(fields)
+        update = PendingUpdate(status=status, has_posted=False)
+        update.save()
+
     def save_model(self, request, obj, form, change):
         try:
             getattr(obj, 'dj')
@@ -30,6 +48,7 @@ class EntryAdmin(admin.ModelAdmin):
                 obj.show = Spot.objects.get_current_spot().show
         except:
             pass
+        self.post_pending_update(obj)
         return super(self.__class__, self).save_model(request, obj, form, change)
 
     class Media:
