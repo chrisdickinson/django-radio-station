@@ -78,6 +78,8 @@ class Schedule(models.Model):
         return mark_safe(u'<a href="%s" title="edit schedule">Edit Spots</a>' % reverse('admin:existing_schedule', kwargs={'schedule_pk':self.pk}))
     get_edit_view.allow_tags = True
 
+    def __unicode__(self):
+        return u'%s until %s' % (self.start_date.strftime('%Y-%m-%d'), self.end_date.strftime('%Y-%m-%d'))
 
 class DJ(models.Model):
     display_name = models.CharField(max_length=255)

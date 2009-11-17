@@ -25,7 +25,9 @@ class SpotManager(models.Manager):
         if when is None:
             when = datetime.datetime.now()
 
-        base_filter = self.filter(repeat_every__in=(0, get_nth_day_of_month(when)))
+        from models import Schedule
+        schedule = Schedule.objects.get_current_schedule()
+        base_filter = self.filter(schedule=schedule, repeat_every__in=(0, get_nth_day_of_month(when)))
 
         lhs_kwargs = {
             'offset__gte':get_offset_in_seconds(when),
@@ -65,5 +67,6 @@ class ScheduleManager(models.Manager):
     def get_current_schedule(self, when=None):
         if when is None:
             when = datetime.datetime.now()
-        return self.get(start_date__lte=when, end_date__gte=when)
+        results = self.filter(start_date__lte=when, end_date__gte=when).order_by('-start_date')
+        return results[0]
 
