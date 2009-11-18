@@ -17,9 +17,9 @@ def home(request):
     day_after = tomorrow+datetime.timedelta(days=1)
 
     events = {
-        'today':Event.objects.filter(date=today)[:3],
-        'tomorrow':Event.objects.filter(date=tomorrow)[:3],
-        'day_after':Event.objects.filter(date=day_after)[:3],
+        'today':Event.objects.filter(date=today).order_by('-weight')[:3],
+        'tomorrow':Event.objects.filter(date=tomorrow).order_by('-weight')[:3],
+        'day_after':Event.objects.filter(date=day_after).order_by('-weight')[:3],
     }
 
     ctxt = {
