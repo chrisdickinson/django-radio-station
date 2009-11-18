@@ -1,23 +1,20 @@
-{% load relative_date %}
-<div class="gray-bg default-padding" id="playlist-container">
-    <table class="gray-bg">
+<div id="playlist-container">
+    <table>
         <thead>
             <tr>
                 <th>Artist</th>
+                <th>Album</th>
                 <th>Song</th>
                 <th>Time</th>
-                <th>Genre</th>
-                <th class="last">Album</th>
             </tr>
         </thead>
-        <tbody class="white-bg">
+        <tbody>
             {% for log in logs %}
-            <tr class="font-e {% cycle 'row1' 'row2' %}">
+            <tr class="{% cycle 'row1' 'row2' %}">
                 <td>{{ log.artist }}</td>
+                <td>{{ log.album }}</td>
                 <td>{{ log.track }}</td>
-                <td>{{ log.submitted|relative }}</td>
-                <td>{{ log.genre }}</td>
-                <td class="last">{{ log.album }}</td>
+                <td>{{ log.submitted|timesince }}</td>
             </tr>
             {% endfor %}
         </tbody>

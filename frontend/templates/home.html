@@ -27,11 +27,11 @@
 {% endblock %}
 
 {% block content_sub %}
-    <h2 class="header">What&rsquo;s going on today</h2>
+    <h2 class="header">What&rsquo;s going on <span class="when">today</span></h2>
     <ul id="event-list">
-        <li><a class="event-list-link active" href="{% url events-list %}" title="today">today</a></li>
-        <li><a class="event-list-link" href="{% url events-for-day tomorrow.year tomorrow.month tomorrow.day %}" title="tomorrow">tomorrow</a></li>
-        <li><a class="event-list-link" href="{% url events-for-day day_after_tomorrow.year day_after_tomorrow.month day_after_tomorrow.day %}" title="{{ day_after_tomorrow|date:"l" }}">{{ day_after_tomorrow|date:"l" }}</a></li>
+        <li class="active"><a class="event-list-link today" href="{% url events-list %}" title="today">today</a></li>
+        <li><a class="event-list-link tomorrow" href="{% url events-for-day tomorrow.year tomorrow.month tomorrow.day %}" title="tomorrow">tomorrow</a></li>
+        <li><a class="event-list-link day_after" href="{% url events-for-day day_after_tomorrow.year day_after_tomorrow.month day_after_tomorrow.day %}" title="{{ day_after_tomorrow|date:"l" }}">{{ day_after_tomorrow|date:"l" }}</a></li>
         <li><a class="event-list-link" href="{% url events-list %}" title="see more">see more</a></li>
     </ul>
     <ul class="object-list-sub today active">
@@ -53,9 +53,10 @@
 
 {% block content_after %}
     {% block playlist %}
-        {% load radio_events_calendar %}
+        {% load radio_logs_tags %}
         <div id="playlist">
             <h2 class="header">What&rsquo;s Playing</h2>
+            {% playlist_table 5 %}
             <!-- playlist! -->
         </div>
     {% endblock %}

@@ -4,10 +4,10 @@ from django import template
 import datetime
 register = template.Library()
 
-def playlist_table(when=None, how_many=15):
+def playlist_table(when=None, how_many=5):
     if when is None:
         when = datetime.datetime.now()
-    objects = Entry.objects.all().order_by('-submitted')
+    objects = Entry.objects.all().order_by('-submitted')[:int(how_many)]
     return {
         'logs':objects
     }

@@ -11,6 +11,7 @@ class Location(models.Model):
     state = USStateField(null=True, blank=True)
     zip = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=255, null=True, blank=True)
+    blurb = models.TextField()
 
     def __unicode__(self):
         return u"%s" % self.name
@@ -18,7 +19,11 @@ class Location(models.Model):
 class Event(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
+    weight = models.IntegerField(null=True, blank=True, default=0,
+        help_text="likelihood that this event will be highlighted. The bigger the number, the more likely.")
     location = models.ForeignKey(Location, null=True, blank=True)
+    blurb = models.TextField()
+    content = models.TextField()
     date = models.DateField()
     time_start = models.TimeField()
     time_end = models.TimeField()

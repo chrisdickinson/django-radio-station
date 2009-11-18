@@ -89,6 +89,39 @@
                 <div id="footer-right">
                 </div>
             </div>
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(function () {
+                    $('a.today, a.tomorrow, a.day_after').click(function(event) {
+                        event.preventDefault();
+                        var classes = $(this).attr('class').split(' ');
+                        for(var i = 0; i < classes.length; ++i) {
+                            var cls = classes[i];
+                            var check_obj = $('ul.'+cls);
+                            if(check_obj.length) {
+                                if(check_obj.children('*').length < 1) {
+                                    return;
+                                } 
+                                $('.object-list-sub').removeClass('active');
+                                check_obj.addClass('active');
+                                var offset = 0;
+                                $(this).parent().prevAll().each(function () {
+                                    offset += $(this).width();
+                                    offset += parseInt($(this).css('paddingLeft'));
+                                    offset += parseInt($(this).css('paddingRight'));
+                                });
+                                offset += $(this).parent().width();
+                                check_obj.css({'backgroundPosition':offset+'px 0px'});
+                                $('#event-list li').removeClass('active');
+                                $(this).parent().addClass('active');
+                                return;
+                            }
+                        }
+
+                    }); 
+
+                });
+            </script>
     </body>
     {% endblock %}
 </html>

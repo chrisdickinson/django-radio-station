@@ -6,6 +6,9 @@ from radio_library.models import *
 from radio_station.models import Spot
 from radio_twitter.models import PendingUpdate
 from models import *
+from django.conf import settings
+
+TWEET_ENTRIES = getattr(settings, 'RADIO_LOGS_TWEET_LOGS', False)
 
 class RequestAdmin(admin.ModelAdmin):
     list_display = ('what', 'who', 'when', 'ip')
@@ -48,7 +51,8 @@ class EntryAdmin(admin.ModelAdmin):
                 obj.show = Spot.objects.get_current_spot().show
         except:
             pass
-        self.post_pending_update(obj)
+        if TWEET_ENTRIES:
+            self.post_pending_update(obj)
         return super(self.__class__, self).save_model(request, obj, form, change)
 
     class Media:
