@@ -2,19 +2,15 @@
 {% block body_id %}-schedule{% endblock %}
 
 {% block radio_station_content_header %}
-<h1>Schedule for {{ weekday|date:"l" }}s</h1>
+<h1 class="header">Schedule for {{ weekday|date:"l" }}s</h1>
 {% endblock %}
 
 {% block radio_station_content_main %}
-<ul class="object-nav">
-    {% for day in week %}
-
-    {% endfor %}
-</ul>
-
-<ul class="object-list">
-    {% for spot in spots %}
-        {% include "radio_station/includes/spot_listitem.html" %}
-    {% endfor %}
-</ul>
+<div id="content-main-object-list-container">
+    <ul class="object-list">
+        {% for spot in spots %}
+            {% include "radio_station/includes/spot_listitem.html" %}
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

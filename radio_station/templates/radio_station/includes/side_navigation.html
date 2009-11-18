@@ -1,7 +1,13 @@
-<ul class="page-menu">
+<ul id="page-menu">
     {% for day in week %}
-        <li>
-            <a href="{% url schedule-with-weekday %}" title="{{day|date:"l"}}">{{day|date:"l"}}</a>
+        <li {% ifequal now day %}class="active"{% endifequal %}>
+            <a href="{% url schedule-with-weekday schedule.pk day.weekday %}" title="{{ day|date:"l" }}">
+                {% ifequal now day %}
+                    today
+                {% else %}
+                    {{ day|date:"l" }}
+                {% endifequal %}
+            </a>
         </li>
     {% endfor %}
 </ul>

@@ -11,9 +11,10 @@ def create_r2r(func):
         start_of_week = when - datetime.timedelta(days=when.weekday()) 
         context = func(request, *args, **kwargs)
         context.update({
-            'week':(start_of_week + datetime.timedelta(days=i) for i in range(0, 7))
+            'week':[(start_of_week + datetime.timedelta(days=i)).date() for i in range(0, 7)],
+            'now':when.date()
         })
-        return render_to_response('radio_station/%s.html'%func.func_name, func(request, *args, **kwargs), context_instance=RequestContext(request))
+        return render_to_response('radio_station/%s.html'%func.func_name, context, context_instance=RequestContext(request))
     return wrapped
 
 def get_schedule_or_404(pk):
@@ -34,8 +35,11 @@ def schedule_weekday(request, day_of_week, schedule_pk=None):
     except ValueError:
         weekday = 'MTWRFSU'.index(str(day_of_week))
     when = datetime.datetime.now()
+    when = datetime.datetime(when.year, when.month, when.day, 0, 0)
     start_of_week = when - datetime.timedelta(days=when.weekday()) 
     when = start_of_week + datetime.timedelta(days=weekday)
+
+    week = [start_of_week + datetime.timedelta(days=i) for i in range(0,7)]
 
     spots = Spot.objects.filter(schedule=schedule, day_of_week=weekday).order_by('day_of_week', 'offset', 'repeat_every')
     return {
