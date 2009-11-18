@@ -114,6 +114,7 @@
                                 check_obj.css({'backgroundPosition':offset+'px 0px'});
                                 $('#event-list li').removeClass('active');
                                 $(this).parent().addClass('active');
+                                $('#event-list-target').text($(this).text());
                                 return;
                             }
                         }

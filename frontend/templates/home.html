@@ -27,7 +27,7 @@
 {% endblock %}
 
 {% block content_sub %}
-    <h2 class="header">What&rsquo;s going on <span class="when">today</span></h2>
+    <h2 class="header">What&rsquo;s going on <span id="event-list-target">today</span></h2>
     <ul id="event-list">
         <li class="active"><a class="event-list-link today" href="{% url events-list %}" title="today">today</a></li>
         <li><a class="event-list-link tomorrow" href="{% url events-for-day tomorrow.year tomorrow.month tomorrow.day %}" title="tomorrow">tomorrow</a></li>
