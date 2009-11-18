@@ -5,7 +5,7 @@
 {% block content_header %}
     {% if current_spot %}
         <div id="banner">
-            <a id="banner-link" class="header" href="{% url schedule-weekday %}" title="Today&rsquo;s Shows">Today&rsquo;s Shows</a>
+            <a id="banner-link" class="header" href="{% url schedule-weekday %}" title="On right now">On right now</a>
             <a id="banner-image-link" href="{% url show-detail current_spot.show.slug %}" title="{{ current_spot.show.name }}">
                 <img alt="{{ current_spot.show.name }}" src="{{ MEDIA_URL }}{{ current_spot.show.image }}" />
             </a>
@@ -61,9 +61,18 @@
     {% endblock %}
 
     {% block ad_space %}
+        {% load frontend_tags %}
+        {% get_random_ad as ad %}
+        {% if ad %}
         <div id="ad-space">
             <h2 class="header">Check this out</h2>
+            <div>
+                <a href="{{ ad.link }}" title="{{ ad.name }}">
+                    <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.name }}" width="300" height="300"/>
+                </a>
+            </div>
         </div>
+        {% endif %}
     {% endblock %}
 {% endblock %}
 

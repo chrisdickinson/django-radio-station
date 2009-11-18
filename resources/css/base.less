@@ -105,6 +105,7 @@ body {
 
     table {
         border-left:1px solid @color-dark-text;
+        width:100%;
         th {
             background:@color-dark-text;
             font-size:@size-d;
@@ -334,6 +335,9 @@ body {
                         top:@content-main-offset-top;
                         float:right;
                         width:@ad-space-width;
+                        div {
+                            margin-top:16px;
+                        }
                     }
                 }
             }
@@ -432,3 +436,52 @@ body {
         } 
     }
 }
+
+#footer {
+    clear:both;
+    border-top:1px solid #CCC;
+    ul {
+        .clear-children;
+        li {
+            float:left;
+            padding:@default-padding;
+            margin:@default-padding;
+            font-size:@size-e;
+            color:@color-text;
+            a {
+                color:@color-text;
+            }
+        }
+    }
+
+}
+
+#bottom-cap {
+    width:1100px;
+    height:43px;
+    position:relative;
+    #footer-left, #footer-right {
+        width:42px;
+        height:43px;
+        top:0px;
+        position:absolute;
+    }
+    #footer-right {
+        right:30px;
+        background:no-repeat url('../img/footer-bg-right.png');
+    }
+    #footer-left {
+        left:30px;
+        background:no-repeat url('../img/footer-bg-left.png');
+
+    }
+    #footer-middle {
+        width:957px;
+        height:43px;
+        position:absolute;
+        left:72px;
+        background:repeat-x url('../img/footer-main-bg.png');
+    }
+}
+
+

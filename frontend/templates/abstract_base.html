@@ -26,7 +26,7 @@
                         {% grab_latest_logs get 1 as latest_log %}
                         {% for log in latest_log %}
                         <div id="whats-playing">
-                            <h2 class="header">just played:</h2>
+                            <h2 class="header">now playing:</h2>
                             <img src="{% gravatar_for_email log.dj.user.email %}" height="60" width="60" />
                             <ul>
                                 <li>{{ log.artist }}</li>
@@ -64,10 +64,31 @@
             </div>
             {% block footer %}
             <div id="footer">
-
+                <ul>
+                    <li>
+                        &copy; 2009 WLUW 80.7 &ndash; Loyola College Radio
+                    </li>
+                    <li>
+                        <a href="http://luc.edu" rel="nofollow" title="Loyola University Chicago">Loyola University Chicago</a>
+                    </li>
+                    <li>
+                        <a href="/about/" title="About Us">About</a>
+                    </li>
+                    <li>
+                        <a href="/about/" title="Be a DJ">DJ Applications</a>
+                    </li>
+                </ul>
             </div>
             {% endblock %}
         </div>
+            <div id="bottom-cap">
+                <div id="footer-left">
+                </div>
+                <div id="footer-middle">
+                </div>
+                <div id="footer-right">
+                </div>
+            </div>
     </body>
     {% endblock %}
 </html>
