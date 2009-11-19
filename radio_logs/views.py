@@ -23,7 +23,6 @@ def time_view(request, year=None, month=None, day=None, hour=None):
 
     if next_time > now:
         next_time = None
-
     time_range_start = datetime.datetime(when.year, when.month, when.day, 0, 0)
     time_range = []
     special_names = {
@@ -38,7 +37,7 @@ def time_view(request, year=None, month=None, day=None, hour=None):
     }
     for i in range(0, 24, 3):
         offset = time_range_start + datetime.timedelta(seconds=i*60*60)
-        if offset <= now:
+        if offset <= when:
             name = special_names[i]
             time_range.append({
                 'name':name,

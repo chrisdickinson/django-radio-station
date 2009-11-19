@@ -2,6 +2,12 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from radio_station.models import Spot
 from radio_events.models import Event
+from django.template import loader, RequestContext
+from django import http
+
+def server_error(request, template_name='500.html'):
+    t = loader.get_template(template_name) # You need to create a 500.html template.
+    return http.HttpResponseServerError(t.render(RequestContext(request, {})))
 
 def home(request):
     import datetime

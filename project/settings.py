@@ -40,6 +40,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
 ROOT_URLCONF = 'project.urls'
@@ -50,6 +51,8 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
     'human_date',
     'frontend',
     'radio_events',
@@ -70,3 +73,4 @@ TEMPLATE_DIRS = (
 )
 
 AUTH_PROFILE_MODULE = 'radio_station.DJ'
+SITE_ID = 1

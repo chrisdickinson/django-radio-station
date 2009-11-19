@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block body_id %}404 error{% endblock %}
+
+{% block content_header %}
+    <h2 class="header">aw dang, I can&rsquo;t find that!</h2>
+{% endblock %}
+
+
+{% block page_menu %}
+    <ul id="page-menu">
+
+    </ul>
+{% endblock %}
+
+{% block content_main %}
+    <div id="content-main-object-list-container">
+        <ul class="object-list">
+            <li class="object-list-item show">
+                <div><strong>It looks like that thing you&rsquo;re looking for isn&rsquo;t here anymore.</strong></div>
+            </li>
+            <li class="object-list-item show">
+                <div>Don&rsquo;t worry, it&rsquo;s not your fault.</div>
+            </li>
+            <li class="object-list-item show">
+                <div>Why not send us an <a href="mailto:admin@wluw.org">email</a> about it? <small>It might make you feel better.</small></div>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block content_sub %}
+{% endblock %}

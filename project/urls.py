@@ -1,10 +1,10 @@
 
-from django.conf.urls.defaults import patterns, include, handler500
+from django.conf.urls.defaults import patterns, include, handler500, handler404
 from django.conf import settings
 from django.contrib import admin
 import d51_django_admin_piston
 
-handler500 # Pyflakes
+handler500 = 'frontend.views.server_error'
 
 admin.autodiscover()
 d51_django_admin_piston.autodiscover(admin.site)

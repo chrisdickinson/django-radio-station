@@ -6,7 +6,6 @@
 {% endblock %}
 {% block radio_station_content_sub %}
     {% load gravatar %}
-    <div id="content-sub">
         <h2 class="header">{{ dj.display_name }}</h2>
         
         <div>
@@ -19,7 +18,6 @@
                 <dd>{{ artist.playcount }}</dd>
             {% endfor %}
         </dl>
-    </div>
 {% endblock %}
 {% block radio_station_content_main %}
     <div id="content-main-object-list-container"> 

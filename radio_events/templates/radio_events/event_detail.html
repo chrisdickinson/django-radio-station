@@ -1,37 +1,39 @@
 {% extends "radio_events/base.html" %}
 {% block body_id %}{{ block.super }}-detail{% endblock %}
-{% block header %}
-    {{ event.name }}
+{% block content_header %}
+    <h2 class="header">{{ event.name }}</h2>
 {% endblock %}
 
 {% block radio_events_content_main %}
-    <div class="object-description">
-        {{ event.description }}
-    </div>
-    <div class="object-detail-list">
-        {% if object.location %}
-        <div class="object-detail">
-            <span class="object-detail-label">Location</span>{{ event.location.name }}
-        </div>
+<div id="content-main-object-list-container">
+    <ul class="object-list">
+        {% if event.location %}
+        <li class="object-list-item">
+            <div><span class="object-list-item-label">Location</span> {{ event.location.name }}</div>
+        </li>
         {% endif %}
-        <div class="object-detail">
-            <span class="object-detail-label">Starts at</span>{{ event.time_start|time:"g:ia" }}
-        </div>
-        <div class="object-detail">
-            <span class="object-detail-label">Ends at</span>{{ event.time_end|time:"g:ia" }}
-        </div>
-        {% if object.cost %}
-        <div class="object-detail">
-            <span class="object-detail-label">Cost</span>{{ event.cost }}
-        </div>
+        <li class="object-list-item">
+            <div><span class="object-list-item-label">Starts at</span> {{ event.time_start|time:"g:ia" }}</div>
+        </li>
+        <li class="object-list-item">
+            <div><span class="object-list-item-label">Ends at</span> {{ event.time_end|time:"g:ia" }}</div>
+        </li>
+        {% if event.cost %}
+        <li class="object-list-item">
+            <div><span class="object-detail-label">Cost</span> {{ event.cost }}</div>
+        </li>
         {% endif %} 
-    </div>
+    </ul>
+</div>
 {% endblock %}
 
 {% block radio_events_content_sub %}
     {% load radio_events_calendar %}
+    <div class="object-description">
+        {{ event.description }}
+    </div>
     <div id="calendar">
         <h1 class="header">Calendar : {{ event.date|date:"F"}}</h1>
-        {% calendar_block object.date %}
+        {% calendar_block event.date %}
     </div>
 {% endblock %}

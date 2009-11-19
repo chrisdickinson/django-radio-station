@@ -2,20 +2,31 @@
 {% block body_id %}-show{% endblock %}
 
 {% block radio_station_content_header %}
-<h1>{{ show.name }}</h1>
+<div id="banner">
+    <img alt="{{ show.name }}" src="{{ MEDIA_URL }}{{ show.image }}" />
+</div>
 {% endblock %}
+
 {% block radio_station_content_main %}
+    <div id="content-main-object-list-container">
+    {% for spot in spots %}
+        <ul class="object-list">
+            <li class="object-list-item">
+                <h3><a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
+                <div>
+                    <a href="{% url schedule-with-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
+                </div>
+            </li>
+        </ul>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block radio_station_content_sub %}
+<h2 class="header">{{ show.name }}</h2>
 <div class="{% if show.special_program %}special{% endif %}">
     {{ show.description }}
 </div>
-{% endblock %}
-{% block radio_station_content_sub %}
-    {% for spot in spots %}
-        <div class="object-meta-object">
-            <h3><a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
-            on <a href="{% url schedule-with-weekday spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
-        </div>
-    {% endfor %}
     <dl>
         {% for artist in favorite_artists %}
             <dt>{{ artist.name }}</dt>
