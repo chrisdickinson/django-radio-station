@@ -35,9 +35,11 @@ def time_view(request, year=None, month=None, day=None, hour=None):
         18:'Evening',
         21:'9p.m.',
     }
+
+    looking_previous = not (when.date() == now.date())
     for i in range(0, 24, 3):
         offset = time_range_start + datetime.timedelta(seconds=i*60*60)
-        if offset <= when:
+        if offset <= now or looking_previous:
             name = special_names[i]
             time_range.append({
                 'name':name,
