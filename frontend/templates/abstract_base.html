@@ -38,20 +38,23 @@
                         {% endfor %}
                         {% block menu %}
                         <ul id="menu">
+                            <li class="red">
+                                <span class="arrow-right"><a href="http://wluw.blogspot.com/" target="_blank">Blog</a><span class="arrow-right-end"> </span></span>
+                            </li>
                             <li class="black {% block schedule-active %}{% endblock %}">
                                 <span class="arrow-right"><a href="{% url schedule-weekday %}">Shows</a><span class="arrow-right-end"> </span></span>
                             </li>
                             <li class="red {% block events-list %}{% endblock %}">
                                 <span class="arrow-right"><a href="{% url events-list %}">Events</a><span class="arrow-right-end"> </span></span>
-
                             </li>
                             <li class="black {% block music-active %}{% endblock %}">
                                 <span class="arrow-right"><a href="{% url logs-time-now %}">Music</a><span class="arrow-right-end"> </span></span>
-
                             </li>
                             <li class="red {% block about-active %}{% endblock %}">
                                 <span class="arrow-right"><a href="/about/">About</a><span class="arrow-right-end"> </span></span>
-
+                            </li>
+                            <li class="black">
+                                <span class="arrow-right"><a href="http://amber.streamguys.com:4100/stream.mp3.m3u">Listen</a><span class="arrow-right-end"> </span></span>
                             </li>
                         </ul>
                         {% endblock %}
@@ -66,7 +69,7 @@
             <div id="footer">
                 <ul>
                     <li>
-                        &copy; 2009 WLUW 80.7 &ndash; Loyola College Radio
+                        &copy; 2009 WLUW-FM 80.7 &ndash; Chicago Sound Alliance
                     </li>
                     <li>
                         <a href="http://luc.edu" rel="nofollow" title="Loyola University Chicago">Loyola University Chicago</a>
@@ -75,7 +78,7 @@
                         <a href="/about/" title="About Us">About</a>
                     </li>
                     <li>
-                        <a href="/about/" title="Be a DJ">DJ Applications</a>
+                        <a href="/about/" title="Volunteer at WLUW (LUC students)">Volunteer at WLUW (LUC students)</a>
                     </li>
                 </ul>
             </div>
