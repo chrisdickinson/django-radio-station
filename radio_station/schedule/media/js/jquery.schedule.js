@@ -472,8 +472,19 @@ Array.prototype.has = function (obj) {
                 var display_title = options.display(obj_data);
                 var pk = options.primary_key(obj_data);
                 var $dom = $('<li>'+display_title+'</li>');
+
+                var clone_fn = function(event) {
+                    var clone = $(this).clone();
+                    clone.data('pk', $(this).data('pk'));
+                    clone.data('pk', $(this).data('pk'));
+                    clone.addClass('cloned-li');
+                    return clone;
+                };
+
                 $dom.addClass(options['class']).draggable({
                     'revert':true,
+                    'appendTo':'body',
+                    'helper':clone_fn,
                 });
                 $dom.data('pk', obj_data['id']);
                 $dom.attr('id', options['class']+'-'+obj_data['id']);
@@ -483,7 +494,7 @@ Array.prototype.has = function (obj) {
                 options['on_finish']();
             }
         };
-        $.getJSON(options['url'], {}, obj_callback);
+        $.getJSON(options['url'], {'page_by':30000}, obj_callback);
         if(options['search']) {
             var search = $(options['search']);
             var on_keypress = function (event) {
