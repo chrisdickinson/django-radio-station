@@ -30,7 +30,7 @@
 {% block radio_events_content_sub %}
     {% load radio_events_calendar %}
     <div class="object-description">
-        {{ event.description }}
+        {{ event.content }}
     </div>
     <div id="calendar">
         <h1 class="header">Calendar : {{ event.date|date:"F"}}</h1>
