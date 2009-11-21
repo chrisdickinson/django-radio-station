@@ -1,6 +1,6 @@
 <ul id="page-menu">
     {% for day in week %}
-        <li {% ifequal now day %}class="active"{% endifequal %}>
+        <li {% ifequal weekday.weekday day.weekday %}class="active"{% endifequal %}>
             <a href="{% url schedule-with-weekday schedule.pk day.weekday %}" title="{{ day|date:"l" }}">
                 {% ifequal now day %}
                     today

@@ -39,8 +39,6 @@ def schedule_weekday(request, day_of_week, schedule_pk=None):
     start_of_week = when - datetime.timedelta(days=when.weekday()) 
     when = start_of_week + datetime.timedelta(days=weekday)
 
-    week = [start_of_week + datetime.timedelta(days=i) for i in range(0,7)]
-
     spots = Spot.objects.filter(schedule=schedule, day_of_week=weekday).order_by('day_of_week', 'offset', 'repeat_every')
     return {
         'weekday':when,
