@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block body_id %}about{% endblock %}
+
+{% block content_header %}
+        <h2 class="header">{{ flatpage.title }}</h2>
+{% endblock %}
+{% block content_sub %}
+        <div class="object-description">
+            {{ flatpage.content }}        
+        </div>
+{% endblock %}
+{% block content_main %}
+    <div id="content-main-object-list-container"> 
+        <h2 id="staff" class="header"><a name="contact">We are:</a></h2>
+        <ul class="object-list">
+            <li class="object-list-item">
+                Program Director<br />
+                Kathryn McPherson<br />
+                wluwprogramming@luc.edu<br />
+                312.915.8809<br />
+            </li>
+            <li class="object-list-item">
+                Music Director<br />
+                Allan Benedict<br />
+                wluwmusic@luc.edu<br />
+                312.915.8808<br />
+            </li>
+            <li class="object-list-item">
+                Promotions Director<br />
+                Julie Renteria<br />
+                wluwpromotions@luc.edu<br />
+                312.915.8807<br />
+            </li>
+            <li class="object-list-item">
+                Production Director<br />
+                Annette Bellezzo<br />
+                wluwproduction@luc.edu<br />
+                312.915.8809<br />
+            </li>
+            <li class="object-list-item">
+                News Director<br />
+                Garrison Carr<br />
+                wluwnews@luc.edu<br />
+                312.915.8807<br />
+            </li>
+            <li class="object-list-item">
+                Sports Director<br />
+                Kelsey Ping<br />
+                wluwsports@luc.edu<br />
+                312.915.8809<br />
+            </li>
+            <li class="object-list-item">
+                Development Director<br />
+                Amanda Gain<br />
+                wluwdevelopment@luc.edu<br />
+                312.915.8807<br />
+            </li>
+            <li class="object-list-item">
+                General Manager<br />
+                Danielle Basci<br />
+                wluw-fm@luc.edu<br />
+                312.915.8806<br />
+            </li>
+        </ul>
+        <h2 id="applications" class="header">Applications:</a></h2>
+        <ul class="object-list">
+            <li class="object-list-item">
+                Applications for WLUW-FM can be found <a href="#">here</a>.
+            </li>
+        </ul>
+    </div>
+{% endblock %}
