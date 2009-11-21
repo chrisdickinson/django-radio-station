@@ -15,7 +15,7 @@ def get_date(context, date, direction, num, target):
     return u''
 
 def get_date_range(context, from_date, until_date, target):
-    delta = from_date - until_date
+    delta = until_date - from_date
     direction = 1
     if delta.days < 0:
         direction = -1
