@@ -24,13 +24,17 @@
 
 {% block radio_station_content_sub %}
 <h2 class="header">{{ show.name }}</h2>
-<div class="{% if show.special_program %}special{% endif %}">
+<div class="{% if show.special_program %}special{% endif %} object-description">
     {{ show.description }}
 </div>
-    <dl>
-        {% for artist in favorite_artists %}
-            <dt>{{ artist.name }}</dt>
-            <dd>{{ artist.playcount }}</dd>
-        {% endfor %}
-    </dl>
+
+{% if favorite_artists %}
+<h2 class="header">Top Played Artists</h2>
+<dl class="object-list-sub">
+    {% for artist in favorite_artists %}
+        <dt>{{ artist.name }}</dt>
+        <dd>{{ artist.playcount }}</dd>
+    {% endfor %}
+</dl>
+{% endif %}
 {% endblock %}

@@ -8,16 +8,19 @@
     {% load gravatar %}
         <h2 class="header">{{ dj.display_name }}</h2>
         
-        <div>
+        <div class="object-description">
             <img src="{% gravatar_for_email dj.user.email %}" alt="{{ dj.display_name }}" />
         {{ dj.description }}
         </div>
+        {% if favorite_artists %}
+        <h2 class="header">Top Played Artists</h2>
         <dl class="object-list-sub">
             {% for artist in favorite_artists %}
                 <dt>{{ artist.name }}</dt>
                 <dd>{{ artist.playcount }}</dd>
             {% endfor %}
         </dl>
+        {% endif %}
 {% endblock %}
 {% block radio_station_content_main %}
     <div id="content-main-object-list-container"> 
