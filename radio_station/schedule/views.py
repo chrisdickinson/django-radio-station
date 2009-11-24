@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django import forms
 from django.utils.safestring import mark_safe
-
+from django.core.exceptions import PermissionDenied
 from radio_station.models import Schedule, Spot, Show, DJ
 from generators import spot_dict_from_object, spot_generate_dicts, spot_object_from_dict, spot_dicts_from_schedule
 from controller import ScheduleController
@@ -32,12 +32,16 @@ class CopyScheduleForm(forms.Form):
     schedule = forms.ChoiceField(choices=queryset_iterable(Schedule.objects.all, True))
 
 def edit_existing_schedule(request, schedule_pk):
+    if not request.user.has_perm(Schedule._meta.get_change_permission()):
+        raise PermissionDenied
     schedule = get_object_or_404(Schedule, pk=schedule_pk)
     spot_dicts = spot_dicts_from_schedule(schedule)
     request.session['spots'] = spot_dicts
     return HttpResponseRedirect(reverse('admin:edit_schedule', kwargs={'schedule_pk':schedule_pk}))
 
 def generate_schedule(request, schedule_pk):
+    if not request.user.has_perm(Schedule._meta.get_change_permission()):
+        raise PermissionDenied
     response = None
     generate_form = GenerateScheduleForm() 
     copy_form = CopyScheduleForm()
@@ -96,6 +100,8 @@ def get_spots_from_post(post):
 
 
 def edit_schedule(request, schedule_pk):
+    if not request.user.has_perm(Schedule._meta.get_change_permission()):
+        raise PermissionDenied
     schedule = get_object_or_404(Schedule, pk=schedule_pk)
     spots = request.session.get('spots', None)
     if spots is None:

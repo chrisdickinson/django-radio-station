@@ -39,7 +39,7 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 class SpotAdmin(admin.ModelAdmin):
     list_filter = ('repeat_every', 'day_of_week')
-    list_display = ('__unicode__', 'dj', 'show')
+    list_display = ('__unicode__', 'dj', 'show', 'schedule')
 
 
 class DJAdmin(admin.ModelAdmin):
