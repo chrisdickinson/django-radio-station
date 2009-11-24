@@ -329,12 +329,12 @@ Array.prototype.has = function (obj) {
             self.dom.addClass('dj-dropzone');
             self.dom.droppable({
                 'accept':'li',
-                'drop':function (event) {
-                    classes = $(event.originalTarget).attr('class').split(' ');
+                'drop':function (event, ui) {
+                    classes = $(ui.draggable).attr('class').split(' ');
                     if(classes.has(dj_class)) {
-                        self.attempt_dj(event.originalTarget);
+                        self.attempt_dj(ui.draggable);
                     } else if(classes.has(show_class)) {
-                        self.attempt_show(event.originalTarget);
+                        self.attempt_show(ui.draggable);
                     }
                     $('.hovered').removeClass('hovered');
                 },
@@ -410,13 +410,13 @@ Array.prototype.has = function (obj) {
             var apply_to_all = $(options['apply_to_all_id']);
             apply_to_all.droppable({
                 'accept':'li',
-                'drop':function (event) {
-                    classes = $(event.originalTarget).attr('class').split(' ');
+                'drop':function (event, ui) {
+                    classes = $(ui.draggable).attr('class').split(' ');
                     var fn = null;
                     if(classes.has(dj_class)) {
-                        apply_to_active_spots('attempt_dj', event.originalTarget);
+                        apply_to_active_spots('attempt_dj', ui.draggable);
                     } else if(classes.has(show_class)) {
-                        apply_to_active_spots('attempt_show', event.originalTarget);
+                        apply_to_active_spots('attempt_show', ui.draggable);
                     }
                     $('.hovered').removeClass('hovered');
                 },
