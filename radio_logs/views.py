@@ -11,7 +11,13 @@ import math
 def time_view(request, year=None, month=None, day=None, hour=None):
     when = None
     now = datetime.datetime.now()
-    now = datetime.datetime(now.year, now.month, now.day, int(3 * math.ceil(now.hour/3.0)), 0)
+
+    hour = int(3 * math.ceil(now.hour/3.0))
+    minute = 0
+    if hour > 23:
+        hour, minute = 23, 59
+
+    now = datetime.datetime(now.year, now.month, now.day, hour, minute)
     if None in (year, month, day, hour):
         when = datetime.datetime(now.year, now.month, now.day, now.hour, 0)
     else:
