@@ -1,25 +1,25 @@
 {% extends "radio_logs/base.html" %}
 
 {% block radio_logs_content_header %}
-<h1>Logs from {{ time|date:"g:ia l" }} the {{ time|date:"jS" }}</h1> 
+<h1>Logs from {{ when|date:"g:ia l" }} the {{ when|date:"jS" }}</h1> 
 {% endblock %}
 
 {% block radio_logs_page_menu %}
     <ul id="page-menu">
         {% for nav_time in date_range %}
-            {% ifequal nav_time.date time.date %}
+            {% ifequal nav_time.date when.date %}
                 <li class="active">
                     <h2>
-                        {% ifequal time.date today.date %}
+                        {% ifequal when.date now.date %}
                             Today
                         {% else %}
-                            {{ time|date:"l" }}
+                            {{ when|date:"l" }}
                         {% endifequal %}
                     </h2>
                     <ul>
-                        {% for time_val in time_range %}
+                        {% for name, time in time_range %}
                             <li>
-                                <a href="{% url logs-time time_val.time.year time_val.time.month time_val.time.day time_val.time.hour %}" title="{{ time_val.name }}">{{ time_val.name }}</a>
+                                <a href="{% url logs-time time.year time.month time.day time.hour %}" title="{{ name }}">{{ name }}</a>
                             </li>
                         {% endfor %} 
                     </ul>
@@ -67,7 +67,7 @@
                         {{ log.track.name }}
                     </td>
                     <td>
-                        <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }}</abbr>
+                        <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }} ago</abbr>
                     </td>
                     <td>
                         {{ log.dj.user }}

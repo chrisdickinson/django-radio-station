@@ -5,70 +5,94 @@ from django.db.models import Count
 from django.http import Http404
 from radio_library.models import Artist, Album 
 from models import Entry 
+from composition import *
 import datetime
+import itertools
 import math
 
-def time_view(request, year=None, month=None, day=None, hour=None):
-    when = None
-    now = datetime.datetime.now()
-
-    hour = int(3 * math.ceil(now.hour/3.0))
-    minute = 0
+def time_to_ceiling(dtime, ceil):
+    hour, minute = int(ceil) * int(math.ceil((dtime.hour+1)/float(ceil))), 0
     if hour > 23:
-        hour, minute = 23, 59
+        hour,minute = 23, 59 
+    return datetime.datetime(*(dtime.year,
+                                dtime.month,
+                                dtime.day,
+                                hour,
+                                minute))
 
-    now = datetime.datetime(now.year, now.month, now.day, hour, minute)
-    if None in (year, month, day, hour):
-        when = datetime.datetime(now.year, now.month, now.day, now.hour, 0)
-    else:
-        when = datetime.datetime(*[int(i) for i in year, month, day, hour, 0])
+def kwargs_to_time(*args):
+    if None in args:
+        return datetime.datetime.now()
+    return datetime.datetime(*[int(arg) for arg in args])
+
+def generate_nav_time(dtime, step, cap):
+    off = datetime.datetime(dtime.year, dtime.month, dtime.day, 0, 0)
+    while off < cap:
+        yield off
+        off += step
+
+SPECIAL_NAMES = ( 
+    'Midnight',
+    '3a.m.',
+    'Morning',
+    '9a.m.',
+    'Noon',
+    '3p.m.',
+    'Evening',
+    '9p.m.',
+    'Midnight',
+)
+
+def generate_date_radius(when, radius, cap, time=None):
+    if time is None:
+        time = (0, 0)
+    td = datetime.timedelta
+    days_until_cap = (cap.date() - when.date()).days
+    if days_until_cap > radius:
+        days_until_cap = radius
+    to_flat_date = lambda x: datetime.datetime(x.year, x.month, x.day, *time)
+    end_date = to_flat_date(when) + td(days=days_until_cap)
+
+    day = radius*2
+    while day > -1:
+        yield end_date-td(days=day)
+        day -= 1 
+
+def date_radius(when, radius, cap, time=None):
+    return [i for i in generate_date_radius(when, radius, cap, time)]
+
+def time_context(request, year=None, month=None, day=None, hour=None, min=0):
+    now = datetime.datetime.now()
+    now_ceil = time_to_ceiling(now, 3.0)
     three_hours = datetime.timedelta(seconds=60*60*3)
-    prev_time = when - three_hours 
-    next_time = when + three_hours
-    logs = Entry.objects.filter(submitted__lte=when, submitted__gt=prev_time).order_by('-submitted')
 
-    if next_time > now:
-        next_time = None
-    time_range_start = datetime.datetime(when.year, when.month, when.day, 0, 0)
-    time_range = []
-    special_names = {
-        0:'Midnight',
-        3:'3a.m.',
-        6:'Morning',
-        9:'9a.m.',
-        12:'Noon',
-        15:'3p.m.',
-        18:'Evening',
-        21:'9p.m.',
-    }
+    when = kwargs_to_time(year, month, day, hour, min)
+    when_ceil = time_to_ceiling(when, 3.0) 
 
-    looking_previous = not (when.date() == now.date())
-    for i in range(0, 24, 3):
-        offset = time_range_start + datetime.timedelta(seconds=i*60*60)
-        if offset <= now or looking_previous:
-            name = special_names[i]
-            time_range.append({
-                'name':name,
-                'time':offset,
-            })
+    if when_ceil > now_ceil:
+        raise Http404()
 
-    date_range = []
-    start_date_range = 3 
-    for i in range(-start_date_range, start_date_range):
-        offset = when + datetime.timedelta(days=i)
-        if offset.date() <= now.date():
-            date_range.append(datetime.datetime(offset.year, offset.month, offset.day, offset.hour, 0))
+    prev_time, next_time = when_ceil - three_hours - three_hours, when_ceil + three_hours
+    cap = datetime.datetime(when.year, when.month, when.day, 23, 59)
+    if now.date() == when.date():
+        cap = datetime.datetime(cap.year, cap.month, cap.day, now_ceil.hour, now_ceil.minute)
 
+    nav_time_range = generate_nav_time(when, three_hours, cap)
+    nav_time_range = itertools.izip(SPECIAL_NAMES, nav_time_range)
+    nav_date_range = generate_date_radius(when, 3, now)
+
+    logs = Entry.objects.filter(submitted__lte=when_ceil, submitted__gt=prev_time).order_by('-submitted')
     ctxt = {
         'logs':logs,
-        'time':when,
-        'time_range':time_range,
-        'date_range':date_range,
-        'today':now,
-        'next_time':next_time,
+        'when':when,
+        'now':now,
+        'time_range':nav_time_range,
+        'date_range':nav_date_range,
         'prev_time':prev_time,
+        'next_time':next_time,
     }
-    return render_to_response('radio_logs/logs_time.html', ctxt, context_instance=RequestContext(request))
+    return ctxt
+time_view = view_to_template('radio_logs/logs_time.html')(time_context)
 
 def chart_view(request, year=None, month=None, week=None, what=None, rotation=False):
     if what is None:
