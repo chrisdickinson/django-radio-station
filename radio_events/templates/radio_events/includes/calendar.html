@@ -1,6 +1,6 @@
 {% for week in calendar %} 
     <div class="calendar-week">
-    {% for day in week %}
+    {% for day, has_event in week %}
         <a class="calendar-date 
                   {% ifequal day 0 %}
                     inactive
@@ -9,7 +9,7 @@
                         active
                     {% endifequal %}
                   {% endifequal %}
-                  {% if day.has_event %}
+                  {% if has_event %}
                         has-event
                   {% endif %}"
          href="{% ifequal day 0 %}#{% else %}{% url events-for-day today.year today.month day %}{% endifequal %}">{% ifnotequal day 0 %}{{ day }}{% endifnotequal %}</a>

@@ -3,6 +3,7 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.db.models import Count
 from django.http import Http404
+from radio_events.utils import get_when_or_now
 from radio_library.models import Artist, Album 
 from models import Entry 
 from composition import *
@@ -20,10 +21,6 @@ def time_to_ceiling(dtime, ceil):
                                 hour,
                                 minute))
 
-def kwargs_to_time(*args):
-    if None in args:
-        return datetime.datetime.now()
-    return datetime.datetime(*[int(arg) for arg in args])
 
 def generate_nav_time(dtime, step, cap):
     off = datetime.datetime(dtime.year, dtime.month, dtime.day, 0, 0)
@@ -66,7 +63,7 @@ def time_context(request, year=None, month=None, day=None, hour=None, min=0):
     now_ceil = time_to_ceiling(now, 3.0)
     three_hours = datetime.timedelta(seconds=60*60*3)
 
-    when = kwargs_to_time(year, month, day, hour, min)
+    when = get_when_or_now(year, month, day, hour, min)
     when_ceil = time_to_ceiling(when, 3.0) 
 
     if when_ceil > now_ceil:
