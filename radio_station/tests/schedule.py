@@ -1,7 +1,6 @@
 from django.test import TestCase
-from schedule.generators import spot_generate_dicts, spot_generate_objects
-from schedule.exceptions import BadSpotIncrement, BadSpotOffset
-from schedule.controller import ScheduleController
+from radio_station.schedule.generators import spot_generate_dicts, spot_generate_objects
+from radio_station.schedule.exceptions import BadSpotIncrement, BadSpotOffset
 
 class GeneratorTests(TestCase):
     def test_spot_generate_dicts(self):

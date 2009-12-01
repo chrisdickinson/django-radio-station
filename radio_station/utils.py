@@ -1,10 +1,6 @@
 import datetime
 import itertools
 
-def get_offset_in_seconds(time):
-    start_of_day = datetime.datetime(time.year, time.month, time.day)
-    return (time - start_of_day).seconds
-
 def get_nth_day_of_month(time):
     return time.day / 7 + 1
 
@@ -16,34 +12,34 @@ class ChainedQuerySet(object):
         if not isinstance(k, (slice, int, long)):
             raise TypeError
         if isinstance(k, slice):
-            offset_front = 0
-            offset_end = 0
-            if k.start is not None:
-                offset_front = int(k.start)
-            if k.stop is not None:
-                offset_end = int(k.stop)
-
-            current_off = offset_front
-            current_left = offset_end
             qs_out = []
-            for queryset in self.querysets:
-                qs_len = len(queryset)
-                if current_off < qs_len:
-                    num = current_left - qs_len
-                    if num >= 0:
-                        qs_out.append(queryset[current_off:])
-                        current_left -= num
-                        current_off = 0
-                    else:
-                        qs_out.append(queryset[current_off:current_left])
-                        break
-            iterchain = itertools.chain(qs_out)
-            output = []
-            for qs in iterchain:
-                for item in qs:
-                    output.append(item)
-            return output
+            if k.stop is not None and k.stop < 0:
+                raise IndexError()
+
+            if k.step is None:
+                k = slice(k.start, k.stop, 1)
+            if k.start is None:
+                k = slice(0, k.stop, k.step)
+
+            def inner(k):
+                for queryset in self.querysets:
+                    result = queryset[k.start:k.stop:k.step]
+                    for item in result:
+                        yield item
+                    if k.stop is not None:
+                        len_result = len(result)
+                        expected_len = (k.stop - k.start) / k.step
+                        if expected_len > len_result:
+                            left = (expected_len - len_result) * k.step
+                            k = slice(0, left, k.step)
+                        else:
+                            raise StopIteration()
+            output = inner(k)
+            return [item for item in output] 
         else:
+            if k < 0:
+                raise IndexError()
+
             for queryset in self.querysets:
                 qs_len = len(queryset)
                 if k < qs_len:
@@ -72,3 +68,7 @@ def get_day_of_week(day, dtime=None):
 
 def strip_hour_and_minute(dtime):
     return datetime.datetime(*[i for i in itertools.chain(dtime.timetuple()[:3], (0, 0))])
+
+def get_offset_in_seconds(dtime):
+    start_of_day = strip_hour_and_minute(dtime)
+    return (datetime.datetime(*dtime.timetuple()[:6]) - start_of_day).seconds
