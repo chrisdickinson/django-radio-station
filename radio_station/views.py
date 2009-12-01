@@ -3,19 +3,10 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext 
 from django.db.models import Count
 from radio_library.models import Artist
+from utils import get_start_of_week, get_week_range, get_day_of_week
 from models import Spot, Schedule, Show, DJ
+from composition import *
 import datetime
-def create_r2r(func):
-    def wrapped(request, *args, **kwargs):
-        when = datetime.datetime.now()
-        start_of_week = when - datetime.timedelta(days=when.weekday()) 
-        context = func(request, *args, **kwargs)
-        context.update({
-            'week':[(start_of_week + datetime.timedelta(days=i)).date() for i in range(0, 7)],
-            'now':when.date()
-        })
-        return render_to_response('radio_station/%s.html'%func.func_name, context, context_instance=RequestContext(request))
-    return wrapped
 
 def get_schedule_or_404(pk):
     try:
@@ -26,7 +17,14 @@ def get_schedule_or_404(pk):
     except Schedule.DoesNotExist:
         raise Http404()
 
-def schedule_weekday(request, day_of_week, schedule_pk=None):
+def week_range_context(request, *args, **kwargs):
+    now = datetime.datetime.now()
+    return {
+        'week':get_week_range(now),
+        'now':now.date()
+    }
+
+def schedule_weekday_context(request, day_of_week, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
     try:
         weekday = int(day_of_week)
@@ -34,19 +32,15 @@ def schedule_weekday(request, day_of_week, schedule_pk=None):
         weekday = datetime.datetime.now().weekday()
     except ValueError:
         weekday = 'MTWRFSU'.index(str(day_of_week))
-    when = datetime.datetime.now()
-    when = datetime.datetime(when.year, when.month, when.day, 0, 0)
-    start_of_week = when - datetime.timedelta(days=when.weekday()) 
-    when = start_of_week + datetime.timedelta(days=weekday)
-
-    spots = Spot.objects.filter(schedule=schedule, day_of_week=weekday).order_by('day_of_week', 'offset', 'repeat_every')
+    weekday = get_day_of_week(weekday)
+    spots = Spot.objects.filter(schedule=schedule, day_of_week=weekday.weekday()).order_by('day_of_week', 'offset', 'repeat_every')
     return {
-        'weekday':when,
+        'weekday':weekday,
         'schedule':schedule,
         'spots':spots,
     }
 
-def show_detail(request, show_slug, schedule_pk=None):
+def show_detail_context(request, show_slug, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
     show = get_object_or_404(Show, slug=show_slug)
     favorite_artists = Artist.objects.filter(entry__show=show).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
@@ -58,7 +52,7 @@ def show_detail(request, show_slug, schedule_pk=None):
         'spots':spots,
     }
 
-def dj_detail(request, dj_slug, schedule_pk=None):
+def dj_detail_context(request, dj_slug, schedule_pk=None):
     schedule = get_schedule_or_404(schedule_pk)
     dj = get_object_or_404(DJ, slug=dj_slug)
     favorite_artists = Artist.objects.filter(entry__dj=dj).annotate(playcount=Count('entry')).order_by('-playcount')[:5]
@@ -70,6 +64,21 @@ def dj_detail(request, dj_slug, schedule_pk=None):
         'spots':spots,
     }
 
-dj_detail = create_r2r(dj_detail)
-show_detail = create_r2r(show_detail)
-schedule_weekday = create_r2r(schedule_weekday) 
+schedule_weekday = view_to_template('radio_station/schedule_weekday.html')(
+    compose_response(
+        schedule_weekday_context,
+        week_range_context,
+    )
+)
+show_detail = view_to_template('radio_station/show_detail.html')(
+        compose_response(
+            show_detail_context,
+            week_range_context,
+        )
+)
+dj_detail = view_to_template('radio_station/dj_detail.html')(
+    compose_response(
+        dj_detail_context,
+        week_range_context,
+    )
+)

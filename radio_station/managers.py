@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models import Q
-from utils import get_offset_in_seconds, get_nth_day_of_month, subscriptable_iterchain
+from utils import *
 import datetime
 import itertools
 class SpotManager(models.Manager):
@@ -21,7 +21,7 @@ class SpotManager(models.Manager):
         }
         return self.filter(**kwargs).order_by('-offset')[0]
 
-    def filter_next_spots(self, when=None):
+    def filter_next_spots(self, when=None, reentrant=False):
         if when is None:
             when = datetime.datetime.now()
 
@@ -37,14 +37,13 @@ class SpotManager(models.Manager):
             'day_of_week__gt':when.weekday(),
         }
         our_spots = base_filter.filter(Q(**lhs_kwargs) | Q(**rhs_kwargs)).order_by('day_of_week', 'offset') 
-        if when.weekday() == 6:
-            # this is a HACK
-            tomorrow = when + datetime.timedelta(days=1)
-            new_when = datetime.datetime(year=tomorrow.year, month=tomorrow.month, day=tomorrow.day, hour=0, minute=0)
-            next_spots = self.filter_next_spots(new_when)
-            our_spots = subscriptable_iterchain(our_spots, next_spots)
-        return our_spots    
 
+        return_val = our_spots
+        if not reentrant:        
+            next_week = strip_hour_and_minute(datetime.timedelta(days=7-when.weekday()) + when)
+            next_spots = self.filter_next_spots(next_week, reentrant=True)
+            return_val = ChainedQuerySet(our_spots, next_spots)
+        return return_val 
 
     def filter_schedule_for_day(self, when=None):
         if when is None:

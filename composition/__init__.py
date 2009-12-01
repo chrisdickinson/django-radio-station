@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.template.loader import get_template
 
-def compose_response(**functions):
+def compose_response(*functions):
     def composed_view(request, *args, **kwargs):
         context_out = {}
         for func in functions:
