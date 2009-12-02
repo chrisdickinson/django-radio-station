@@ -5,6 +5,11 @@ from django.utils.safestring import mark_safe
 from managers import SpotManager, ScheduleManager
 import datetime
 
+OFFSET_CHOICES = [
+    (i, (datetime.datetime(*datetime.datetime.now().timetuple()[:3]) + datetime.timedelta(seconds=i)).strftime('%I:%M%p')) 
+    for i in range(0, 24*60*60, 30*60)
+]
+
 class Spot(models.Model):
     objects = SpotManager()
     DAY_CHOICES = (
@@ -28,7 +33,7 @@ class Spot(models.Model):
     )
     day_of_week = models.IntegerField(choices=DAY_CHOICES)
     repeat_every = models.IntegerField(choices=REPEAT_CHOICES)
-    offset = models.PositiveIntegerField()                  #offset from 12:00AM in seconds
+    offset = models.PositiveIntegerField(choices=OFFSET_CHOICES)                  #offset from 12:00AM in seconds
     dj = models.ForeignKey('DJ')
     show = models.ForeignKey('Show')
     schedule = models.ForeignKey('Schedule')

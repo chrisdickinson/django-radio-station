@@ -39,8 +39,8 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 class SpotAdmin(admin.ModelAdmin):
     list_filter = ('repeat_every', 'day_of_week')
-    list_display = ('__unicode__', 'dj', 'show', 'schedule')
-
+    list_display = ('__unicode__', 'dj', 'show', 'schedule', 'offset', 'repeat_every')
+    list_editable = ('offset', 'repeat_every')
 
 class DJAdmin(admin.ModelAdmin):
     verbose_name = "DJ Profiles"
