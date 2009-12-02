@@ -5,27 +5,17 @@
             {% block stage %}
                 {% block page_menu %}
                 <ul id="page-menu">
-                    <li>
-                        <a href="#">Saturday</a>
+                    {% if schedule %}
+                    {% for date in week %} 
+                    <li class="{% ifequal date now %}active{% endifequal %}">
+                        <a href="{% url schedule-with-weekday schedule.pk date.weekday %}">{% ifequal date now %}today{% else %}{{ date|date:"l" }}{% endifequal %}</a>
                     </li>
-                    <li>
-                        <a href="#">Sunday</a>
-                    </li>
-                    <li class="active">
-                        <a href="#">Today</a>
-                    </li>
-                    <li>
-                        <a href="#">Tuesday</a>
-                    </li>
-                    <li>
-                        <a href="#">Wednesday</a>
-                    </li>
-                    <li>
-                        <a href="#">Thursday</a>
-                    </li>
-                    <li>
-                        <a href="#">Friday</a>
-                    </li>
+                    {% endfor %}
+                    {% else %}
+                        <li class="active">
+                            <a href="{% url home %}" title="home">home</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 {% endblock %}
                 <div id="content">
