@@ -7,14 +7,20 @@ def compose_response(*functions):
     def composed_view(request, *args, **kwargs):
         context_out = {}
         for func in functions:
-            context_out.update(func(request, *args, **kwargs))
+            output = func(request, *args, **kwargs)
+            if isinstance(output, HttpResponse):
+                return output
+            context_out.update(output)
         return context_out
     return composed_view
 
 def view_to_template(template):
     def templated_view(func):
         def call(request, *args, **kwargs):
-            return render_to_response(template, func(request, *args, **kwargs), context_instance=RequestContext(request))
+            output = func(request, *args, **kwargs)
+            if isinstance(output, HttpResponse):
+                return output
+            return render_to_response(template, output, context_instance=RequestContext(request))
         return call
     return templated_view
 

@@ -20,6 +20,11 @@ Array.prototype.has = function (obj) {
         var deleted_existing_pks = [];        
         var SECONDS_IN_DAY = 60.0*60.0*24.0;
 
+        var multiplier = 1.0;
+        var mul_max = 6.0;
+        var mul_min = 0.5;
+
+
         var to_human_time = function(offset) {
             var hours = parseInt(offset / 3600);
             var minutes = parseInt((offset % 3600) / 60);
@@ -32,7 +37,7 @@ Array.prototype.has = function (obj) {
 
         function Graph () {
             var ratio_x = (obj.width()/7.0);
-            var ratio_y = (obj.height()/SECONDS_IN_DAY);
+            var ratio_y = ((obj.height())/SECONDS_IN_DAY);
             this.get_draggable_grid = function() {
                 var grid_snap_y = parseInt(3600*ratio_y);
                 return [0, grid_snap_y];
@@ -40,14 +45,22 @@ Array.prototype.has = function (obj) {
 
             this.css_to_offset = function ($obj) {
                 var from_top = parseInt($obj.css('top'));
-                var offset = from_top / ratio_y;
+                var offset = from_top / (ratio_y * multiplier);
                 return parseInt(offset);
             };
 
+            this.offset_to_px = function(offset) {
+                var from_top = offset * ratio_y;
+                return parseInt(from_top * multiplier);
+            };
+
+            this.day_of_week_to_px = function(day_of_week) {
+                var from_left = day_of_week * ratio_x;
+                return from_left;
+            };
+
             this.offset_to_css = function(spot) {
-                var from_top = spot.offset * ratio_y;
-                var from_left = spot.day_of_week * ratio_x;
-                return {'top':parseInt(from_top)+'px', 'left':parseInt(from_left)+'px'};
+                return {'top':this.offset_to_px(spot.offset)+'px', 'left':this.day_of_week_to_px(spot.day_of_week)+'px'};
             };
         };
         var graph = new Graph();
@@ -61,7 +74,6 @@ Array.prototype.has = function (obj) {
 
             this.container_chrome = {
                 'position':'relative',
-                'overflow':'hidden',
                 'border':'1px solid #333',
             };
 
@@ -96,17 +108,19 @@ Array.prototype.has = function (obj) {
 
             this.update_height = function(spot) {
                 next = spot.dom.next('.weekday-'+spot.day_of_week);
+                var height = '100%';
+                var our_top = spot.dom.css('top');
                 if(next.length > 0) {
-                    var our_top = spot.dom.css('top');
                     var their_top = next.css('top');
-                    var height = '100%';
                     if(their_top !== undefined) {
                         height = parseInt(their_top) - parseInt(our_top) - parseInt(next.css('paddingTop'));
+                    } else {
+                        height = (graph.offset_to_px(SECONDS_IN_DAY) - parseInt(our_top));
                     }
-                    spot.dom.css({'height':height+'px'});
                 } else {
-                    spot.dom.css({'height':'100%'});
+                    height = (graph.offset_to_px(SECONDS_IN_DAY) - parseInt(our_top));
                 }
+                spot.dom.css({'height':height+'px'});
             };
 
             this.initialize = function() {
@@ -389,21 +403,41 @@ Array.prototype.has = function (obj) {
             obj.append(spot.dom);
             spot_objects.push(spot);
         }
-        renderer.update_tops();
-        for(var i = 0; i < spot_objects.length; ++i) {
-            renderer.update(spot_objects[i]);
+
+        
+        var rerender = function () {
+            renderer.update_tops();
+            for(var i = 0; i < spot_objects.length; ++i) {
+                renderer.update(spot_objects[i]);
+            }
         }
+        rerender();
 
         var delegate_keypress = function (event) {
-            if(event.keyCode == 27) {
-                apply_to_active_spots('blur', event, function (s) { s.dom.removeClass('active'); }); 
-            }
-            apply_to_active_spots('keypress', event);
+            if(current_active_spot) {
+                if(event.keyCode == 27) {
+                    apply_to_active_spots('blur', event, function (s) { s.dom.removeClass('active'); }); 
+                    current_active_spot = null;
+                }
+                apply_to_active_spots('keypress', event);
+            } 
             if(event.keyCode == 8) {
                 if(!$(event.originalTarget).is(':input')) {
                     event.preventDefault();
                 }
-            } 
+            }
+            if(event.shiftKey) {
+                if(event.keyCode == 0) {
+                    multiplier -= 0.5;
+                } else if (event.keyCode == 107) {
+                    multiplier += 0.5;
+                }
+                if(multiplier > mul_max) multiplier = mul_max;
+                if(multiplier < mul_min) multiplier = mul_min;
+
+                rerender();
+            }
+            console.log(event.keyCode);
         };
 
         if(options['apply_to_all_id']) {
@@ -501,6 +535,7 @@ Array.prototype.has = function (obj) {
                 var our_text = search.val();
                 if(our_text.length > 0) {
                     obj.find('li:not(:contains('+our_text+'))').hide();
+                    obj.find('li:contains('+our_text+')').show();
                 } else {
                     obj.find('li').show();
                 }
