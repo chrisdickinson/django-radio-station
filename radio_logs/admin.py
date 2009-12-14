@@ -19,7 +19,7 @@ class RequestAdmin(admin.ModelAdmin):
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
-    list_filter = ('genre', 'submitted',)
+    list_filter = ('genre', 'submitted', 'is_rotation',)
     exclude = ('dj', 'show',)
     verbose_name = "Entry"
     verbose_name_plural = "Entries"
