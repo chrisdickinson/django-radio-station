@@ -26,7 +26,7 @@ class Event(models.Model):
     content = models.TextField()
     date = models.DateField()
     time_start = models.TimeField()
-    time_end = models.TimeField()
+    time_end = models.TimeField(null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('event-detail', kwargs = {

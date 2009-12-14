@@ -15,9 +15,11 @@
         <li class="object-list-item">
             <div><span class="object-list-item-label">Starts at</span> {{ event.time_start|time:"g:ia" }}</div>
         </li>
+        {% if event.time_end %}
         <li class="object-list-item">
             <div><span class="object-list-item-label">Ends at</span> {{ event.time_end|time:"g:ia" }}</div>
         </li>
+        {% endif %}
         {% if event.cost %}
         <li class="object-list-item">
             <div><span class="object-detail-label">Cost</span> {{ event.cost }}</div>
