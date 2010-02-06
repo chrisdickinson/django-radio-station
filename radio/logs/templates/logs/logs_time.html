@@ -1,0 +1,80 @@
+{% extends "logs/base.html" %}
+
+{% block logs_content_header %}
+<h1>Logs from {{ when|date:"g:ia l" }} the {{ when|date:"jS" }}</h1> 
+{% endblock %}
+
+{% block logs_page_menu %}
+    <ul id="page-menu">
+        {% for nav_time in date_range %}
+            {% ifequal nav_time.date when.date %}
+                <li class="active">
+                    <h2>
+                        {% ifequal when.date now.date %}
+                            Today
+                        {% else %}
+                            {{ when|date:"l" }}
+                        {% endifequal %}
+                    </h2>
+                    <ul>
+                        {% for name, time in time_range %}
+                            <li>
+                                <a href="{% url logs-time time.year time.month time.day time.hour %}" title="{{ name }}">{{ name }}</a>
+                            </li>
+                        {% endfor %} 
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                        <a href="{% url logs-time nav_time.year nav_time.month nav_time.day nav_time.hour %}" title="{{ nav_time|date:"D" }}">{% ifequal nav_time.date time.date %}today{% else %}{{ nav_time|date:"l" }}{% endifequal %}</a>
+                </li>
+            {% endifequal %}
+        {% endfor %}
+    </ul>
+
+
+
+{% endblock %}
+
+{% block logs_content_main %}
+    <ul class="navigation">
+        <li class="prev"><a href="{% url logs-time prev_time.year prev_time.month prev_time.day prev_time.hour %}">3 hours earlier</a></li>
+        {% if next_time %}
+        <li class="next"><a href="{% url logs-time next_time.year next_time.month next_time.day next_time.hour %}">3 hours later</a></li>
+        {% endif %}
+    
+    </ul>
+    {% load human_date_tags %}
+    <div class="object-list-tabular">
+        <table>
+            <thead>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Track</th>
+                <th>When</th>
+                <th>DJ</th>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr class="{% cycle 'row1' 'row2' %}">
+                    <td>
+                        {{ log.artist.name }}
+                    </td>
+                    <td>
+                        {{ log.album.name }}
+                    </td>
+                    <td>
+                        {{ log.track.name }}
+                    </td>
+                    <td>
+                        <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }} ago</abbr>
+                    </td>
+                    <td>
+                        {{ log.dj.user }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

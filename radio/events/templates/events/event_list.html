@@ -1,0 +1,29 @@
+{% extends "events/base.html" %}
+{% block body_id %}{{ block.super }}-list{% endblock %}
+{% block events_content_header %}
+    <h1 class="header">Events for {{ day|date:"l, F jS Y" }}</h1>
+{% endblock %}
+
+{% block events_content_main %}
+    <div id="content-main-object-list-container">
+    {% if events %}
+        <ul class="object-list">
+        {% for event in events %}
+            {% include "events/includes/event_list_item.html" %}
+        {% endfor %}
+        </ul>
+    {% else %}
+        <div class="object-list">
+            <h1>There don&rsquo;t appear to be any events that day.</h1>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block events_content_sub %}
+{% load events_calendar %}
+<div id="calendar">
+    <h1 class="header">Calendar : {{ day|date:"F"}}</h1>
+    {% calendar_block day %}
+</div>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import admin
 import d51_django_admin_piston
 
-handler500 = 'frontend.views.server_error'
+handler500 = 'radio.frontend.views.server_error'
 
 admin.autodiscover()
 d51_django_admin_piston.autodiscover(admin.site)

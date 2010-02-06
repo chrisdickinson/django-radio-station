@@ -61,13 +61,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'human_date',
-    'frontend',
-    'radio_events',
-    'radio_library',
-    'radio_logs',
-    'radio_station',
-    'radio_twitter',
+    'radio.frontend',
+    'radio.events',
+    'radio.library',
+    'radio.logs',
+    'radio.station',
     'gravatar',
 )
 
