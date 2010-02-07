@@ -189,11 +189,19 @@ class TestOfSpotManager(TestCase):
         self.assertEqual(spots, unpacked_week) 
 
     def test_for_day_includes_nonweekly(self):
-        print ""
-        print """
-            **** `test_for_day_includes_nonweekly` stubbed!
-        """.strip()
-        pass
+        now = datetime.datetime.now()
+        spots = create_week_of_spots(now, per_day=random.randint(1,6))
+        nth_of_month = lambda x: x.day/7 + 1
+        nonweekly_spot = Spot.objects.create(
+            day_of_week=now.weekday(),
+            offset=random.randint(0,86400),
+            repeat_every=nth_of_month(now),
+            show=spots[0].show,
+            dj=spots[0].dj,
+            schedule=spots[0].schedule
+        )
+        day_spots = Spot.objects.for_day(now)
+        self.assertTrue(nonweekly_spot in day_spots)
 
 class TestOfScheduleManager(TestCase):
     def test_of_get_current_schedule_returns_current_schedule(self):
