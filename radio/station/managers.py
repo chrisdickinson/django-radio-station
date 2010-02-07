@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.http import Http404
 from .utils import *
 import datetime
 import itertools
@@ -62,3 +63,8 @@ class ScheduleManager(models.Manager):
         except IndexError:
             raise self.model.DoesNotExist
 
+    def get_current_schedule_or_404(self, when):
+        try:
+            return self.get_current_schedule(when)
+        except self.model.DoesNotExist:
+            raise Http404

@@ -59,7 +59,7 @@
                                 <span class="arrow-right"><a href="http://wluwfm.blogspot.com/" target="_blank">Blog</a><span class="arrow-right-end"> </span></span>
                             </li>
                             <li class="black {% block schedule-active %}{% endblock %}">
-                                <span class="arrow-right"><a href="{% url schedule-weekday %}">Shows</a><span class="arrow-right-end"> </span></span>
+                                <span class="arrow-right"><a href="{% url for-day current_datetime.weekday %}">Shows</a><span class="arrow-right-end"> </span></span>
                             </li>
                             <li class="red {% block events-list %}{% endblock %}">
                                 <span class="arrow-right"><a href="{% url events-list %}">Events</a><span class="arrow-right-end"> </span></span>

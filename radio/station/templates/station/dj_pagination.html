@@ -1,5 +1,0 @@
-{% for page_ in page_range %}
-    <li class="{% ifequal page page_ %}active{% endifequal %}">
-        <a href="{% url dj-list page_ %}" title="page {{ page_ }}">{{ page_ }}</a>
-    </li>
-{% endfor %}

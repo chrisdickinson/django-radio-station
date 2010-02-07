@@ -1,6 +1,23 @@
 {% extends "base.html" %} 
+
 {% block body_id %}station{% endblock %}
 
-{% block side_navigation %}
-    {% include "station/side_navigation.html" %}
+{% block page_menu %}
+    {% block station_page_menu %}
+    {% include "station/includes/side_navigation.html" %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% block station_content %}
+        {% block station_content_header %}
+
+        {% endblock %}
+        {% block station_content_main %}
+
+        {% endblock %}
+        {% block station_content_sub %}
+
+        {% endblock %}
+    {% endblock %}
 {% endblock %}

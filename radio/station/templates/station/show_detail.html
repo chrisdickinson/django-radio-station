@@ -1,32 +1,40 @@
 {% extends "station/base.html" %}
-{% block page_menu %}
-    {% include "station/show_navigation.html" %}
+{% block body_id %}-show{% endblock %}
+
+{% block station_content_header %}
+<div id="banner">
+    <img alt="{{ show.name }}" src="{{ MEDIA_URL }}{{ show.image }}" />
+</div>
 {% endblock %}
 
-{% block content_main %}
-    <div class="object-description-block">
-    <h2 class="header">
-        {{ object.name }}
-    </h2>
-    <div class="object-description">
-        {{ object.description }}
-    </div>
+{% block station_content_main %}
+    <div id="content-main-object-list-container">
+    {% for spot in spots %}
+        <ul class="object-list">
+            <li class="object-list-item">
+                <h3><a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
+                <div>
+                    <a href="{% url schedule-for-day spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
+                </div>
+            </li>
+        </ul>
+    {% endfor %}
     </div>
 {% endblock %}
 
-{% block content_sub %}
-    {% load station %}
-    {% with object.get_current_spot as current_spot %}
-    {% with object.get_other_spots as other_spots %}
-    <div class="object-detail-list">
-        {% if spot %}
-        <div class="object-detail">
-            <span class="object-detail-label">On the air</span>{{ spot.offset|seconds_to_time|time:"g:ia"}}
-        </div>
-        <span class="object-detail">DJ</span><a class="object-detail-link" href="{% url dj-detail spot.dj.slug %}" title="DJ" >{{ spot.dj.get_first_name }} {{ spot.dj.get_last_name }}</a>
-        <br />
-        {% endif %}
-    </div>
-    {% endwith %}
-    {% endwith %}
+{% block station_content_sub %}
+<h2 class="header">{{ show.name }}</h2>
+<div class="{% if show.special_program %}special{% endif %} object-description">
+    {{ show.description }}
+</div>
+
+{% if favorite_artists %}
+<h2 class="header">Top Played Artists</h2>
+<dl class="object-list-sub">
+    {% for artist in favorite_artists %}
+        <dt>{{ artist.name }}</dt>
+        <dd>{{ artist.playcount }}</dd>
+    {% endfor %}
+</dl>
+{% endif %}
 {% endblock %}

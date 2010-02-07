@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.safestring import mark_safe
 from .managers import SpotManager, ScheduleManager
+from radio.library.models import Artist
 import datetime
 
 OFFSET_CHOICES = [
@@ -82,6 +84,20 @@ class Show(models.Model):
     def __unicode__(self): 
         return "%s" % self.name
 
+    def get_url_for_schedule(self, schedule):
+        return reverse('show-detail', kwargs={
+            'schedule_pk':schedule.pk,
+            'show_slug':self.slug
+        })
+
+    def get_absolute_url(self):
+        now = datetime.datetime.now()
+        schedule = Schedule.objects.get_current_schedule(now)
+        return self.get_url_for_schedule(now)
+
+    def get_favorite_artists(self):
+        return Artist.objects.filter(entry__show=self).annotate(playcount=Count('entry')).order_by('-playcount')
+
     def get_spots(self, schedule=None):
         try:
             if schedule is None:
@@ -99,12 +115,19 @@ class DJ(models.Model):
     summary = models.TextField()
     description = models.TextField()
 
-    def get_absolute_url(self):
-        reversed = reverse('dj-detail', kwargs={
+    def get_url_for_schedule(self, schedule):
+        return reverse('dj-detail', kwargs={
             'dj_slug':self.slug,
+            'schedule_pk':schedule.pk,
         })
-        return reversed
+        
+    def get_absolute_url(self):
+        now = datetime.datetime.now()
+        schedule = Schedule.objects.get_current_schedule(now)
+        return self.get_url_for_schedule(schedule)
 
+    def get_favorite_artists(self):
+        return Artist.objects.filter(entry__dj=self).annotate(playcount=Count('entry')).order_by('-playcount')
     def __unicode__(self):
         if self.display_name:
             return self.display_name

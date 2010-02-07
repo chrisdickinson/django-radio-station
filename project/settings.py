@@ -27,7 +27,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
-    "radio_station.context_processors.google_analytics",
+    "radio.station.context_processors.google_analytics",
+    "radio.station.context_processors.current_datetime",
 )
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a

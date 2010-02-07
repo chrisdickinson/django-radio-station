@@ -1,15 +1,15 @@
-{% extends "radio_station/base.html" %}
+{% extends "station/base.html" %}
 {% block body_id %}-schedule{% endblock %}
 
-{% block radio_station_content_header %}
+{% block station_content_header %}
 <h1 class="header">Schedule for {{ weekday|date:"l" }}s</h1>
 {% endblock %}
 
-{% block radio_station_content_main %}
+{% block station_content_main %}
 <div id="content-main-object-list-container">
     <ul class="object-list">
         {% for spot in spots %}
-            {% include "radio_station/includes/spot_listitem.html" %}
+            {% include "station/includes/spot_listitem.html" %}
         {% endfor %}
     </ul>
 </div>

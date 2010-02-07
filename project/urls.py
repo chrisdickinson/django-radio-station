@@ -11,12 +11,12 @@ d51_django_admin_piston.autodiscover(admin.site)
 
 urlpatterns = patterns(
     '',
-    (r'^logs/', include('radio_logs.urls')),
-    (r'^events/', include('radio_events.urls')),
-    (r'^station/', include('radio_station.urls')),
+    (r'^logs/', include('radio.logs.urls')),
+    (r'^events/', include('radio.events.urls')),
+    (r'^station/', include('radio.station.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/login/$', 'django.contrib.auth.views.login'),
-    (r'^', include('frontend.urls')),
+    (r'^', include('radio.frontend.urls')),
 )
 
 if settings.DEBUG:

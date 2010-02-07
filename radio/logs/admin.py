@@ -18,7 +18,7 @@ class EntryAdmin(admin.ModelAdmin):
     fields = ('artist', 'track', 'album', 'genre', 'is_rotation')
     verbose_name = "Entry"
     verbose_name_plural = "Entries"
-    radio.fields = {'genre':admin.VERTICAL}
+    radio_fields = {'genre':admin.VERTICAL}
 
     def save_model(self, request, obj, form, change):
         if hasattr(obj, 'dj'):
