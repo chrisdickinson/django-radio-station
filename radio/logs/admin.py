@@ -5,13 +5,6 @@ from django.db.models import Count, Sum
 from radio.station.models import Spot
 from .models import *
 
-class RequestAdmin(admin.ModelAdmin):
-    list_display = ('what', 'who', 'when', 'ip')
-    search_fields = ('what', 'who')
-    list_filter = ('ip', 'when')
-    verbose_name = "Request"
-    verbose_name_plural = "Requests"
-
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
     list_filter = ('genre', 'submitted', 'is_rotation',)
@@ -33,5 +26,4 @@ class EntryAdmin(admin.ModelAdmin):
     class Media:
         js = ('site/js/ac_global_fns.js', 'site/js/last_logs.js')
         
-admin.site.register(Request, RequestAdmin)
 admin.site.register(Entry, EntryAdmin)

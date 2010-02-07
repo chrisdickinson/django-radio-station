@@ -38,12 +38,6 @@ def instant_track(widget, data, name):
             value = None
     return value 
 
-class Request(models.Model):
-    what = models.CharField(max_length=255)
-    when = models.DateTimeField(auto_now_add=True)
-    who = models.CharField(max_length=255, null=True, blank=True)
-    ip = models.IPAddressField()
-
 class Entry(models.Model):
     artist = d51fields.ForeignKey(Artist, instantiate_fn=instant_artist)
     album = d51fields.ForeignKey(Album, js_methods=['match_artist_and_startswith'], instantiate_fn=instant_album)
