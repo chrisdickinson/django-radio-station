@@ -7,5 +7,3 @@ class Ad(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
-    class Meta:
-        db_table = 'frontend_ad'

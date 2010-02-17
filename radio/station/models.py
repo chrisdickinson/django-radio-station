@@ -24,9 +24,6 @@ class Schedule(models.Model):
     def __unicode__(self):
         return u'%s until %s' % (self.start_date.strftime('%Y-%m-%d'), self.end_date.strftime('%Y-%m-%d'))
 
-    class Meta:
-        db_table = 'radio_station_schedule'
-
 class Spot(models.Model):
     objects = SpotManager(Schedule)
     DAY_CHOICES = (
@@ -72,9 +69,6 @@ class Spot(models.Model):
         when = self.to_datetime
         return '%s / %s / %s' % (when.strftime('%I:%M%p'), dict(self.REPEAT_CHOICES)[self.repeat_every], when.strftime('%a')) 
 
-    class Meta:
-        db_table = 'radio_station_spot'
-
 class Show(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -113,9 +107,6 @@ class Show(models.Model):
         except Schedule.MultipleObjectsReturned, e:
             return None 
 
-    class Meta:
-        db_table = 'radio_station_show'
-
 class DJ(models.Model):
     user = models.OneToOneField(User)
     slug = models.SlugField(unique=True)
@@ -141,6 +132,3 @@ class DJ(models.Model):
             return self.display_name
         else:
             return '%s %s' % (self.user.firstname, self.user.lastname[0])
-
-    class Meta:
-        db_table = 'radio_station_dj'

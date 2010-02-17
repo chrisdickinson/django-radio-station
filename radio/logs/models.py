@@ -54,4 +54,3 @@ class Entry(models.Model):
     class Meta:
         verbose_name = "entry"
         verbose_name_plural = "entries"
-        db_table = 'radio_logs_entry'
