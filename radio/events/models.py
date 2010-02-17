@@ -16,6 +16,9 @@ class Location(models.Model):
     def __unicode__(self):
         return u"%s" % self.name
 
+    class Meta:
+        db_table = 'radio_events_location'
+
 class Event(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
@@ -39,3 +42,6 @@ class Event(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.name
+
+    class Meta:
+        db_table = 'radio_events_event'

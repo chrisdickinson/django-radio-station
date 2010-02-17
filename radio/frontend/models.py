@@ -6,3 +6,6 @@ class Ad(models.Model):
     link = models.URLField()
     start_date = models.DateField()
     end_date = models.DateField()
+
+    class Meta:
+        db_table = 'frontend_ad'
