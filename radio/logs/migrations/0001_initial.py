@@ -8,7 +8,7 @@ class Migration:
     def forwards(self, orm):
         
         # Adding model 'Entry'
-        db.create_table('logs_entry', (
+        db.create_table('radio_logs_entry', (
             ('id', models.AutoField(primary_key=True)),
             ('artist', d51fields.ForeignKey(orm['library.Artist'], instantiate_fn=instant_artist)),
             ('album', d51fields.ForeignKey(orm['library.Album'], js_methods=['match_artist_and_startswith'], instantiate_fn=instant_album)),
@@ -22,7 +22,7 @@ class Migration:
         db.send_create_signal('logs', ['Entry'])
         
         # Adding model 'Request'
-        db.create_table('logs_request', (
+        db.create_table('radio_logs_request', (
             ('id', models.AutoField(primary_key=True)),
             ('what', models.CharField(max_length=255)),
             ('when', models.DateTimeField(auto_now_add=True)),
@@ -36,10 +36,10 @@ class Migration:
     def backwards(self, orm):
         
         # Deleting model 'Entry'
-        db.delete_table('logs_entry')
+        db.delete_table('radio_logs_entry')
         
         # Deleting model 'Request'
-        db.delete_table('logs_request')
+        db.delete_table('radio_logs_request')
         
     
     

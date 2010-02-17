@@ -8,14 +8,14 @@ class Migration:
     def forwards(self, orm):
         
         # Deleting model 'request'
-        db.delete_table('logs_request')
+        db.delete_table('radio_logs_request')
         
     
     
     def backwards(self, orm):
         
         # Adding model 'request'
-        db.create_table('logs_request', (
+        db.create_table('radio_logs_request', (
             ('what', models.CharField(max_length=255)),
             ('ip', models.IPAddressField()),
             ('who', models.CharField(max_length=255, null=True, blank=True)),
