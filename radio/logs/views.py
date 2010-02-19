@@ -5,90 +5,41 @@ from django.db.models import Count
 from django.http import Http404
 from radio.events.utils import get_when_or_now
 from radio.library.models import Artist, Album 
+from radio.datetime import *
 from models import Entry 
 from composition import *
 import datetime
-import itertools
-import math
 
-def time_to_ceiling(dtime, ceil):
-    hour, minute = int(ceil) * int(math.ceil((dtime.hour+1)/float(ceil))), 0
-    if hour > 23:
-        hour,minute = 23, 59 
-    return datetime.datetime(*(dtime.year,
-                                dtime.month,
-                                dtime.day,
-                                hour,
-                                minute))
+def time_view(request, year=None, month=None, day=None, hour=0, min=0):
+    parsed_month = None if month is None else datetime.datetime.strptime(month, '%b').month
+    at_datetime = get_when_or_now(year, parsed_month, day, hour, min)
+    current_datetime = datetime.datetime.now()
 
-def generate_nav_time(dtime, step, cap):
-    off = datetime.datetime(dtime.year, dtime.month, dtime.day, 0, 0)
-    while off < cap:
-        yield off
-        off += step
+    radius_in_seconds = 60 * 60 * 3     # 3 hours
+    at_datetime_offset = get_offset_in_seconds(at_datetime)
+    start_of_day = strip_hour_and_minute(at_datetime)
 
-SPECIAL_NAMES = ( 
-    'Midnight',
-    '3a.m.',
-    'Morning',
-    '9a.m.',
-    'Noon',
-    '3p.m.',
-    'Evening',
-    '9p.m.',
-    'Midnight',
-)
+    at_datetime = start_of_day + datetime.timedelta(seconds=radius_in_seconds*(at_datetime_offset/radius_in_seconds))
 
-def generate_date_radius(when, radius, cap, time=None):
-    if time is None:
-        time = (0, 0)
-    td = datetime.timedelta
-    days_until_cap = (cap.date() - when.date()).days
-    if days_until_cap > radius:
-        days_until_cap = radius
-    to_flat_date = lambda x: datetime.datetime(x.year, x.month, x.day, *time)
-    end_date = to_flat_date(when) + td(days=days_until_cap)
+    if at_datetime > current_datetime:
+        raise Http404
 
-    day = radius*2
-    while day > -1:
-        yield end_date-td(days=day)
-        day -= 1 
+    end_datetime = at_datetime + datetime.timedelta(seconds=radius_in_seconds)
+    entries = Entry.objects.filter(submitted__lte=end_datetime, submitted__gte=at_datetime)
 
-def date_radius(when, radius, cap, time=None):
-    return [i for i in generate_date_radius(when, radius, cap, time)]
-
-def time_context(request, year=None, month=None, day=None, hour=None, min=0):
-    now = datetime.datetime.now()
-    now_ceil = time_to_ceiling(now, 3.0)
-    three_hours = datetime.timedelta(seconds=60*60*3)
-
-    when = get_when_or_now(year, month, day, hour, min)
-    when_ceil = time_to_ceiling(when, 3.0) 
-
-    if when_ceil > now_ceil:
-        raise Http404()
-
-    prev_time, next_time = when_ceil - three_hours - three_hours, when_ceil + three_hours
-    cap = datetime.datetime(when.year, when.month, when.day, 23, 59)
-    if now.date() == when.date():
-        cap = datetime.datetime(cap.year, cap.month, cap.day, now_ceil.hour, now_ceil.minute)
-
-    nav_time_range = generate_nav_time(when, three_hours, cap)
-    nav_time_range = itertools.izip(SPECIAL_NAMES, nav_time_range)
-    nav_date_range = generate_date_radius(when, 3, now)
-
-    logs = Entry.objects.filter(submitted__lte=when_ceil, submitted__gt=prev_time).order_by('-submitted')
-    ctxt = {
-        'logs':logs,
-        'when':when,
-        'now':now,
-        'time_range':nav_time_range,
-        'date_range':nav_date_range,
-        'prev_time':prev_time,
-        'next_time':next_time,
+    context = {
+        'entries':entries,
+        'prev':at_datetime-datetime.timedelta(seconds=radius_in_seconds),
+        'next':end_datetime if end_datetime < current_datetime else None,
+        'current_datetime':current_datetime,
+        'at_datetime':at_datetime,
+        'end_datetime':end_datetime,
+        'date_range':(dt for dt in generate_datetime_radius(at_datetime, 3) if dt <= current_datetime),
+        'time_range':(datetime.timedelta(seconds=x*60*60)+start_of_day
+                    for x in range(0,24,3) 
+                    if (datetime.timedelta(seconds=x*60*60)+start_of_day) <= current_datetime)
     }
-    return ctxt
-time_view = view_to_template('radio.logs/logs_time.html')(time_context)
+    return render_to_response('logs/logs_time.html', context, context_instance=RequestContext(request))
 
 def chart_view(request, year=None, month=None, week=None, what=None, rotation=False):
     if what is None:

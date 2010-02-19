@@ -23,4 +23,4 @@ def grab_latest_logs(context, target, number=None):
     return u''
 
 define_parsed_tag(register, grab_latest_logs, "(get <number:int> )as <target:var>")
-playlist_table = register.inclusion_tag('radio.logs/includes/playlist.html')(playlist_table)
+playlist_table = register.inclusion_tag('logs/includes/playlist.html')(playlist_table)

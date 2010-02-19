@@ -1,18 +1,19 @@
 from django.test import TestCase
-from radio.logs.views import time_to_ceiling, date_radius, time_context
+from radio.datetime import datetime_to_ceiling, generate_datetime_radius
+from radio.logs.views import time_context
 
 class TestTimeToCeiling(TestCase):
     def test_requires_datetime(self):
-        self.assertRaises(AttributeError, time_to_ceiling, {}, 3.0)
+        self.assertRaises(AttributeError, datetime_to_ceiling, {}, 3.0)
 
     def test_within_datetime_bounds(self):
         from datetime import datetime, timedelta
         bound_low = datetime(2009, 11, 1, 0, 0)
         bound_high = datetime(2009, 11, 1, 23, 59)
         try:
-            self.assertEqual(time_to_ceiling(bound_low, 3.0).hour, 3) 
-            self.assertEqual(time_to_ceiling(bound_high, 3.0).hour, 23)
-            self.assertEqual(time_to_ceiling(bound_high, 3.0).minute, 59)
+            self.assertEqual(datetime_to_ceiling(bound_low, 3.0).hour, 3) 
+            self.assertEqual(datetime_to_ceiling(bound_high, 3.0).hour, 23)
+            self.assertEqual(datetime_to_ceiling(bound_high, 3.0).minute, 59)
         except ValueError, e:
             self.fail()
 
@@ -30,7 +31,7 @@ class TestTimeToCeiling(TestCase):
         )
         for (_out, _in) in zip(test_values, range(0, 24)):
             when = datetime(2009, 11, 1, _in, 0)
-            self.assertEqual(time_to_ceiling(when, 3.0).hour, _out)
+            self.assertEqual(datetime_to_ceiling(when, 3.0).hour, _out)
 
 class TestDateRadius(TestCase):
     def test_length_works(self):
@@ -38,7 +39,7 @@ class TestDateRadius(TestCase):
         now = datetime.now()
         cap = datetime.now() + timedelta(days=4)
         for i in range(0, 4):
-            results = date_radius(now, i, cap)
+            results = generate_datetime_radius(now, i, cap)
             self.assertEqual(1 + i*2, len(results))
 
     def test_in_order(self):
@@ -46,7 +47,7 @@ class TestDateRadius(TestCase):
         from copy import copy
         now = datetime.now()
         cap = datetime.now() + timedelta(days=4)
-        results = date_radius(now, 2, cap)
+        results = generate_datetime_radius(now, 2, cap)
         original_results = copy(results)
         results.sort()
         self.assertEqual(results, original_results)
@@ -55,11 +56,11 @@ class TestDateRadius(TestCase):
         from datetime import datetime, timedelta
         now = datetime.now()
         cap = datetime.now() + timedelta(days=4)
-        results = date_radius(now, 2, cap, (0, 30))
+        results = generate_datetime_radius(now, 2, cap, (0, 30))
         for i in results:
             self.assertEqual((i.hour, i.minute), (0, 30))
 
-        results = date_radius(now, 2, cap)
+        results = generate_datetime_radius(now, 2, cap)
         for i in results:
             self.assertEqual((i.hour, i.minute), (0, 0))
 
@@ -67,7 +68,7 @@ class TestDateRadius(TestCase):
         from datetime import datetime, timedelta
         now = datetime.now()
         cap = datetime.now() + timedelta(days=2)
-        results = date_radius(now, 4, cap)
+        results = generate_datetime_radius(now, 4, cap)
         self.assertEqual(results[-1].date(), cap.date())
         self.assertEqual(results[0].date(), cap.date() - timedelta(days=8))
 

@@ -1,50 +1,42 @@
 {% extends "logs/base.html" %}
 
 {% block logs_content_header %}
-<h1>Logs from {{ when|date:"g:ia l" }} the {{ when|date:"jS" }}</h1> 
+<h1>Logs from {{ at_datetime|date:"g:ia l" }} the {{ at_datetime|date:"jS" }}</h1> 
 {% endblock %}
 
 {% block logs_page_menu %}
     <ul id="page-menu">
-        {% for nav_time in date_range %}
-            {% ifequal nav_time.date when.date %}
+        {% for nav_date in date_range %}
+            {% ifequal nav_date.date at_datetime.date %}
                 <li class="active">
-                    <h2>
-                        {% ifequal when.date now.date %}
-                            Today
-                        {% else %}
-                            {{ when|date:"l" }}
-                        {% endifequal %}
-                    </h2>
+                    <h2>{% ifequal at_datetime.date current_datetime.date %}Today{% else %}{{ nav_date|date:"l jS" }}{% endifequal %}</h2>
                     <ul>
-                        {% for name, time in time_range %}
+                        {% for nav_time in time_range %}
                             <li>
-                                <a href="{% url logs-time time.year time.month time.day time.hour %}" title="{{ name }}">{{ name }}</a>
+                                {% url logs-time nav_date.year nav_date|date:"b" nav_date.day nav_time.hour as nav_url %}
+                                <a href="{{ nav_url }}" title="{{ nav_time|date:"g:ia" }}">{{ nav_time|date:"g:ia" }}</a>
                             </li>
-                        {% endfor %} 
+                        {% endfor %}
                     </ul>
                 </li>
             {% else %}
+                {% url logs-time nav_date.year nav_date|date:"b" nav_date.day 0 as nav_url %}
                 <li>
-                        <a href="{% url logs-time nav_time.year nav_time.month nav_time.day nav_time.hour %}" title="{{ nav_time|date:"D" }}">{% ifequal nav_time.date time.date %}today{% else %}{{ nav_time|date:"l" }}{% endifequal %}</a>
+                    <a href="{{ nav_url }}" title="{{ nav_date|date:"l jS" }}">{% ifequal nav_date.date current_datetime.date %}Today{% else %}{{ nav_date|date:"l jS" }}{% endifequal %}</a>
                 </li>
             {% endifequal %}
         {% endfor %}
     </ul>
-
-
-
 {% endblock %}
 
 {% block logs_content_main %}
     <ul class="navigation">
-        <li class="prev"><a href="{% url logs-time prev_time.year prev_time.month prev_time.day prev_time.hour %}">3 hours earlier</a></li>
-        {% if next_time %}
-        <li class="next"><a href="{% url logs-time next_time.year next_time.month next_time.day next_time.hour %}">3 hours later</a></li>
+        <li class="prev"><a href="{% url logs-time prev.year prev|date:"b" prev.day prev.hour %}">3 hours earlier</a></li>
+        {% if next %}
+        <li class="next"><a href="{% url logs-time next.year next|date:"b" next.day next.hour %}">3 hours later</a></li>
         {% endif %}
     
     </ul>
-    {% load human_date_tags %}
     <div class="object-list-tabular">
         <table>
             <thead>
