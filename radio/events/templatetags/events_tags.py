@@ -24,4 +24,4 @@ def calendar_block(today=None):
             'calendar':calendar_block_generator(today)
     }
 
-calendar_block = register.inclusion_tag('radio.events/includes/calendar.html')(calendar_block)
+calendar_block = register.inclusion_tag('events/includes/calendar.html')(calendar_block)

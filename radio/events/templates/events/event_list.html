@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block events_content_sub %}
-{% load events_calendar %}
+{% load events_tags %}
 <div id="calendar">
     <h1 class="header">Calendar : {{ day|date:"F"}}</h1>
     {% calendar_block day %}
