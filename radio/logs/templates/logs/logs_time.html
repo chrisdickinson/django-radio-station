@@ -47,7 +47,7 @@
                 <th>DJ</th>
             </thead>
             <tbody>
-                {% for log in logs %}
+                {% for log in entries %}
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td>
                         {{ log.artist.name }}
