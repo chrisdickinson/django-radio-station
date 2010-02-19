@@ -62,6 +62,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django.contrib.markup',
     'south',
     'radio.frontend',
     'radio.events',
