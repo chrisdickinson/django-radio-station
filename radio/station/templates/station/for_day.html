@@ -2,7 +2,7 @@
 {% block body_id %}{{ block.super }}-schedule{% endblock %}
 
 {% block station_content_header %}
-<h1 class="header">Schedule for {{ weekday|date:"l" }}s</h1>
+<h1 class="header">Schedule for {{ weekday_as_datetime|date:"l" }}s</h1>
 {% endblock %}
 
 {% block station_content_main %}

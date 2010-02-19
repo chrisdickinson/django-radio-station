@@ -22,6 +22,7 @@ def schedule_for_day(request, schedule_pk, day_of_week):
     template = 'station/for_day.html'
     context = {
         'weekday':weekday,
+        'weekday_as_datetime':get_start_of_week(now)+datetime.timedelta(days=weekday),
         'schedule':schedule,
         'spots':spots,
         'week':get_week_range(now),
