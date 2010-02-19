@@ -8,7 +8,8 @@
 {% block staff_content_sub %}
         <div class="object-description">
             <strong>Get your music on WLUW-FM!</strong> 
-            <div>Mail us your album:<br /> 
+            <div>
+            Mail us your album:<br /> 
             WLUW-FM<br /> 
             c/o Music Department<br /> 
             820 N. Michigan Ave.<br /> 
@@ -23,15 +24,15 @@
         {% for role in roles %}
             <li class="object-list-item">
                     {% if role.user.email %}
-                        <img src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
+                        <img style="display:inline-block;" src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
                     {% else %}
-                        <img src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
+                        <img style="display:inline-block;" src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
                     {% endif %} 
                     <div class="right" style="display:inline-block;">
-                    {{ role.role.title }}
-                    {{ role.user.get_full_name }}
-                    {{ role.get_email }}
-                    {{ role.get_phone }}
+                    {{ role.role.title }}<br />
+                    {{ role.user.get_full_name }}<br />
+                    {{ role.get_email }}<br />
+                    {{ role.get_phone }}<br />
                     </div>
             </li>
         {% endfor %}
