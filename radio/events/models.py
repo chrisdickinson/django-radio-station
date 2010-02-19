@@ -16,8 +16,11 @@ class Location(models.Model):
     def __unicode__(self):
         return u"%s" % self.name
 
+    class Meta:
+        ordering = ['name']
+
 class Event(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     weight = models.IntegerField(null=True, blank=True, default=0,
         help_text="likelihood that this event will be highlighted. The bigger the number, the more likely.")
@@ -36,6 +39,8 @@ class Event(models.Model):
             'slug':self.slug
         })
 
-
     def __unicode__(self):
         return u"%s" % self.name
+
+    class Meta:
+        ordering = ['-date', '-time_start']
