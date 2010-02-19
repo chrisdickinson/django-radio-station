@@ -1,10 +1,10 @@
 {% extends "station/base.html" %}
-{% block body_id %}-dj{% endblock %}
+{% block body_id %}{{ block.super }}-dj{% endblock %}
 
-{% block radio_station_content_header %}
+{% block station_content_header %}
         <h2 class="header">{{ dj.display_name }}&rsquo;s shows:</h2>
 {% endblock %}
-{% block radio_station_content_sub %}
+{% block station_content_sub %}
     {% load gravatar %}
         <h2 class="header">{{ dj.display_name }}</h2>
         
@@ -22,7 +22,7 @@
         </dl>
         {% endif %}
 {% endblock %}
-{% block radio_station_content_main %}
+{% block station_content_main %}
     <div id="content-main-object-list-container"> 
         <ul class="object-list">
         {% for spot in spots %}

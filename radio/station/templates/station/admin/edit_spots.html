@@ -1,4 +1,4 @@
-{% extends "station/schedule/admin/base.html" %}
+{% extends "station/admin/base.html" %}
 
 {% block extrahead %}
 {{ block.super }}
@@ -34,7 +34,7 @@
         };
 
         $('#dj-chrome ul').obj_list({
-            'url':'{% url admin:admin-piston-radio_station-dj 'json' %}',
+            'url':'{% url admin:admin-piston-station-dj 'json' %}',
             'class':'dj',
             'primary_key':get_pk,
             'display':get_username,
@@ -47,7 +47,7 @@
         };
 
         $('#show-chrome ul').obj_list({
-            'url':'{% url admin:admin-piston-radio_station-show 'json' %}',
+            'url':'{% url admin:admin-piston-station-show 'json' %}',
             'class':'show',
             'primary_key':get_pk,
             'display':get_showname,
@@ -324,6 +324,7 @@
 {% endblock %}
 
 {% block inner_content %}
+<h1>WE ARE USING THIS ONE</h1>
 <form method="POST" action="">
     <div id="schedule-chrome">
         <div id="day-controller">
@@ -339,7 +340,7 @@
 
     <div id="meta-column">
         <div id="dj-chrome">
-            <h1>Available DJs <a href="{% url admin:radio_station_dj_add %}" onClick="javascript:return showAddAnotherPopup(this);" class="addlink" title="add a new show">add</a></h1>
+            <h1>Available DJs <a href="{% url admin:station_dj_add %}" onClick="javascript:return showAddAnotherPopup(this);" class="addlink" title="add a new show">add</a></h1>
             <div>
                 <div>
                 <input type="text" id="dj-search" />

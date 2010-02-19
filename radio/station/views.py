@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext 
 from django.db.models import Count
 from radio.library.models import Artist
-from .utils import get_start_of_week, get_week_range, get_day_of_week
+from radio.datetime import get_start_of_week, get_week_range, get_day_of_week
 from .models import Spot, Schedule, Show, DJ
 from composition import *
 import datetime

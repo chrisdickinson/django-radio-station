@@ -1,5 +1,5 @@
 {% extends "station/base.html" %}
-{% block body_id %}-show{% endblock %}
+{% block body_id %}{{ block.super }}-show{% endblock %}
 
 {% block station_content_header %}
 <div id="banner">

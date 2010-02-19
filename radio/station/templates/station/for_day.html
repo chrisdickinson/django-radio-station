@@ -1,5 +1,5 @@
 {% extends "station/base.html" %}
-{% block body_id %}-schedule{% endblock %}
+{% block body_id %}{{ block.super }}-schedule{% endblock %}
 
 {% block station_content_header %}
 <h1 class="header">Schedule for {{ weekday|date:"l" }}s</h1>

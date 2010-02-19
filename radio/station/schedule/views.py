@@ -68,7 +68,7 @@ def generate_schedule(request, schedule_pk):
             'generate_form':generate_form,
             'copy_form':copy_form,
         }
-        response = render_to_response('radio.station/admin/generate.html', context, context_instance=RequestContext(request))
+        response = render_to_response('station/admin/generate.html', context, context_instance=RequestContext(request))
     return response 
 
 def get_spots_from_post(post):
@@ -126,7 +126,7 @@ def edit_schedule(request, schedule_pk):
             request.session['spots'] = []
             response = {
                 'status':'ok',
-                'redirect':reverse('admin:radio.station_schedule_changelist'),
+                'redirect':reverse('admin:station_schedule_changelist'),
             }
         except (Show.DoesNotExist, DJ.DoesNotExist, Spot.DoesNotExist):
             response = {
@@ -139,4 +139,4 @@ def edit_schedule(request, schedule_pk):
             'schedule':schedule,
             'spots':mark_safe(simplejson.dumps(spots)),
         }
-        return render_to_response('radio.station/admin/edit_spots.html', ctxt, context_instance=RequestContext(request))
+        return render_to_response('station/admin/edit_spots.html', ctxt, context_instance=RequestContext(request))

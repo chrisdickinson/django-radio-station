@@ -1,12 +1,13 @@
 from django.db import models
 from django.db.models import Q
 from django.http import Http404
+from radio.datetime import *
 from .utils import *
 import datetime
 import itertools
 
 class SpotManager(models.Manager):
-    def __init__(self, schedule_class, *args, **kwargs):
+    def __init__(self, schedule_class=None, *args, **kwargs):
         self.schedule_class = schedule_class
         return super(SpotManager, self).__init__(*args, **kwargs)
 
