@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block body_id %}staff{% endblock %}
+
+{% block page_menu %}
+    {% block staff_page_menu %}
+    {% include "staff/includes/side_navigation.html" %}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+    {% block staff_content %}
+        {% block staff_content_header %}
+
+        {% endblock %}
+        {% block staff_content_main %}
+
+        {% endblock %}
+        {% block staff_content_sub %}
+
+        {% endblock %}
+    {% endblock %}
+{% endblock %}
