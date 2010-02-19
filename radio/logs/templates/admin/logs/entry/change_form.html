@@ -51,8 +51,8 @@
     <table>
         <thead>
             <th>Artist</th>
-            <th>Album</th>
             <th>Track</th>
+            <th>Album</th>
             <th>When</th>
             <th>Who</th>
         </thead>
@@ -63,10 +63,10 @@
                     {{ log.artist.name }}
                 </td>
                 <td>
-                    {{ log.album.name }}
+                    {{ log.track.name }}
                 </td>
                 <td>
-                    {{ log.track.name }}
+                    {{ log.album.name }}
                 </td>
                 <td>
                     <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }} ago</abbr>
