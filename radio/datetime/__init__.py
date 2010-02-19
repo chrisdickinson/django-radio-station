@@ -50,3 +50,9 @@ def strip_hour_and_minute(dtime):
 def get_offset_in_seconds(dtime):
     start_of_day = strip_hour_and_minute(dtime)
     return (datetime.datetime(*dtime.timetuple()[:6]) - start_of_day).seconds
+
+def get_when_or_now(*args):
+    if None in args:
+        return datetime.datetime.now()
+    return datetime.datetime(*[int(arg) for arg in args])
+
