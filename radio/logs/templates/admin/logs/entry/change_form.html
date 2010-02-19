@@ -46,7 +46,6 @@
 {% block object-tools %}
 {{ block.super }}
 {% load radio_logs_tags %}
-{% load human_date_tags %}
 <div class="playlist-table">
     {% grab_latest_logs get 10 as latest_logs %}
     <table>

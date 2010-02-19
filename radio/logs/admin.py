@@ -4,6 +4,7 @@ from django.conf.urls.defaults import *
 from django.db.models import Count, Sum
 from radio.station.models import Spot
 from .models import *
+import datetime
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
@@ -14,11 +15,12 @@ class EntryAdmin(admin.ModelAdmin):
     radio_fields = {'genre':admin.VERTICAL}
 
     def save_model(self, request, obj, form, change):
-        if hasattr(obj, 'dj'):
-            obj.dj = request.user.get_profile()
+        if not hasattr(obj, 'dj'):
+            obj.dj = request.user.dj
         try:
+            now = datetime.datetime.now()
             if obj.show in (None, ''):
-                obj.show = Spot.objects.get_current_spot().show
+                obj.show = Spot.objects.get_current_spot(now).show
         except:
             pass
         return super(self.__class__, self).save_model(request, obj, form, change)
