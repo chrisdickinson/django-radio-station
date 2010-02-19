@@ -8,7 +8,7 @@
                     {% if schedule %}
                     {% for date in week %} 
                     <li class="{% ifequal date now %}active{% endifequal %}">
-                        <a href="{% url schedule-with-weekday schedule.pk date.weekday %}">{% ifequal date now %}today{% else %}{{ date|date:"l" }}{% endifequal %}</a>
+                        <a href="{% url schedule-for-day schedule.pk date.weekday %}">{% ifequal date now %}today{% else %}{{ date|date:"l" }}{% endifequal %}</a>
                     </li>
                     {% endfor %}
                     {% else %}

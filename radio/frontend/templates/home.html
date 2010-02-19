@@ -5,7 +5,7 @@
 {% block content_header %}
     {% if current_spot %}
         <div id="banner">
-            <a id="banner-link" class="header" href="{% url schedule-weekday %}" title="On right now">On right now</a>
+            <a id="banner-link" class="header" href="{% url for-day 0 %}" title="On right now">On right now</a>
             <a id="banner-image-link" href="{% url show-detail current_spot.show.slug %}" title="{{ current_spot.show.name }}">
                 <img alt="{{ current_spot.show.name }}" src="{{ MEDIA_URL }}{{ current_spot.show.image }}" />
             </a>
@@ -20,7 +20,7 @@
     <div id="content-main-object-list-container">
         <ul class="object-list bulleted">
             {% for spot in next_spots %}
-                {% include "radio_station/includes/show_listitem.html" %}
+                {% include "station/includes/show_listitem.html" %}
             {% endfor %}
         </ul>
     </div>
@@ -36,17 +36,17 @@
     </ul>
     <ul class="object-list-sub today active">
     {% for event in events.today %}
-        {% include "radio_events/includes/event_list_item_sub.html" %}
+        {% include "events/includes/event_list_item_sub.html" %}
     {% endfor %}
     </ul>
     <ul class="object-list-sub tomorrow inactive">
     {% for event in events.tomorrow %}
-        {% include "radio_events/includes/event_list_item_sub.html" %}
+        {% include "events/includes/event_list_item_sub.html" %}
     {% endfor %}
     </ul>
     <ul class="object-list-sub day_after inactive">
     {% for event in events.day_after %}
-        {% include "radio_events/includes/event_list_item_sub.html" %}
+        {% include "events/includes/event_list_item_sub.html" %}
     {% endfor %}
     </ul>
 {% endblock %}

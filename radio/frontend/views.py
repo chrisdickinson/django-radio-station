@@ -13,10 +13,10 @@ def home(request):
     import datetime
     now = datetime.datetime.now()
 
-    schedule = Schedule.objects.get_current_schedule()
+    schedule = Schedule.objects.get_current_schedule(now)
     current_spot = Spot.objects.get_current_spot(now)
-    next_spots = Spot.objects.filter_next_spots(now)[:6]
-    weekday_str = 'MTWRFSU'[current_spot.to_datetime().weekday()]
+    next_spots = Spot.objects.next_spots(now)[:6]
+    weekday_str = 'MTWRFSU'[current_spot.to_datetime.weekday()]
 
 
     today = datetime.datetime.now()

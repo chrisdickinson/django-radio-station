@@ -1,6 +1,6 @@
 from django import template
 from tag_utils import define_parsed_tag
-from frontend.models import Ad
+from radio.frontend.models import Ad
 import datetime
 import random
 register = template.Library()
