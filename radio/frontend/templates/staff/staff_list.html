@@ -28,7 +28,7 @@
                     {% else %}
                         <img style="display:inline-block;" src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
                     {% endif %} 
-                    <div class="right" style="display:inline-block;">
+                    <div class="right" style="display:inline-block; width:240px;">
                     {{ role.role.title }}<br />
                     {{ role.user.get_full_name }}<br />
                     {{ role.get_email }}<br />
