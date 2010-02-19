@@ -1,0 +1,21 @@
+.autocomplete-container {  display:none;     position:absolute; }
+.autocomplete-visible {  display:block;     border:1px solid #CCC;     margin:0px !important;     padding:0px !important; }
+.autocomplete-visible li {  background:#EEE;     color:#ACACAC;     list-style:none;     padding:3px;     margin:0px;     border-bottom:1px solid #CCC; }
+.autocomplete-visible li strong {  color:#999; }
+.autocomplete-visible li.autocomplete-selected {  color:white;     font-weight:bold;     background:#7CA0C7 url(../img/admin/default-bg.gif) repeat-x scroll 0% 100%;     border:none; }
+.autocomplete-visible li.autocomplete-selected strong {  color:white;     font-weight:bolder; }
+.autocomplete-visible {
+    top:21px;
+    left:8em;
+    position:absolute;
+}
+.form-row {
+    overflow:visible !important;
+}
+
+.autocomplete-parent {
+    z-index:0;
+}
+.autocomplete-parent-visible {
+    z-index:1000;
+}
