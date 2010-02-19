@@ -16,21 +16,23 @@
         </div>
 {% endblock %}
 {% block staff_content_main %}
+    {% load gravatar %}
     <div id="content-main-object-list-container"> 
         <h2 id="staff" class="header"><a name="contact">We are:</a></h2>
         <ul class="object-list">
         {% for role in roles %}
             <li class="object-list-item">
-                <dl>
-                    <dt>Position</dt>
-                    <dd>{{ role.role.title }}</dd>
-                    <dt>Name</dt>
-                    <dd>{{ role.user.get_full_name }}</dd>
-                    <dt>Email</dt>
-                    <dd>{{ role.get_email }}</dd>
-                    <dt>Phone</dt>
-                    <dd>{{ role.get_phone }}</dd>
-                </dl>
+                    {% if role.user.email %}
+                        <img src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
+                    {% else %}
+                        <img src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
+                    {% endif %} 
+                    <div class="right" style="display:inline-block;">
+                    {{ role.role.title }}
+                    {{ role.user.get_full_name }}
+                    {{ role.get_email }}
+                    {{ role.get_phone }}
+                    </div>
             </li>
         {% endfor %}
         </ul>
