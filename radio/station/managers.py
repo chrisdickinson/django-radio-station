@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.http import Http404
 from radio.datetime import *
-from .utils import *
+from radio.station.utils import *
 import datetime
 import itertools
 

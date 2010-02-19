@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.conf.urls.defaults import *
-from .models import *
+from .models import Show, Schedule, DJ, Spot 
 
 class ShowAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':['name',]}

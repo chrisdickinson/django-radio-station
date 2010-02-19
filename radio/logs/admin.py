@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.defaults import *
 from django.db.models import Count, Sum
 from radio.station.models import Spot
-from .models import *
+from .models import Entry 
 import datetime
 
 class EntryAdmin(admin.ModelAdmin):
