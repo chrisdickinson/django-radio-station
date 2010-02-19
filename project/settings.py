@@ -68,6 +68,7 @@ INSTALLED_APPS = (
     'radio.library',
     'radio.logs',
     'radio.station',
+    'radio.staff',
     'gravatar',
 )
 
