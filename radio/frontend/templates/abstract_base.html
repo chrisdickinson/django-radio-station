@@ -45,6 +45,11 @@
                         <div id="whats-playing">
                             <h2 class="header">now playing:</h2>
                             <img src="{% gravatar_for_email log.dj.user.email %}" height="60" width="60" />
+                            <object type="application/x-shockwave-flash" data="{{ MEDIA_URL }}flash/dewplayer-mini.swf" width="160" height="20" id="dewplayer" name="dewplayer">
+                                <param name="wmode" value="transparent" />
+                                <param name="movie" value="{{ MEDIA_URL }}flash/dewplayer-mini.swf" />
+                                <param name="flashvars" value="mp3=http://amber.streamguys.com:4100/stream.mp3&amp;nopointer=1" />
+                            </object>
                             <ul>
                                 <li>{{ log.artist }}</li>
                                 <li>{{ log.track }}</li>
