@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from radio.station.models import Spot, Schedule
 from radio.events.models import Event
+from radio.logs.models import Entry
 from django.template import loader, RequestContext
 from django import http
 
@@ -17,7 +18,7 @@ def home(request):
     current_spot = Spot.objects.get_current_spot(now)
     next_spots = Spot.objects.next_spots(now)[:6]
     weekday_str = 'MTWRFSU'[current_spot.to_datetime.weekday()]
-
+    latest_logs = Entry.objects.all().order_by('-submitted')[0:10]
 
     today = datetime.datetime.now()
     tomorrow = today+datetime.timedelta(days=1)
@@ -40,6 +41,7 @@ def home(request):
         'weekday_str':weekday_str,
         'events':events,
         'schedule':schedule,
+        'logs':latest_logs,
         'week':[(start_of_week + datetime.timedelta(days=i)).date() for i in range(0, 7)],
         'now':now.date()
     }

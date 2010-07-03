@@ -12,13 +12,10 @@
     </head>
     {% block body %}
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
-        <div id="city-left">
-        </div>
-        <div id="city-right">
-        </div>
         <div id="navigation">
             <div>
-                <h1><a href="/">WLUW</a></h1>
+                <h1><a href="/">wluw</a></h1>
+                <p class="slogan">chicago sound alliance</p>
                 <ul>
                     <li><a href="#">events</a></li>
                     <li><a href="#">music</a></li>
@@ -28,23 +25,63 @@
             </div>
         </div>
         <div id="wrap">
+            <div id="current-show">
+                <img src="{{ MEDIA_URL }}img/album.jpg" alt="whatever" />
+                {% with logs|slice:"0:1" as latest_log %}
+                <div>
+                    <h2>{{ latest_log.0.artist }}</h2>
+                    <p>
+                        <span>{{ latest_log.0.track }}</span>
+                        <span>Off of &ldquo;{{ latest_log.0.album }}&rdquo;</span>
+                        <span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}</span>
+                    <p>
+                </div>
+                <span class="when">{{ latest_log.0.submitted|timesince }}</span>
+                <a class="listen-link" href="#"><span>listen now &raquo;</span></a>
+                {% endwith %}
+            </div>
             <div id="content">
                 <div>
                     <div id="lhs">
                         <div>
                             <ul>
                                 {% for spot in next_spots %}
-                                    <li>{{ spot.show }}</li>
+                                    <li>
+                                        <h3>{{ spot.show }}</h3>
+                                        <p class="dj">{{ spot.dj }}</p>
+                                        <p>{{ spot.show.blurb }}</p>
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
                     <div id="rhs">
+                        <div id="events">
+                            <h2>events</h2>
+                            <ul>
+                                {% for event in events.today %}
+                                <li>
+                                    <h3><a href="{{ event.get_absolute_url }}">{{ event }}</a></h3>
+                                    <p>{{ event.blurb }}</p>
+                                    <p>{{ event.time_start }}</p>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% load events_tags %}
+                            <div class="calendar"><h2>{{ now|date:"F" }}</h2><div>{% calendar_block %}</div></div>
+                        </div>
                         <div>
-                        <h2><a href="#">today</a><a href="tomorrow">tomorrow</a></h2>
-                        <ul>
-
-                        </ul>
+                            <h2>recently played</h2>
+                            <table>
+                                {% for log in logs %}
+                                    <tr>
+                                        <td>{{ log.artist }}</td>
+                                        <td>{{ log.album }}</td>
+                                        <td>{{ log.track }}</td>
+                                        <td>{{ log.submitted|timesince }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
                         </div>
                     </div>
                 </div>

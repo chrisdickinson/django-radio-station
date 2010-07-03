@@ -1,9 +1,10 @@
 body { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#056CA9), to(#056CA9), color-stop(.4,#007389)); font-family:"Helvetica Neue", "Helvetica"; font-size:16px; }
 
-#wrap { width:960px; }
+#wrap { width:960px; margin-left:32px; }
 
-#navigation                     { background:#230f31; padding:10px; height:30px; }
-#navigation h1                  { float:left; font-size:3.0em; }
+#navigation                     { background:#230f31; padding:10px; height:30px; margin-bottom:96px; }
+#navigation h1                  { float:left; font-size:3.0em; margin-left:32px; }
+#navigation .slogan             { display:inline-block; color:#056CA9; position:relative; top:24px; float:left; margin-left:16px; font-family:"Lobster 1.3"; }
 #navigation ul                  { float:left; position:relative; top:10px;}
 #navigation ul li               { float:left; margin-left:32px; }
 #navigation ul li a             { font-family:"Lobster 1.3"; color:#230f31; text-decoration:none; font-size:1.2em;}
@@ -14,12 +15,13 @@ body { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#056CA9), to(#05
 
 #header p,
 h1, h1, h2, h3, h4, h5                  { font-family:"Lobster 1.3"; color:#056CA9; font-size:1.5em; text-decoration:none; }
+h2, h3, h4                              { color:#230f31; }
 
 h1 a, h2 a, h3 a, h4 a, h5 a    { color:#056CA9; text-decoration:none; display:inline-block; }
 
 h2 a                            { padding:0px 8px; }
 
-#wrap #content                  { margin-top:250px; border-radius:5px; -webkit-box-shadow:0px 0px 40px black; background:white; width:100%; text-align:left; }
+#wrap #content                  { width:100%; text-align:left; }
 #wrap #content > div            { margin:5px; padding:5px 0px; overflow:hidden; }
 h2                              { border-radius:5px; background-color:#230f31; padding:8px; color:white; font-size:1.1em; margin-bottom:8px; }
 
@@ -29,3 +31,49 @@ body #content                   { font-size:0.9em; color:black; }
 
 #lhs > div                      { margin-right:8px; }
 #rhs > div                      { margin-left:8px; }
+
+.calendar-week                  { width:100%; overflow:hidden; }
+.calendar-week a                { text-decoration:none; color:white; text-shadow:1px 1px 1px rgba(35, 15, 49, 0.7); }
+.calendar-week .calendar-date   { width:11%; display:inline-block; float:left; height:40px; padding:6px; }
+.calendar-week .calendar-date:last-child    { border-right:1px solid rgba(255, 255, 255, 0.3); }
+.calendar-week .calendar-date   { border-left:1px solid rgba(255, 255, 255, 0.3); border-top:1px solid rgba(255, 255, 255, 0.3); }
+.calendar-date.inactive         { background-color:rgba(35, 15, 49, 0.3); }
+.calendar-date                  { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.1)), to(rgba(255, 255, 255, 0.0))); }
+
+.calendar-week:last-child .calendar-date { border-bottom: 1px solid rgba(255, 255, 255, 0.3);}
+.calendar-date:hover            { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.0)), to(rgba(255, 255, 255, 0.1))); }
+
+.calendar-week:last-child .calendar-date:last-child { border-bottom-right-radius:6px; }
+.calendar-week:last-child .calendar-date:first-child { border-bottom-left-radius:6px; }
+.calendar-week:first-child .calendar-date:first-child { border-top-left-radius:6px; }
+.calendar-week:first-child .calendar-date:last-child { border-top-right-radius:6px; }
+
+.calendar-date.has-event span   { background:url('../img/dot.png') no-repeat scroll 50% 50%; width:16px; height:16px; width:100%; height:100%; display:block; }
+
+.calendar                       { background:black; width:390px; padding:5px; margin-bottom:16px; border-radius:6px;  float:left;}
+.calendar > div                 { margin:0pt auto; background:#007389; border-radius:6px;}
+#events                         { overflow:hidden; }
+
+#events > ul                    { float:left; width:39%; }
+#events > ul li h3 a            { font-size:0.8em; color:rgba(255, 255, 255, 0.7); }
+#events > ul li                 { margin-right:16px; margin-left:6px; }
+#events > ul li p               { color:rgba(35, 15, 49, 0.7); text-shadow:1px 1px 1px rgba(255, 255, 255, 0.2); line-height:1.2em; }
+#events > ul li                 { margin-bottom:6px; margin-top:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); padding:6px 0px; }
+
+#current-show                   { overflow:hidden; }
+#current-show img               { border-radius:6px; -webkit-box-shadow:10px 10px 0px rgba(0,0,0,0.1); float:left; margin-right:64px; margin-bottom:16px; width:280px; }
+#current-show h2                { background:transparent; font-size:6.0em; text-shadow:10px 10px 0px rgba(0,0,0,0.1); float:left; }
+#current-show > div p           { width:300px; float:left; }
+#current-show > div             { color:white; color:rgba(255, 255, 255, 0.5);  text-shadow:1px 1px 0px rgba(0,0,0,0.1); }
+#current-show > div span        { display:block; margin-top:6px; padding:6px; margin-bottom:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3);  }
+
+#lhs ul li                      { padding:6px 0px; margin-top:6px; margin-bottom:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); }
+#lhs ul li .dj                  { font-weight:bold; margin-bottom:10px; } 
+#lhs ul li p                    { color:rgba(35, 15, 49, 0.7); text-shadow:1px 1px 1px rgba(255, 255, 255, 0.2); line-height:1.2em; }
+
+#current-show                   { position:relative; }
+#current-show .listen-link      { border:1px solid #FD899C; vertical-align:center; display:inline-block; }
+#current-show .listen-link span { position:relative; top:25%; left:16px; text-shadow:1px 1px 5px rgba(0,0,0,0.9); }
+#current-show .listen-link      { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FD6E8A), to(#E0627A), color-stop(.2,#FD899C)) } 
+#current-show .listen-link      { border-radius:60px; color:white; text-decoration:none; width:160px; height:30px; }
+#current-show .listen-link      { -webkit-box-shadow:5px 5px 0px rgba(0, 0, 0, 0.2); }

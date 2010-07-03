@@ -12,7 +12,7 @@
                   {% if has_event %}
                         has-event
                   {% endif %}"
-         href="{% ifequal day 0 %}#{% else %}{% url events-for-day today.year today.month day %}{% endifequal %}">{% ifnotequal day 0 %}{{ day }}{% endifnotequal %}</a>
+         href="{% ifequal day 0 %}#{% else %}{% url events-for-day today.year today.month day %}{% endifequal %}"><span>{% ifnotequal day 0 %}{{ day }}{% endifnotequal %}</span></a>
     {% endfor %}
     </div>
 {% endfor %} 
