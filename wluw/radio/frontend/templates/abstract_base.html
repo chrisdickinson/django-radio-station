@@ -12,10 +12,14 @@
     </head>
     {% block body %}
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
+        <div id="city-left"></div>
+        <div id="city-right"></div>
         <div id="navigation">
             <div>
-                <h1><a href="/">wluw</a></h1>
-                <p class="slogan">chicago sound alliance</p>
+                <div>
+                    <h1><a href="/">wluw</a></h1>
+                    <p class="slogan">chicago sound alliance</p>
+                </div>
                 <ul>
                     <li><a href="#">events</a></li>
                     <li><a href="#">music</a></li>
@@ -42,22 +46,10 @@
             </div>
             <div id="content">
                 <div>
-                    <div id="lhs">
-                        <div>
-                            <ul>
-                                {% for spot in next_spots %}
-                                    <li>
-                                        <h3>{{ spot.show }}</h3>
-                                        <p class="dj">{{ spot.dj }}</p>
-                                        <p>{{ spot.show.blurb }}</p>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
                     <div id="rhs">
                         <div id="events">
-                            <h2>events</h2>
+                            {% load events_tags %}
+                            <div class="calendar"><h2>{{ now|date:"F" }}</h2><div>{% calendar_block %}</div></div>
                             <ul>
                                 {% for event in events.today %}
                                 <li>
@@ -67,8 +59,6 @@
                                 </li>
                                 {% endfor %}
                             </ul>
-                            {% load events_tags %}
-                            <div class="calendar"><h2>{{ now|date:"F" }}</h2><div>{% calendar_block %}</div></div>
                         </div>
                         <div>
                             <h2>recently played</h2>
@@ -82,6 +72,19 @@
                                     </tr>
                                 {% endfor %}
                             </table>
+                        </div>
+                    </div>
+                    <div id="lhs">
+                        <div>
+                            <ul>
+                                {% for spot in next_spots %}
+                                    <li>
+                                        <h3>{{ spot.show }}</h3>
+                                        <p class="dj">{{ spot.dj }}</p>
+                                        <p>{{ spot.show.blurb }}</p>
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
                     </div>
                 </div>
