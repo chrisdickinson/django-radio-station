@@ -61,7 +61,7 @@ body #content                   { font-size:0.9em; }
 #events                         { overflow:hidden; }
 
 #events > ul                    { float:left; width:39%; }
-#events > ul li h3 a            { font-size:0.8em; color:#9e1313; text-decoration:none; }
+#events > ul li h3 a            { font-size:0.8em; color:#c6e9f1; text-decoration:none; }
 #events > ul li                 { margin-left:16px; margin-right:6px; }
 #events > ul li p               { color:#c6e9f1; text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
 #events > ul li                 { margin-bottom:6px; margin-top:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); padding:6px 0px; }
@@ -75,7 +75,7 @@ body #content                   { font-size:0.9em; }
 
 #lhs ul li                      { padding:6px 0px; margin-top:6px; margin-bottom:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); }
 #lhs ul li .dj                  { font-weight:bold; margin-bottom:10px; } 
-#lhs ul li p                    { color:rgba(227, 218, 178, 0.7); text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
+#lhs ul li p                    { color:#c6e9f1;  text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
 #lhs ul li h3                   { color:#c6e9f1; }
 
 #current-show                   { position:relative; }
