@@ -46,6 +46,7 @@ h2, h3, h4                      { color:#230f31; }
 
 .scene.logs                     { background:url('../img/city_bg.png') repeat-x #2e2e2e; }
 .scene.logs .scene-left         { width:300px; height:600px; background:url('../img/city.png') no-repeat; position:absolute; top:12px; left:0px; z-index:1; }
+.scene.logs .scene-left-bottom  { width:242px; height:615px; background:url('../img/building_side_left.png') no-repeat; position:absolute; top:365px; left:0px; z-index:1; }
 .scene.logs .scene-right        { width:300px; height:600px; background:url('../img/city.png') no-repeat scroll -300px 0px; position:absolute; top:12px; right:0px; z-index:1; }
 
 #current-show                   { overflow:hidden; position:relative; }
@@ -72,12 +73,17 @@ h2 a                            { padding:0px 8px; }
 
 .scene.events                   { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#2E2E2E), to(#000000)); position:relative; padding-bottom:32px; padding-top:32px; }
 .scene.events                   { background:-moz-linear-gradient(19% 75% 90deg,#000, #2e2e2e, #2e2e2e 100%); }
-.scene.events .scene-left       { width:544px; height:519px; background:url('../img/scene-2-left.png') no-repeat; position:absolute; bottom:0px; left:0px; z-index:1; }
-.scene.events .scene-right      { width:498px; height:248px; background:url('../img/scene-2-right.png') no-repeat; position:absolute; bottom:-120px; right:0px; z-index:1; }
-.scene.shows .scene-train      { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; left:0px; z-index:1; }
-.scene.shows .scene-train2      { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; right:0px; z-index:1; }
+.scene.events .scene-right      { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; bottom:0px; right:0px; z-index:1; }
+.scene.events .scene-left       { width:360px; height:690px; background:url('../img/subwaystop.png') no-repeat; position:absolute; bottom:0px; left:0px; z-index:1; }
 
-.scene.shows                    { background:#9E1313; padding-top:128px; }
+.scene.shows .scene-left       { width:544px; height:519px; background:url('../img/scene-2-left.png') no-repeat; position:absolute; bottom:0px; left:0px; z-index:1; }
+.scene.shows .scene-right      { width:498px; height:248px; background:url('../img/scene-2-right.png') no-repeat; position:absolute; bottom:-120px; right:0px; z-index:1; }
+
+.scene.shows                    { background:black; position:relative; padding-bottom:32px; padding-top:32px; }
+.scene.about .scene-left        { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; left:0px; z-index:1; }
+.scene.about .scene-right       { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; right:0px; z-index:1; }
+
+.scene.about                    { background:#9E1313; padding-top:128px; }
 
 #content #lhs                   { width:30%; float:left; }
 #content #rhs                   { width:70%; float:left; }
@@ -108,7 +114,7 @@ body #content                   { font-size:0.9em; }
 .calendar                       { background:#9e1313; width:280px; padding:5px; margin-bottom:16px; margin-left:36px; border-radius:6px; float:right; }
 .calendar > h2                  { margin:6px; padding-bottom:6px; color:white; font-size:0.8em; }
 .calendar > div                 { background:#c6e9f1; width:274px; margin:3px auto; border-radius:6px;}
-#events-holder                         { overflow:hidden; }
+#events-holder                         { overflow:hidden; background:-webkit-gradient(linear, 0% 24%, 0% 100%, from(rgba(0,0,0,0.0)), to(rgba(0,0,0,0.8))); }
 
 .scene.events h2                { color:white; font-size:1.5em; }
 
