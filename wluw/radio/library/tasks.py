@@ -24,6 +24,8 @@ def grab_album_art(album_pk):
                 raise Exception()
             images = dict([(image['size'], image['#text']) for image in result['album']['image']])
 
+            album.lastfm_url = result['album']['url']
+
             album.image_large = images.get('large', '')
             album.image_medium = images.get('medium', '')
             album.image_small = images.get('small', '')
