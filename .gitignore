@@ -11,3 +11,7 @@ project/local_settings.py
 media/usr
 media/css/*.css
 develop-eggs/
+bin
+include
+lib
+src
