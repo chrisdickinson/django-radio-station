@@ -7,20 +7,13 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'project.db'
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
-
 TIME_ZONE = 'America/Chicago'
 
 LANGUAGE_CODE = 'en-us'
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '..', 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.auth",
     "django.core.context_processors.debug",
@@ -52,7 +45,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'wluw.urls'
 
 
 INSTALLED_APPS = (
@@ -71,6 +64,8 @@ INSTALLED_APPS = (
     'radio.station',
     'radio.staff',
     'gravatar',
+    'djcelery',
+    'gunicorn'
 )
 
 TEMPLATE_LOADERS = (
@@ -84,3 +79,8 @@ TEMPLATE_DIRS = (
 
 AUTH_PROFILE_MODULE = 'radio_station.DJ'
 SITE_ID = 1
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
