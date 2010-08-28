@@ -5,6 +5,7 @@ from django.db.models import Count, Sum
 from radio.station.models import Spot
 from .models import Entry 
 import datetime
+from wluw.radio.library.tasks import grab_album_art
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
@@ -23,6 +24,10 @@ class EntryAdmin(admin.ModelAdmin):
                 obj.show = Spot.objects.get_current_spot(now).show
         except:
             pass
+
+        if obj.album.status == 0:
+            grab_album_art.delay(obj.album.pk)
+
         return super(self.__class__, self).save_model(request, obj, form, change)
 
     class Media:

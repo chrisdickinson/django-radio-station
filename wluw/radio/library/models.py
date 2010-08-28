@@ -15,8 +15,27 @@ class Label(models.Model):
         ordering=['name']
 
 class Album(models.Model):
+    class Status(object):
+        PENDING = 0
+        WORKING = 1
+        OKAY = 2
+        ERROR = 3
+        values = (
+            (0, 'pending'),
+            (1, 'working'),
+            (2, 'okay'),
+            (3, 'error'),
+        )
     name = models.CharField(max_length=255)
     artist = models.ForeignKey(Artist)
+
+    image_large = models.CharField(max_length=255, null=True, blank=True)
+    image_medium = models.CharField(max_length=255, null=True, blank=True)
+    image_small = models.CharField(max_length=255, null=True, blank=True)
+    mbid = models.CharField(max_length=36, null=True, blank=True)
+
+    status = models.IntegerField(choices=Status.values, default=Status.PENDING)
+
     def __unicode__(self):
         return '%s' % (self.name)
     class Meta:
