@@ -32,8 +32,8 @@
                     <p class="slogan">chicago sound alliance</p>
                 </div>
                 <div id="current-show">
-                    <img src="{{ MEDIA_URL }}img/album.jpg" alt="whatever" />
                     {% with logs|slice:"0:1" as latest_log %}
+                    <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
                     <div>
                         <h2>{{ latest_log.0.artist }}</h2>
                         <p>
