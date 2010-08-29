@@ -1,0 +1,14 @@
+Django
+south
+celery
+django-celery
+simplejson
+psycopg2
+httplib2
+git+git://github.com/chrisdickinson/surlex.git#egg=surlex
+-e hg+http://bitbucket.org/jespern/django-piston/#egg=piston
+-e git+git://github.com/chrisdickinson/tag_utils.git#egg=tag_utils
+-e git+git://github.com/chrisdickinson/d51_django_admin_piston#egg=django_admin_piston
+-e git+git://github.com/chrisdickinson/d51_admin_autofk.git#egg=admin_autofk
+-e svn+http://django-gravatar.googlecode.com/svn/trunk#egg=gravatar
+-e git+git://github.com/chrisdickinson/waiter.git#egg=waiter
