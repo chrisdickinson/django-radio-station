@@ -1,18 +1,31 @@
 {% extends "logs/base.html" %}
 
-{% block logs_content_header %}
-<h1>Logs from {{ at_datetime|date:"g:ia l" }} the {{ at_datetime|date:"jS" }}</h1> 
+{% block header %}
+<h2>Logs from {{ at_datetime|date:"g:ia l" }} the {{ at_datetime|date:"jS" }}</h2> 
 {% endblock %}
 
-{% block logs_page_menu %}
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url logs-time-now %}" title="Logs">Logs</a></li>
+    <li><a href="{% url logs-time at_datetime.year at_datetime|date:"b" at_datetime.day at_datetime.hour %}" title="{{ at_datetime|date:"l jS g:ia" }}">{{ at_datetime|date:"l jS g:ia" }}</a></li>
+    
+{% endblock %}
+
+{% block sidebar %}
     <ul id="page-menu">
         {% for nav_date in date_range %}
             {% ifequal nav_date.date at_datetime.date %}
                 <li class="active">
-                    <h2>{% ifequal at_datetime.date current_datetime.date %}Today{% else %}{{ nav_date|date:"l jS" }}{% endifequal %}</h2>
+                    <a href="#">
+                        {% ifequal at_datetime.date current_datetime.date %}
+                            Today
+                        {% else %}
+                            {{ nav_date|date:"l jS" }}
+                        {% endifequal %}
+                    </a>
                     <ul>
                         {% for nav_time in time_range %}
-                            <li>
+                            <li {% if at_datetime == nav_time %}class="active"{% endif %}>
                                 {% url logs-time nav_date.year nav_date|date:"b" nav_date.day nav_time.hour as nav_url %}
                                 <a href="{{ nav_url }}" title="{{ nav_time|date:"g:ia" }}">{{ nav_time|date:"g:ia" }}</a>
                             </li>
@@ -29,26 +42,34 @@
     </ul>
 {% endblock %}
 
-{% block logs_content_main %}
+{% block stage %}
     <ul class="navigation">
         <li class="prev"><a href="{% url logs-time prev.year prev|date:"b" prev.day prev.hour %}">3 hours earlier</a></li>
         {% if next %}
         <li class="next"><a href="{% url logs-time next.year next|date:"b" next.day next.hour %}">3 hours later</a></li>
         {% endif %}
-    
     </ul>
     <div class="object-list-tabular">
         <table>
             <thead>
+                <th></th>
                 <th>Artist</th>
                 <th>Album</th>
                 <th>Track</th>
-                <th>When</th>
-                <th>DJ</th>
             </thead>
             <tbody>
                 {% for log in entries %}
+                {% ifchanged log.dj %}
+                    <tr class="dj"><td colspan="4">{{ log.dj.user }}</td></tr>
+                {% endifchanged %}
                 <tr class="{% cycle 'row1' 'row2' %}">
+                    <td>
+                        {% if log.album.status == 2 and log.album.image_medium %}
+                        <a href="{{ log.album.lastfm_url }}" title="listen on last.fm">
+                            <img src="{{ log.album.image_medium }}" alt="{{ log.album.name }}" />
+                        </a>
+                        {% endif %}
+                    </td>
                     <td>
                         {{ log.artist.name }}
                     </td>
@@ -57,12 +78,6 @@
                     </td>
                     <td>
                         {{ log.track.name }}
-                    </td>
-                    <td>
-                        <abbr title="{{ log.submitted }}">{{ log.submitted|timesince }} ago</abbr>
-                    </td>
-                    <td>
-                        {{ log.dj.user }}
                     </td>
                 </tr>
                 {% endfor %}
