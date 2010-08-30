@@ -128,8 +128,10 @@ body #content                   { font-size:0.9em; }
 
 .wrap ul li                      { padding:12px 0px; margin-top:6px; margin-bottom:16px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); }
 .wrap ul li .dj                  { font-weight:bold; margin-bottom:10px; } 
+.wrap ul li .dj a                { font-weight:bold; margin-bottom:10px; color:#c6e9f1; } 
 .wrap ul li p                    { color:#c6e9f1;  text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
 .wrap ul li h3                   { color:#c6e9f1; }
+.wrap ul li h3 a                 { color:#c6e9f1; text-decoration:none; }
 
 #footer                         { background:black; color:white; padding:32px 0px; font-size:0.8em;  }
 #footer .wrap ul                { width:100%; overflow:hidden; }
