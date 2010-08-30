@@ -19,15 +19,21 @@
 {% endblock %}
 
 {% block content %}
-    {% block logs_content %}
-        {% block logs_content_header %}
+    <div class="scene logs">
+        <div class="scene-left"></div>
+        <div class="scene-right"></div>
+        <div class="wrap">
+        {% block logs_content %}
+            {% block logs_content_header %}
 
-        {% endblock %}
-        {% block logs_content_main %}
+            {% endblock %}
+            {% block logs_content_main %}
 
-        {% endblock %}
-        {% block logs_content_sub %}
+            {% endblock %}
+            {% block logs_content_sub %}
 
+            {% endblock %}
         {% endblock %}
-    {% endblock %}
+        </div>
+    </div>
 {% endblock %}
