@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body_id %}twocolumn{% endblock %}
+
+{% block content %}
+    <div id="content">
+        <ul id="breadcrumbs">
+            {% block breadcrumbs %}
+                <li><a href="{% url home %}" title="home">WLUW.org</a></li>
+            {% endblock %}
+        </ul>
+        <div id="innercontent">
+            <div id="header">
+                {% block header %}
+
+                {% endblock %}
+            </div>
+            <div id="sidebar">
+                {% block sidebar %}
+
+                {% endblock %}
+            </div>
+            <div id="stage">
+                <div>
+                {% block stage %}
+
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
