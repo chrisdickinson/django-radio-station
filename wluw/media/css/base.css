@@ -142,11 +142,12 @@ h2 a                            { padding:0px 8px; }
 #twocolumn #content #breadcrumbs li a:after { content:" \00BB"; }
 #twocolumn #content #breadcrumbs li:last-child a:after { content:""; }
 #twocolumn #content #breadcrumbs li a   { text-decoration:none; font-size:0.7em; }
-#twocolumn #innercontent        { width:100%; overflow:hidden; padding:16px; }
+#twocolumn #innercontent        { padding:16px; }
+#twocolumn #innercontent:after  { content:"\0010"; display:block; clear:both; }
 #twocolumn #header              { }
-#twocolumn #sidebar             { width:150px; font-size:0.8em; float:left; }
-#twocolumn #stage               { float:left; width:450px; }
-#twocolumn #stage > div         { padding:16px; }
+#twocolumn #sidebar             { width:150px; font-size:0.8em; float:left; padding-top:16px;}
+#twocolumn #stage               { float:left; width:418px; }
+#twocolumn #stage > div         { padding:16px; padding-right:0px; }
 #twocolumn #sidebar > ul > li     { padding:8px 0px; }
 #twocolumn #sidebar > ul > li > ul  { padding-left:16px; }
 #twocolumn #sidebar > ul > li > ul > li {  padding:6px 0px; }
@@ -164,7 +165,7 @@ h2 a                            { padding:0px 8px; }
 
 #twocolumn.logs table { background:white; width:100%; margin-top:-6px; }
 #twocolumn.logs table thead th { background:#C03939; padding:6px; }
-#twocolumn.logs table tbody td { color:#363636; vertical-align:top; }
+#twocolumn.logs table tbody td { color:#363636; vertical-align:top; border-bottom:1px dotted rgba(0,0,0,0.2); }
 #twocolumn.logs table tbody td p { padding:6px; }
 #twocolumn.logs table tbody td.image { width:64px; }
 #twocolumn.logs table tbody td.image a img { width:64px; border-radius:6px; }
@@ -176,4 +177,8 @@ h2 a                            { padding:0px 8px; }
 
 .navigation .prev { background:no-repeat url('../img/arrow-up.png') scroll 50% 50%; }
 .navigation .next { background:no-repeat url('../img/arrow-down.png') scroll 50% 50%; }
+
+#twocolumn.logs table tbody tr td div { position:relative; }
+#twocolumn.logs table tbody tr:hover td .hidden { opacity:1.0; }
+#twocolumn.logs table tbody tr td .hidden { opacity:0.0; -webkit-transition:opacity 0.2s ease-in; position:absolute; top:0px; right:-150px; background:white; border-radius:6px; }
  

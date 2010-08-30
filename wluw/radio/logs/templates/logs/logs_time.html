@@ -79,6 +79,11 @@
                         <p>{{ log.album.name }}</p>
                     </td>
                     <td>
+                        <div>
+                        <p class="hidden">
+                            {{ log.submitted|date:"l, N jS g:ia" }}
+                        </p>
+                        </div>
                         <p>{{ log.track.name }}</p>
                     </td>
                 </tr>
