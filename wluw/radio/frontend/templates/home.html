@@ -50,7 +50,20 @@
                 <div id="events" class="logo"><h2>Events</h2></div>
                 <div id="events-holder">
                     {% load events_tags %}
-                    <div class="calendar"><h2>Events for {{ now|date:"F" }}</h2><div>{% calendar_block %}</div></div>
+                    <div class="calendar">
+                        <h2>Events for {{ now|date:"F" }}</h2>
+                        <div>{% calendar_block %}</div>
+                        <div>
+                            {% load frontend_tags %}
+                            {% get_random_ad as ad %}
+                            {% if ad %}
+                            <a href="{{ ad.link }}" title="{{ ad.name }}">
+                                <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.name }}" />
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if events.today %}
                     <h2>Today</h2>
                     <ul>
                         {% for event in events.today %}
@@ -61,6 +74,8 @@
                         </li>
                         {% endfor %}
                     </ul>
+                    {% endif %}
+                    {% if events.tomorrow %}
                     <h2>Tomorrow</h2>
                     <ul>
                         {% for event in events.tomorrow %}
@@ -71,6 +86,8 @@
                         </li>
                         {% endfor %}
                     </ul>
+                    {% endif %}
+                    {% if events.day_after %}
                     <h2>{{ day_after_tomorrow|date:"l" }}</h2>
                     <ul>
                         {% for event in events.day_after %}
@@ -81,6 +98,7 @@
                         </li>
                         {% endfor %}
                     </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>

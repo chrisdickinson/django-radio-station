@@ -125,7 +125,6 @@ body #content                   { font-size:0.9em; }
 #events-holder > ul li p               { margin-left:0px; opacity:0.7; color:#c6e9f1; text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
 #events-holder > ul li                 { margin-bottom:6px; margin-top:10px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); padding:6px 0px; }
 #events-holder > .calendar + h2        { padding-top:8px; }
-#events-holder > ul + h2               { margin-top:48px; clear:both; }
 
 .wrap ul li                      { padding:12px 0px; margin-top:6px; margin-bottom:16px; border-bottom:1px dotted rgba(255, 255, 255, 0.3); }
 .wrap ul li .dj                  { font-weight:bold; margin-bottom:10px; } 
