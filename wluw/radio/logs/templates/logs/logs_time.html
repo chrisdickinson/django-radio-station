@@ -1,13 +1,13 @@
 {% extends "logs/base.html" %}
 
 {% block header %}
-<h2>Logs from {{ at_datetime|date:"g:ia l" }} the {{ at_datetime|date:"jS" }}</h2> 
+<h2>Logs from {{ at_datetime|date:"g:ia l" }} the {{ at_datetime|date:"jS" }} of {{ at_datetime|date:"F" }}</h2> 
 {% endblock %}
 
 {% block breadcrumbs %}
     {{ block.super }}
     <li><a href="{% url logs-time-now %}" title="Logs">Logs</a></li>
-    <li><a href="{% url logs-time at_datetime.year at_datetime|date:"b" at_datetime.day at_datetime.hour %}" title="{{ at_datetime|date:"l jS g:ia" }}">{{ at_datetime|date:"l jS g:ia" }}</a></li>
+    <li><a href="{% url logs-time at_datetime.year at_datetime|date:"b" at_datetime.day at_datetime.hour %}" title="{{ at_datetime|date:"l, N jS g:ia" }}">{{ at_datetime|date:"l, N jS g:ia" }}</a></li>
     
 {% endblock %}
 
@@ -63,21 +63,23 @@
                     <tr class="dj"><td colspan="4">{{ log.dj.user }}</td></tr>
                 {% endifchanged %}
                 <tr class="{% cycle 'row1' 'row2' %}">
-                    <td>
+                    <td class="image">
                         {% if log.album.status == 2 and log.album.image_medium %}
                         <a href="{{ log.album.lastfm_url }}" title="listen on last.fm">
                             <img src="{{ log.album.image_medium }}" alt="{{ log.album.name }}" />
                         </a>
+                        {% else %}
+
                         {% endif %}
                     </td>
                     <td>
-                        {{ log.artist.name }}
+                        <p>{{ log.artist.name }}</p>
                     </td>
                     <td>
-                        {{ log.album.name }}
+                        <p>{{ log.album.name }}</p>
                     </td>
                     <td>
-                        {{ log.track.name }}
+                        <p>{{ log.track.name }}</p>
                     </td>
                 </tr>
                 {% endfor %}
