@@ -16,7 +16,7 @@
 
 body { font-family:"Helvetica Neue", "Helvetica"; font-size:16px; }
 .scene { position:relative; }
-.scene .wrap { width:600px; margin:0pt auto; z-index:2000; position:relative; }
+.wrap { width:600px; margin:0pt auto; z-index:2000; position:relative; }
 
 
 
@@ -83,7 +83,7 @@ h2 a                            { padding:0px 8px; }
 .scene.about .scene-left        { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; left:0px; z-index:1; }
 .scene.about .scene-right       { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; right:0px; z-index:1; }
 
-.scene.about                    { background:#9E1313; padding-top:128px; }
+.scene.about                    { background:#9E1313; padding-top:128px; padding-bottom:128px; }
 
 #content #lhs                   { width:30%; float:left; }
 #content #rhs                   { width:70%; float:left; }
@@ -132,3 +132,8 @@ body #content                   { font-size:0.9em; }
 .wrap ul li p                    { color:#c6e9f1;  text-shadow:1px 1px 1px rgba(0, 0, 0, 0.2); line-height:1.2em; }
 .wrap ul li h3                   { color:#c6e9f1; }
 
+#footer                         { background:black; color:white; padding:32px 0px; font-size:0.8em;  }
+#footer .wrap ul                { width:100%; overflow:hidden; }
+#footer .wrap ul li             { float:left; margin:0px; padding:0px; width:50%; height:3.5em; border:none; }
+#footer .wrap ul li a           { color:#c6e9f1; padding:12px; display:block;  }
+#footer .wrap ul li p           { padding:12px; display:block; }
