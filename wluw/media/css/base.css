@@ -165,7 +165,8 @@ h2 a                            { padding:0px 8px; }
 
 #twocolumn.logs table { background:white; width:100%; margin-top:-6px; }
 #twocolumn.logs table thead th { background:#C03939; padding:6px; }
-#twocolumn.logs table tbody td { color:#363636; vertical-align:top; border-bottom:1px dotted rgba(0,0,0,0.2); }
+#twocolumn.logs table tbody td { color:#363636; vertical-align:top; }
+#twocolumn.logs table tbody tr { border-bottom:1px dotted rgba(0,0,0,0.2); }
 #twocolumn.logs table tbody td p { padding:6px; }
 #twocolumn.logs table tbody td.image { width:64px; }
 #twocolumn.logs table tbody td.image a img { width:64px; border-radius:6px; }
