@@ -1,80 +1,131 @@
 {% extends "base.html" %}
 
 {% block body_id %}home{% endblock %}
-
-{% block content_header %}
-    {% if current_spot %}
-        <div id="banner">
-            <a id="banner-link" class="header" href="{% url for-day 0 %}" title="On right now">On right now</a>
-            <a id="banner-image-link" href="{% url show-detail current_spot.show.slug %}" title="{{ current_spot.show.name }}">
-                <img alt="{{ current_spot.show.name }}" src="{{ MEDIA_URL }}{{ current_spot.show.image }}" />
-            </a>
-        </div>
-    {% endif %}
-{% endblock %}
+{% load gravatar %}
 
 {% block content %}
-    <div id="content-main-header">
-        {{ current_spot.show.blurb }}
-    </div>
-    <div id="content-main-object-list-container">
-        <ul class="object-list bulleted">
-            {% for spot in next_spots %}
-                {% include "station/includes/show_listitem.html" %}
-            {% endfor %}
-        </ul>
-    </div>
-{% endblock %}
-
-{% block content_sub %}
-    <h2 class="header">What&rsquo;s going on <span id="event-list-target">today</span></h2>
-    <ul id="event-list">
-        <li class="active"><a class="event-list-link today" href="{% url events-list %}" title="today">today</a></li>
-        <li><a class="event-list-link tomorrow" href="{% url events-for-day tomorrow.year tomorrow.month tomorrow.day %}" title="tomorrow">tomorrow</a></li>
-        <li><a class="event-list-link day_after" href="{% url events-for-day day_after_tomorrow.year day_after_tomorrow.month day_after_tomorrow.day %}" title="{{ day_after_tomorrow|date:"l" }}">{{ day_after_tomorrow|date:"l" }}</a></li>
-        <li><a class="event-list-link" href="{% url events-list %}" title="see more">see more</a></li>
-    </ul>
-    <ul class="object-list-sub today active">
-    {% for event in events.today %}
-        {% include "events/includes/event_list_item_sub.html" %}
-    {% endfor %}
-    </ul>
-    <ul class="object-list-sub tomorrow inactive">
-    {% for event in events.tomorrow %}
-        {% include "events/includes/event_list_item_sub.html" %}
-    {% endfor %}
-    </ul>
-    <ul class="object-list-sub day_after inactive">
-    {% for event in events.day_after %}
-        {% include "events/includes/event_list_item_sub.html" %}
-    {% endfor %}
-    </ul>
-{% endblock %}
-
-{% block content_after %}
-    {% block playlist %}
-        {% load radio_logs_tags %}
-        <div id="playlist">
-            <h2 class="header">What&rsquo;s Playing</h2>
-            {% playlist_table 5 %}
-            <!-- playlist! -->
-        </div>
-    {% endblock %}
-
-    {% block ad_space %}
-        {% load frontend_tags %}
-        {% get_random_ad as ad %}
-        {% if ad %}
-        <div id="ad-space">
-            <h2 class="header">Check this out</h2>
-            <div>
-                <a href="{{ ad.link }}" title="{{ ad.name }}">
-                    <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.name }}" width="300" height="300"/>
-                </a>
+        <div class="scene logs">
+            <div class="scene-left"></div>
+            <div class="scene-right"></div>
+            <div class="scene-left-bottom"></div>
+            <div class="wrap">
+                <div id="nowplaying" class="logo">
+                    <h1><a href="/">wluw</a></h1>
+                    <p class="slogan">chicago sound alliance</p>
+                </div>
+                <div id="current-show">
+                    {% with logs|slice:"0:1" as latest_log %}
+                    <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
+                    <div>
+                        <h2>{{ latest_log.0.artist }}</h2>
+                        <p>
+                            <span>{{ latest_log.0.track }}</span>
+                            <span>Off of &ldquo;{{ latest_log.0.album }}&rdquo;</span>
+                            <span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}</span>
+                        <p>
+                    </div>
+                    <span class="when">{{ latest_log.0.submitted|timesince }}</span>
+                    <a class="listen-link" href="#"><span>listen now &raquo;</span></a>
+                    {% endwith %}
+                </div>
+                <div>
+                    <table>
+                        {% for log in logs %}
+                            <tr>
+                                <td>{{ log.artist }}</td>
+                                <td>{{ log.album }}</td>
+                                <td>{{ log.track }}</td>
+                                <td>{{ log.submitted|timesince }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
             </div>
         </div>
-        {% endif %}
-    {% endblock %}
+        <div class="scene events">
+            <div class="scene-left"></div>
+            <div class="scene-right"></div>
+            <div class="wrap">
+                <div id="events" class="logo"><h2>Events</h2></div>
+                <div id="events-holder">
+                    {% load events_tags %}
+                    <div class="calendar"><h2>Events for {{ now|date:"F" }}</h2><div>{% calendar_block %}</div></div>
+                    <h2>Today</h2>
+                    <ul>
+                        {% for event in events.today %}
+                        <li>
+                            <h3><a href="{{ event.get_absolute_url }}">{{ event }}</a></h3>
+                            <p>{{ event.blurb }}</p>
+                            <p>{{ event.time_start }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <h2>Tomorrow</h2>
+                    <ul>
+                        {% for event in events.tomorrow %}
+                        <li>
+                            <h3><a href="{{ event.get_absolute_url }}">{{ event }}</a></h3>
+                            <p>{{ event.blurb }}</p>
+                            <p>{{ event.time_start }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <h2>{{ day_after_tomorrow|date:"l" }}</h2>
+                    <ul>
+                        {% for event in events.day_after %}
+                        <li>
+                            <h3><a href="{{ event.get_absolute_url }}">{{ event }}</a></h3>
+                            <p>{{ event.blurb }}</p>
+                            <p>{{ event.time_start }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="scene shows">
+            <div class="scene-left"></div>
+            <div class="scene-right"></div>
+            <div class="wrap">
+                <div id="shows" class="logo"><h2>Shows</h2></div>
+                <div>
+                    <ul>
+                        {% for spot in next_spots %}
+                            <li>
+                                <h3>{{ spot.show }}</h3>
+                                <p class="dj">{{ spot.dj }}</p>
+                                <p>{{ spot.show.blurb }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="scene about">
+            <div class="wrap">
+                <div id="about" class="logo"><h2>About</h2></div>
+                <div>
+                    {{ about_page.content|safe }}
+                </div>
+                <ul>
+                {% for role in roles %}
+                    <li>
+                            {% if role.user.email %}
+                                <img style="display:inline-block;" src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
+                            {% else %}
+                                <img style="display:inline-block;" src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
+                            {% endif %} 
+                            <div class="right" style="display:inline-block; width:240px;">
+                            {{ role.role.title }}<br />
+                            {{ role.user.get_full_name }}<br />
+                            {{ role.get_email }}<br />
+                            {{ role.get_phone }}<br />
+                            </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
 {% endblock %}
 
 
