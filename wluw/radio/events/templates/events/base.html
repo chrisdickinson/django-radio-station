@@ -9,15 +9,19 @@
 {% endblock %}
 
 {% block content %}
-    {% block events_content %}
-        {% block events_content_header %}
+    <div class="scene events">
+        <div class="scene-left"></div>
+        <div class="scene-right"></div>
+        <div class="wrap">
+            {% block events_content_header %}
 
-        {% endblock %}
-        {% block events_content_main %}
+            {% endblock %}
+            {% block events_content_main %}
 
-        {% endblock %}
-        {% block events_content_sub %}
+            {% endblock %}
+            {% block events_content_sub %}
 
-        {% endblock %}
-    {% endblock %}
+            {% endblock %}
+        </div>
+    </div>
 {% endblock %}
