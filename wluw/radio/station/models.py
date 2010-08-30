@@ -85,7 +85,6 @@ class Show(models.Model):
 
     def get_url_for_schedule(self, schedule):
         return reverse('show-detail', kwargs={
-            'schedule_pk':schedule.pk,
             'show_slug':self.slug
         })
 
@@ -117,7 +116,6 @@ class DJ(models.Model):
     def get_url_for_schedule(self, schedule):
         return reverse('dj-detail', kwargs={
             'dj_slug':self.slug,
-            'schedule_pk':schedule.pk,
         })
         
     def get_absolute_url(self):
