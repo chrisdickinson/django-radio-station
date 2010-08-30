@@ -93,12 +93,13 @@
                     <ul>
                         {% for spot in next_spots %}
                             <li>
-                                <h3>{{ spot.show }}</h3>
-                                <p class="dj">{{ spot.dj }}</p>
+                                <h3><a href="{{ spot.show.get_absolute_url }}" title="{{ spot.show }}">{{ spot.show }}</a></h3>
+                                <p class="dj"><a href="{{ spot.dj.get_absolute_url }}" title="{{ spot.dj }}">{{ spot.dj }}</a></p>
                                 <p>{{ spot.show.blurb }}</p>
                             </li>
                         {% endfor %}
                     </ul>
+                    <a href="{% url for-day today.weekday %}" title="View the entire schedule">Schedule&hellip;</a>
                 </div>
             </div>
         </div>

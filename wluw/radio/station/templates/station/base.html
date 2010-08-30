@@ -9,15 +9,22 @@
 {% endblock %}
 
 {% block content %}
-    {% block station_content %}
-        {% block station_content_header %}
+    <div class="scene shows">
+        <div class="scene-left"></div>
+        <div class="scene-right"></div>
+        <div class="wrap">
 
-        {% endblock %}
-        {% block station_content_main %}
+        {% block station_content %}
+            {% block station_content_header %}
 
-        {% endblock %}
-        {% block station_content_sub %}
+            {% endblock %}
+            {% block station_content_main %}
 
+            {% endblock %}
+            {% block station_content_sub %}
+
+            {% endblock %}
         {% endblock %}
-    {% endblock %}
+        </div>
+    </div>
 {% endblock %}
