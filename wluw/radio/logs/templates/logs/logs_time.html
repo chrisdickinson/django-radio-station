@@ -60,7 +60,7 @@
             <tbody>
                 {% for log in entries %}
                 {% ifchanged log.dj %}
-                    <tr class="dj"><td colspan="4">{{ log.dj.user }}</td></tr>
+                    <tr class="dj"><td colspan="4">{{ log.dj }}</td></tr>
                 {% endifchanged %}
                 <tr class="{% cycle 'row1' 'row2' %}">
                     <td class="image">
