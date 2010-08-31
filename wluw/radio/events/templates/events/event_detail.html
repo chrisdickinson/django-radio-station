@@ -1,41 +1,57 @@
 {% extends "events/base.html" %}
-{% block body_id %}{{ block.super }}-detail{% endblock %}
-{% block events_content_header %}
+
+{% block header %}
     <h2 class="header">{{ event.name }}</h2>
 {% endblock %}
 
-{% block events_content_main %}
-<div id="content-main-object-list-container">
-    <ul class="object-list">
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url events-list %}" title="events">Events</a></li>
+    <li><a href="{% url events-for-day when.year when.month when.day %}" title="Events for {{ when|date:"l, N jS" }}">Events for {{ when|date:"l, N jS" }}</a></li>
+    <li><a href="#" title="{{ event.name }}">{{ event.name }}</a></li>
+{% endblock %}
+
+{% block stage %}
+<div>
+    <div class="event-description">
+        {{ event.content|urlize }}
+    </div>
+    <ul>
         {% if event.location %}
-        <li class="object-list-item">
-            <div><span class="object-list-item-label">Location</span> {{ event.location.name }}</div>
+        <li>
+            <div>
+                <span>Location</span> {{ event.location.name }}
+            </div>
         </li>
         {% endif %}
-        <li class="object-list-item">
-            <div><span class="object-list-item-label">Starts at</span> {{ event.time_start|time:"g:ia" }}</div>
+        <li>
+            <div>
+                <span>Starts at</span> {{ event.time_start|time:"g:ia" }}
+            </div>
         </li>
         {% if event.time_end %}
-        <li class="object-list-item">
-            <div><span class="object-list-item-label">Ends at</span> {{ event.time_end|time:"g:ia" }}</div>
+        <li>
+            <div>
+                <span>Ends at</span> {{ event.time_end|time:"g:ia" }}
+            </div>
         </li>
         {% endif %}
         {% if event.cost %}
-        <li class="object-list-item">
-            <div><span class="object-detail-label">Cost</span> {{ event.cost }}</div>
+        <li>
+            <div>
+                <span>Cost</span> {{ event.cost }}
+            </div>
         </li>
         {% endif %} 
     </ul>
 </div>
 {% endblock %}
 
-{% block events_content_sub %}
+{% block sidebar %}
+    {{ block.super }} 
     {% load events_tags %}
-    <div class="object-description">
-        {{ event.content }}
-    </div>
     <div id="calendar">
-        <h1 class="header">Calendar : {{ event.date|date:"F"}}</h1>
+        <h3>{{ event.date|date:"F"}}</h3>
         {% calendar_block event.date %}
     </div>
 {% endblock %}

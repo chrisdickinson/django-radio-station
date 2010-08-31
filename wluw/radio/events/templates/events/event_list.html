@@ -1,29 +1,46 @@
 {% extends "events/base.html" %}
-{% block body_id %}{{ block.super }}-list{% endblock %}
-{% block events_content_header %}
-    <h1 class="header">Events for {{ day|date:"l, F jS Y" }}</h1>
+{% block header %}
+    <h2 class="header">Events for {{ day|date:"l, F jS Y" }}</h2>
 {% endblock %}
 
-{% block events_content_main %}
-    <div id="content-main-object-list-container">
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url events-list %}" title="events">Events</a></li>
+    <li><a href="{% url events-for-day when.year when.month when.day %}" title="Events for {{ when|date:"l, N jS" }}">Events for {{ when|date:"l, N jS" }}</a></li>
+{% endblock %}
+
+{% block stage %}
+    <div>
     {% if events %}
-        <ul class="object-list">
-        {% for event in events %}
-            {% include "events/includes/event_list_item.html" %}
+        <ul>
+        {% for event in events|dictsort:"time_start" %}
+            <li>
+                <strong><a href="{{ event.get_absolute_url }}" title="{{ event.name }}">{{ event.name }}</a></strong>
+                <p>
+                {% if event.location %}
+                    {{ event.location }} /
+                {% endif %}
+                {{ event.time_start|time:"g:ia" }}
+                {% if event.time_end %}
+                to {{ event.time_end|time:"g:ia" }}
+                {% endif %}
+                </p> 
+            </li>
         {% endfor %}
         </ul>
     {% else %}
-        <div class="object-list">
-            <h1>There don&rsquo;t appear to be any events that day.</h1>
+        <div>
+            <h3>There don&rsquo;t appear to be any events that day.</h3>
         </div>
     {% endif %}
     </div>
 {% endblock %}
 
-{% block events_content_sub %}
+{% block sidebar %}
+{{ block.super }}
 {% load events_tags %}
 <div id="calendar">
-    <h1 class="header">Calendar : {{ day|date:"F"}}</h1>
+    <h3>{{ day|date:"F"}}</h3>
     {% calendar_block day %}
 </div>
 {% endblock %}

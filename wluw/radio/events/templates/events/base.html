@@ -1,27 +1,7 @@
-{% extends "base.html" %} 
+{% extends "inner.html" %} 
 
-{% block body_id %}local{% endblock %}
+{% block body_class %}events{% endblock %}
 
-{% block page_menu %}
-    {% block events_page_menu %}
+{% block sidebar %}
     {% include "events/includes/side_navigation.html" %}
-    {% endblock %}
-{% endblock %}
-
-{% block content %}
-    <div class="scene events">
-        <div class="scene-left"></div>
-        <div class="scene-right"></div>
-        <div class="wrap">
-            {% block events_content_header %}
-
-            {% endblock %}
-            {% block events_content_main %}
-
-            {% endblock %}
-            {% block events_content_sub %}
-
-            {% endblock %}
-        </div>
-    </div>
 {% endblock %}

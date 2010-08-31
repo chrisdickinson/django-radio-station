@@ -99,16 +99,16 @@ h2 a                            { padding:0px 8px; }
 .calendar-week:last-child .calendar-date { border-bottom: 1px solid rgba(255, 255, 255, 0.3);}
 .calendar-date:hover            { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255, 255, 255, 0.0)), to(rgba(255, 255, 255, 0.1))); }
 
-.calendar-week:last-child .calendar-date:last-child { border-bottom-right-radius:6px; }
-.calendar-week:last-child .calendar-date:first-child { border-bottom-left-radius:6px; }
-.calendar-week:first-child .calendar-date:first-child { border-top-left-radius:6px; }
-.calendar-week:first-child .calendar-date:last-child { border-top-right-radius:6px; }
+.scene.events .calendar-week:last-child .calendar-date:last-child { border-bottom-right-radius:6px; }
+.scene.events .calendar-week:last-child .calendar-date:first-child { border-bottom-left-radius:6px; }
+.scene.events .calendar-week:first-child .calendar-date:first-child { border-top-left-radius:6px; }
+.scene.events .calendar-week:first-child .calendar-date:last-child { border-top-right-radius:6px; }
 
 .calendar-date.has-event span   { width:16px; height:16px; width:100%; height:100%; display:block; }
 
-.calendar                       { background:#9e1313; width:280px; padding:5px; margin-bottom:16px; margin-left:36px; border-radius:6px; float:right; }
-.calendar > h2                  { margin:6px; padding-bottom:6px; color:white; font-size:0.8em; }
-.calendar > div                 { background:#c6e9f1; width:274px; margin:3px auto; border-radius:6px;}
+.scene.events .calendar                       { background:#9e1313; width:280px; padding:5px; margin-bottom:16px; margin-left:36px; border-radius:6px; float:right; }
+.scene.events .calendar > h2                  { margin:6px; padding-bottom:6px; color:white; font-size:0.8em; }
+.scene.events .calendar > div                 { background:#c6e9f1; width:274px; margin:3px auto; border-radius:6px;}
 #events-holder                         { overflow:hidden; background:-webkit-gradient(linear, 0% 24%, 0% 100%, from(rgba(0,0,0,0.0)), to(rgba(0,0,0,0.8))); }
 
 .scene.events h2                { color:white; font-size:1.5em; }
@@ -182,4 +182,24 @@ h2 a                            { padding:0px 8px; }
 #twocolumn.logs table tbody tr td div { position:relative; }
 #twocolumn.logs table tbody tr:hover td .hidden { opacity:1.0; }
 #twocolumn.logs table tbody tr td .hidden { opacity:0.0; -webkit-transition:opacity 0.2s ease-in; position:absolute; top:0px; right:-150px; background:white; border-radius:6px; }
- 
+
+#twocolumn #sidebar #calendar h3                    { text-align:center; margin-bottom:8px; margin-top:16px; }
+#twocolumn #sidebar .calendar-week                  { width:100%; overflow:hidden; }
+#twocolumn #sidebar .calendar-week a                { font-size:0.8em; text-decoration:none; color:black; text-shadow:none; }
+#twocolumn #sidebar .calendar-week .calendar-date.active   { background:#C03939; color:white; }
+#twocolumn #sidebar .calendar-week .calendar-date   { width:20px; display:inline-block; float:left; height:20px; position:relative; }
+#twocolumn #sidebar .calendar-week a span           { position:absolute; top:-1px; left:-1px; }
+#twocolumn #sidebar .calendar-week .calendar-date   { border-bottom:1px solid rgba(0, 0, 0, 0.3); border-left:1px solid rgba(0, 0, 0, 0.3); border-top:1px solid rgba(255, 255, 255, 0.3); }
+#twocolumn #sidebar .calendar-date.inactive         { background:none; }
+#twocolumn #sidebar .calendar-week .calendar-date:first-child      { border-left:none; }
+#twocolumn #sidebar .calendar-week:last-child .calendar-date      { border-bottom:none; }
+
+#twocolumn #sidebar .calendar-date                  { background:none; }
+#twocolumn #sidebar .calendar-date:hover            { background:none; }
+
+
+#twocolumn.events #stage ul li          { margin-top:4px; margin-bottom:20px; padding-bottom:10px; border-bottom:1px dotted #C03939; }
+#twocolumn.events #stage ul li strong a { font-size:1.2em; font-weight:bold; text-decoration:none; color:#C03939; }
+#twocolumn.events #stage ul li strong   { padding-bottom:8px; display:block; }
+#twocolumn.events .event-description    { font-size:1.1em; line-height:1.5em; padding-bottom:10px; border-bottom:1px solid #C03939; margin-bottom:15px; }
+

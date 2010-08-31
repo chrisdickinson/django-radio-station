@@ -19,7 +19,7 @@ def event_detail_context(request, slug, year=None, month=None, day=None):
 event_detail = view_to_template('events/event_detail.html')(event_detail_context)
 
 def events_for_day_context(request, year=None, month=None, day=None):
-    when = get_when_or_now(year, month, day).date()
+    when = get_when_or_now(year, month, day)
     events = Event.objects.filter(date=when)
     ctxt = {
         'when':when,

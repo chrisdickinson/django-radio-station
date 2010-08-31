@@ -1,6 +1,6 @@
 <ul id="page-menu">
     {% for date in week %}
-        <li class="object-nav-item {% ifequal date when %}active{% endifequal %}">
+        <li class="{% if date.date == when.date %}active{% endif %}">
             <a href="{% url events-for-day date.year date.month date.day %}">{{ date|date:"l" }}</a>
         </li>
     {% endfor %}
