@@ -1,17 +1,14 @@
 {% extends "station/base.html" %}
-{% block body_id %}{{ block.super }}-show{% endblock %}
 
-{% block station_content_header %}
-<div id="banner">
-    <img alt="{{ show.name }}" src="{{ MEDIA_URL }}{{ show.image }}" />
-</div>
+{% block header %}
+<h2>{{ show.name }}</h2>
 {% endblock %}
 
-{% block station_content_main %}
-    <div id="content-main-object-list-container">
+{% block sidebar %}
+    <div>
     {% for spot in spots %}
-        <ul class="object-list">
-            <li class="object-list-item">
+        <ul>
+            <li>
                 <h3><a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a></h3>
                 <div>
                     <a href="{% url schedule-for-day spot.schedule.pk spot.day_of_week %}">{{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</a>
@@ -22,8 +19,7 @@
     </div>
 {% endblock %}
 
-{% block station_content_sub %}
-<h2 class="header">{{ show.name }}</h2>
+{% block stage %}
 <div class="{% if show.special_program %}special{% endif %} object-description">
     {{ show.description }}
 </div>

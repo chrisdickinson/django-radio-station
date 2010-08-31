@@ -1,5 +1,5 @@
-<li class="show object-list-item">
-    <a class="object-list-link" href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a>
+<li>
+    <a href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a>
     <span>{{ spot.to_datetime|time:"g:ia" }}</span>
     <div>
         {{ spot.show.blurb }}

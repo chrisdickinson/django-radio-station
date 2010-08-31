@@ -1,8 +1,7 @@
-<li class="spot object-list-item">
-    <h3><a href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a>
-         with 
-        <a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}">{{ spot.dj }}</a><span> at {{ spot.to_datetime|time:"g:ia" }}</span></h3>
-    <div>
-        {{ show.blurb }}
-    </div>
+<li>
+    <strong class="time">{{ spot.to_datetime|time:"g:ia" }}</strong>
+    <p class="spot">
+        <a href="{% url show-detail spot.show.slug %}" title="{{ spot.show.name }}">{{ spot.show.name }}</a>
+        <a href="{% url dj-detail spot.dj.slug %}" title="{{ spot.dj }}"><small>with</small> {{ spot.dj }}</a>
+    </p>
 </li>

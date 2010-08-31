@@ -1,30 +1,10 @@
-{% extends "base.html" %} 
+{% extends "inner.html" %} 
 
-{% block body_id %}station{% endblock %}
+{% block body_class %}station{% endblock %}
 
-{% block page_menu %}
+{% block sidebar %}
     {% block station_page_menu %}
     {% include "station/includes/side_navigation.html" %}
     {% endblock %}
 {% endblock %}
 
-{% block content %}
-    <div class="scene shows">
-        <div class="scene-left"></div>
-        <div class="scene-right"></div>
-        <div class="wrap">
-
-        {% block station_content %}
-            {% block station_content_header %}
-
-            {% endblock %}
-            {% block station_content_main %}
-
-            {% endblock %}
-            {% block station_content_sub %}
-
-            {% endblock %}
-        {% endblock %}
-        </div>
-    </div>
-{% endblock %}

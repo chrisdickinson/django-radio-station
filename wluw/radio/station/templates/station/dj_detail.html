@@ -1,21 +1,21 @@
 {% extends "station/base.html" %}
-{% block body_id %}{{ block.super }}-dj{% endblock %}
 
-{% block station_content_header %}
-        <h2 class="header">{{ dj.display_name }}&rsquo;s shows:</h2>
+{% block header %}
+        <h2>{{ dj.display_name }}&rsquo;s shows:</h2>
 {% endblock %}
-{% block station_content_sub %}
-{% load markup %}
+
+{% block sidebar %}
+    {% load markup %}
     {% load gravatar %}
-        <h2 class="header">{{ dj.display_name }}</h2>
+        <h2>{{ dj.display_name }}</h2>
         
-        <div class="object-description">
+        <div>
             <img src="{% gravatar_for_email dj.user.email %}" alt="{{ dj.display_name }}" />
         {{ dj.description|markdown }}
         </div>
         {% if favorite_artists %}
-        <h2 class="header">Top Played Artists</h2>
-        <dl class="object-list-sub">
+        <h2>Top Played Artists</h2>
+        <dl>
             {% for artist in favorite_artists %}
                 <dt>{{ artist.name }}</dt>
                 <dd>{{ artist.playcount }}</dd>
@@ -23,11 +23,12 @@
         </dl>
         {% endif %}
 {% endblock %}
-{% block station_content_main %}
-    <div id="content-main-object-list-container"> 
-        <ul class="object-list">
+
+{% block stage %}
+    <div> 
+        <ul>
         {% for spot in spots %}
-            <li class="show object-list-item">
+            <li>
                 <a href="{% url show-detail spot.show.slug %}" title="{{ spot.show }}">{{ spot.show }}</a>
                 <span>on {{ spot.to_datetime|date:"l"}}s at {{ spot.to_datetime|time:"g:ia" }}</span>
             </li>

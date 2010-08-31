@@ -203,3 +203,8 @@ h2 a                            { padding:0px 8px; }
 #twocolumn.events #stage ul li strong   { padding-bottom:8px; display:block; }
 #twocolumn.events .event-description    { font-size:1.1em; line-height:1.5em; padding-bottom:10px; border-bottom:1px solid #C03939; margin-bottom:15px; }
 
+
+#twocolumn.station #stage .time { display:inline-block; width:100px; height:50px; float:left; }
+#twocolumn.station #stage .spot a { display:block; margin-bottom:4px; color:#C03939; text-decoration:none; }
+#twocolumn.station #stage ul li { clear:both; }
+small   { font-size:0.8em; }
