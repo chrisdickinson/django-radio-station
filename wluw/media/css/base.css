@@ -18,7 +18,13 @@ body { font-family:"Helvetica Neue", "Helvetica"; font-size:16px; }
 .scene { position:relative; }
 .wrap { width:600px; margin:0pt auto; z-index:2000; position:relative; }
 
-.scene.logs { padding-top:60px; }
+#logo       { position:relative; width:300px; margin:0pt auto; margin-bottom:100px; padding-top:30px; }
+#logo h1    { background:no-repeat url('../img/logo.png'); height:90px; padding-left:90px; }
+#logo h1 a  { font-family:"Lobster1.3Regular"; font-size:3.0em; color:white; text-decoration:none; display:block; padding-top:28px; }
+#logo h1 a  { text-shadow:1px 1px 0px rgba(0,0,0,0.5); letter-spacing:0.05em; }
+#logo p     { margin-left:12px; font-family:"Lobster1.3Regular"; font-size:1.1em; color:white; text-shadow:1px 1px 0px rgba(0,0,0,0.5); letter-spacing:0.1em; }
+#logo p strong { color:#fe0000; display:inline-block; padding:8px 2px; font-size:1.2em; margin-left:4px; }
+
 #nowplaying { background:no-repeat url('../img/billboard_bottom.png'); width:618px; height:279px; margin:0pt auto; position:relative; } 
 #nowplaying .top { background:no-repeat url('../img/billboard_top.png'); width:618px; height:129px; padding:32px; padding-top:60px; }
 #nowplaying .top div { padding:0px 8px; margin:12px 0px; width:100%; overflow:hidden; }
@@ -34,7 +40,7 @@ body { font-family:"Helvetica Neue", "Helvetica"; font-size:16px; }
 #logs .field { position:relative; top:-150px; padding:36px 48px 100px 48px; }
 
 
-#navigation                     { width:100%; z-index:4000; background:rgba(158, 19, 19, 0.8); overflow:hidden; }
+#navigation                     { position:absolute; top:180px; width:100%; z-index:4000; background:rgba(158, 19, 19, 0.8); overflow:hidden; }
 #navigation ul                  { width:600px; margin:0pt auto; }
 #navigation ul li               { float:left; margin-left:32px; border-right:1px dotted rgba(255, 255, 255, 0.3); }
 #navigation ul li:last-child    { border-right:none; }
