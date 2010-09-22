@@ -14,10 +14,10 @@
     <body id="{% block body_id %}{% endblock %}" class="{% block body_class %}{% endblock %}">
         <div id="navigation">
             <ul>
-                <li><a href="#nowplaying">now playing</a></li>
-                <li><a href="#events">events</a></li>
-                <li><a href="#shows">shows</a></li>
-                <li><a href="#about">about</a></li>
+                <li><a href="{% url logs-time-now %}">music</a></li>
+                <li><a href="{% url events-list %}">events</a></li>
+                <li><a href="{% url for-day today.weekday %}">schedule</a></li>
+                <li><a href="/about/">about</a></li>
             </ul>
         </div>
 

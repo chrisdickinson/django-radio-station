@@ -39,9 +39,6 @@ def home(request):
     start_of_week = now - datetime.timedelta(days=now.weekday()) 
 
     ctxt = {
-        'today':now,
-        'tomorrow':now+datetime.timedelta(days=1),
-        'day_after_tomorrow':now+datetime.timedelta(days=2),
         'current_spot':current_spot,
         'next_spots':next_spots,
         'weekday_str':weekday_str,
