@@ -7,27 +7,33 @@
         <div class="scene logs">
             <div class="scene-left"></div>
             <div class="scene-right"></div>
-            <div class="wrap">
-                <div id="nowplaying" class="logo">
-                    <h1><a href="/">wluw</a></h1>
-                    <p class="slogan">chicago sound alliance</p>
-                </div>
-                <div id="current-show">
+            <div id="nowplaying">
+                <div class="top">
                     {% with logs|slice:"0:1" as latest_log %}
-                    <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
                     <div>
-                        <h2>{{ latest_log.0.artist }}</h2>
+                        <h2>now playing</h2>
+                        <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
                         <p>
-                            <span>{{ latest_log.0.track }}</span>
-                            <span>Off of &ldquo;{{ latest_log.0.album }}&rdquo;</span>
-                            <span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}</span>
+                            <span>artist</span>{{ latest_log.0.artist }}
+                        </p>
                         <p>
+                            <span>album</span>{{ latest_log.0.album }}
+                        </p>
+                        <p>
+                            <span>track</span>{{ latest_log.0.track }}
+                        </p>
+                        <p>
+                            <span>show</span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}
+                        </p>
+                        <a class="listen-link" href="#"><span>listen now &raquo;</span></a>
                     </div>
-                    <span class="when">{{ latest_log.0.submitted|timesince }}</span>
-                    <a class="listen-link" href="#"><span>listen now &raquo;</span></a>
                     {% endwith %}
                 </div>
-                <div>
+            </div>
+            <div id="logs">
+                <div id="building-top">
+                </div>
+                <div class="field">
                     <table>
                         {% for log in logs %}
                             <tr>
