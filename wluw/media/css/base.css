@@ -44,7 +44,6 @@ h2, h3, h4                      { color:#230f31; }
 
 .scene.logs                     { background:url('../img/city_bg.png') repeat-x #2e2e2e; }
 .scene.logs .scene-left         { width:300px; height:600px; background:url('../img/city.png') no-repeat; position:absolute; top:12px; left:0px; z-index:1; }
-.scene.logs .scene-left-bottom  { width:242px; height:615px; background:url('../img/building_side_left.png') no-repeat; position:absolute; top:365px; left:0px; z-index:1; }
 .scene.logs .scene-right        { width:300px; height:600px; background:url('../img/city.png') no-repeat scroll -300px 0px; position:absolute; top:12px; right:0px; z-index:1; }
 
 #current-show                   { overflow:hidden; position:relative; }
