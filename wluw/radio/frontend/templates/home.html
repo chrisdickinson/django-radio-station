@@ -35,29 +35,29 @@
                 </div>
                 <div class="field">
                     <table>
+                        <thead>
+                            <tr>
+                                <th>Artist</th>
+                                <th>Album</th>
+                                <th>Track</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                         {% for log in logs %}
                             <tr>
-                                <td>{{ log.artist }}</td>
-                                <td>{{ log.album }}</td>
-                                <td>{{ log.track }}</td>
-                                <td>{{ log.submitted|timesince }}</td>
+                                <td><p>{{ log.artist }}</p></td>
+                                <td><p>{{ log.album }}</p></td>
+                                <td><p>{{ log.track }}</p></td>
                             </tr>
                         {% endfor %}
+                        </tbody>
                     </table>
                     <a href="{% url logs-time-now %}" title="view more logs">more logs&hellip;</a>
                 </div>
             </div>
         </div>
-        <div class="scene events">
-            <div class="scene-left"></div>
-            <div class="scene-right"></div>
-            <div class="wrap">
-                <div id="events" class="logo"><h2>Events</h2></div>
-                <div id="events-holder">
-                    {% load events_tags %}
-                    <div class="calendar">
-                        <h2>Events for {{ now|date:"F" }}</h2>
-                        <div>{% calendar_block %}</div>
+        <!--
+        ad stuff
                         <div>
                             {% load frontend_tags %}
                             {% get_random_ad as ad %}
@@ -67,6 +67,18 @@
                             </a>
                             {% endif %}
                         </div>
+        -->
+        <div class="scene events">
+            <div id="events-top"></div>
+            <div class="scene-left"></div>
+            <div class="scene-right"></div>
+            <div class="wrap">
+                <div id="events" class="logo"><h2>Events</h2></div>
+                <div id="events-holder">
+                    {% load events_tags %}
+                    <div class="calendar">
+                        <h2>Events for {{ now|date:"F" }}</h2>
+                        <div>{% calendar_block %}</div>
                     </div>
                     {% if events.today %}
                     <h2>Today</h2>
