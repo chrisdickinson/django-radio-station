@@ -40,6 +40,15 @@
                 <div id="building-top">
                 </div>
                 <div class="field">
+            {% load frontend_tags %}
+            {% get_random_ad as ad %}
+            {% if ad %}
+            <div id="promotion">
+                <a href="{{ ad.link }}" title="{{ ad.name }}">
+                    <img src="{{ MEDIA_URL }}img/promotion_inner.png" alt="{{ ad.name }}" style="background:no-repeat url('{{ MEDIA_URL }}{{ ad.image }}');" />
+                </a>
+            </div>
+            {% endif %}
                     <table>
                         <thead>
                             <tr>
@@ -62,18 +71,6 @@
                 </div>
             </div>
         </div>
-        <!--
-        ad stuff
-                        <div>
-                            {% load frontend_tags %}
-                            {% get_random_ad as ad %}
-                            {% if ad %}
-                            <a href="{{ ad.link }}" title="{{ ad.name }}">
-                                <img src="{{ MEDIA_URL }}{{ ad.image }}" alt="{{ ad.name }}" />
-                            </a>
-                            {% endif %}
-                        </div>
-        -->
         <div class="scene events">
             <div id="events-top"></div>
             <div class="scene-left"></div>
