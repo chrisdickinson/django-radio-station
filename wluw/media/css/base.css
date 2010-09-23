@@ -92,8 +92,8 @@ h2                              { color:#C03939; font-size:1.1em; margin-bottom:
 h2 a                            { padding:0px 8px; }
 
 .scene.events                   { background:#2a3133; position:relative; padding-bottom:32px; padding-top:32px; }
-.scene.events .scene-right      { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; bottom:0px; right:0px; z-index:1; }
-.scene.events .scene-left       { width:360px; height:690px; background:url('../img/subwaystop.png') no-repeat; position:absolute; bottom:0px; left:0px; z-index:1; }
+.scene.events .scene-right      { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; bottom:-100px; right:0px; z-index:1; }
+.scene.events .scene-left       { width:360px; height:721px; background:url('../img/subwaystop.png') no-repeat; position:absolute; bottom:-200px; left:0px; z-index:1; }
 
 .scene.shows .scene-left       { width:544px; height:519px; background:url('../img/scene-2-left.png') no-repeat; position:absolute; bottom:0px; left:0px; z-index:1; }
 .scene.shows .scene-right      { width:498px; height:248px; background:url('../img/scene-2-right.png') no-repeat; position:absolute; bottom:-120px; right:0px; z-index:1; }
@@ -132,7 +132,7 @@ h2 a                            { padding:0px 8px; }
 .scene.events .calendar > h2                  { margin:6px; padding-bottom:6px; color:white; font-size:0.8em; }
 .scene.events .calendar > div                 { background:#c6e9f1; width:274px; margin:3px auto; border-radius:6px;}
 #events-holder                         { overflow:hidden; }
-#events-top                                     { background:url('../img/events_top.png'); height:278px; margin-top:-278px; }
+#events-top                                     { background:url('../img/events_top.png'); height:87px; margin-top:-87px; }
 
 .scene.events h2                { color:white; font-size:1.5em; }
 
