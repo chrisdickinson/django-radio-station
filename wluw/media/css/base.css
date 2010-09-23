@@ -81,8 +81,9 @@ h2, h3, h4                      { color:#230f31; }
 #nowplaying .listen-link      { border:1px solid #FD899C; vertical-align:center; display:inline-block; }
 #nowplaying .listen-link span { position:relative; top:25%; left:16px; text-shadow:1px 1px 5px rgba(0,0,0,0.9); }
 #nowplaying .listen-link      { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FD6E8A), to(#E0627A), color-stop(.2,#FD899C)) } 
+#nowplaying .listen-link      { background:-moz-linear-gradient(0% 100% 90deg,#FD6E8A, #E0627A, #FD899C 100%); }
 #nowplaying .listen-link      { border-radius:60px; color:white; text-decoration:none; width:160px; height:30px; }
-#nowplaying .listen-link      { -webkit-box-shadow:5px 5px 0px rgba(0, 0, 0, 0.2); }
+#nowplaying .listen-link      { -webkit-box-shadow:5px 5px 0px rgba(0, 0, 0, 0.2); -moz-box-shadow:5px 5px 0px rgba(0,0,0,0.2); }
 
 table                           { color:rgba(0,0,0,0.8); text-shadow:1px 1px 1px rgba(255,255,255,0.3); border-collapse:collapse; width:100%; padding:0px 16px; }
 table tr                        { border-bottom:1px solid rgba(0,0,0,0.2); }
@@ -102,6 +103,7 @@ h2 a                            { padding:0px 8px; }
 .scene.shows .scene-right      { width:498px; height:248px; background:url('../img/scene-2-right.png') no-repeat; position:absolute; bottom:-120px; right:0px; z-index:1; }
 
 .scene.shows                    { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#2a3133), to(#000)); }
+.scene.shows                    { background:-moz-linear-gradient(0% 100% 90deg,#000, #2A3133); }
 .scene.shows                    { position:relative; padding-bottom:32px; padding-top:32px; }
 .scene.about .scene-left        { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; left:0px; z-index:1; }
 .scene.about .scene-right       { width:400px; height:467px; background:url('../img/train.png') no-repeat; position:absolute; top:20%; right:0px; z-index:1; }
@@ -186,6 +188,7 @@ h2 a                            { padding:0px 8px; }
 
 #twocolumn #breadcrumbs a { color:#c6e9f1; }
 #twocolumn { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#2E2E2E), to(black)); }
+#twocolumn { background:-moz-linear-gradient(0% 100% 90deg,#2E2E2E, #000000); }
 #twocolumn #innercontent { background:rgba(255,255,255,1.0);  border-radius:6px;}
 #twocolumn #innercontent #header h2 { background:#C03939; color:white; padding:8px; border-radius:6px; }
 
@@ -201,6 +204,8 @@ table tbody td.image a img { width:64px; border-radius:6px; }
 #twocolumn.logs #stage .navigation li { float:left; width:50%; padding:0; margin:0; }
 #twocolumn.logs #stage .navigation li a { display:block; width:100%; height:32px; position:relative; text-indent:-9999px; }
 #twocolumn.logs #stage .navigation li a { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(255,255,255,0.2)), to(rgba(0,0,0,0))); } 
+#twocolumn.logs #stage .navigation li a { background:-moz-linear-gradient(0% 100% 90deg,rgba(0,0,0,0), rgba(255,255,255,0.2)); }
+
 #twocolumn.logs #stage .navigation li a:hover { background:rgba(255,255,255,0.2); }
 
 .navigation .prev { background:no-repeat url('../img/arrow-up.png') scroll 50% 50%; }
