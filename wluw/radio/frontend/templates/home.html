@@ -18,7 +18,7 @@
                     {% with logs|slice:"0:1" as latest_log %}
                     <div>
                         <h2>now playing</h2>
-                        <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
+                        <img src="{{ latest_log.0.album.image_large|default:"/media/img/missingart.png" }}" alt="{{ latest_log.0.album.name }}" />
                         <p>
                             <span>artist</span>{{ latest_log.0.artist.name|slice:":30" }}
                             {% if latest_log.0.artist.name|length > 30 %}&hellip;{% endif %}
