@@ -191,11 +191,12 @@ h2 a                            { padding:0px 8px; }
 
 #twocolumn.logs table { background:white; width:100%; margin-top:-6px; }
 #twocolumn.logs table thead th { background:#C03939; padding:6px; }
-#twocolumn.logs table tbody td { color:#363636; vertical-align:top; }
-#twocolumn.logs table tbody tr { border-bottom:1px dotted rgba(0,0,0,0.2); }
-#twocolumn.logs table tbody td p { padding:6px; }
-#twocolumn.logs table tbody td.image { width:64px; }
-#twocolumn.logs table tbody td.image a img { width:64px; border-radius:6px; }
+#twocolumn.logs table tbody td { color:#363636; }
+table tbody td { vertical-align:top; }
+table tbody tr { border-bottom:1px dotted rgba(0,0,0,0.2); }
+table tbody td p { padding:6px; }
+table tbody td.image { width:64px; }
+table tbody td.image a img { width:64px; border-radius:6px; }
 #twocolumn.logs #content #stage .navigation { width:100%; overflow:hidden; border-radius:6px; background:#C03939; }
 #twocolumn.logs #stage .navigation li { float:left; width:50%; padding:0; margin:0; }
 #twocolumn.logs #stage .navigation li a { display:block; width:100%; height:32px; position:relative; text-indent:-9999px; }
