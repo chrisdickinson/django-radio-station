@@ -20,13 +20,16 @@
                         <h2>now playing</h2>
                         <img src="{{ latest_log.0.album.image_large }}" alt="whatever" />
                         <p>
-                            <span>artist</span>{{ latest_log.0.artist }}
+                            <span>artist</span>{{ latest_log.0.artist.name|slice:":30" }}
+                            {% if latest_log.0.artist.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
-                            <span>album</span>{{ latest_log.0.album }}
+                            <span>album</span>{{ latest_log.0.album.name|slice:":30" }}
+                            {% if latest_log.0.album.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
-                            <span>track</span>{{ latest_log.0.track }}
+                            <span>track</span>{{ latest_log.0.track.name|slice:":30" }}
+                            {% if latest_log.0.track.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
                             <span>show</span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}
@@ -51,20 +54,42 @@
             {% endif %}
                     <table>
                         <thead>
-                            <tr>
-                                <th>Artist</th>
-                                <th>Album</th>
-                                <th>Track</th>
-                            </tr>
+                            <th></th>
+                            <th>Artist</th>
+                            <th>Album</th>
+                            <th>Track</th>
                         </thead>
                         <tbody>
-                        {% for log in logs %}
-                            <tr>
-                                <td><p>{{ log.artist }}</p></td>
-                                <td><p>{{ log.album }}</p></td>
-                                <td><p>{{ log.track }}</p></td>
+                            {% for log in logs %}
+                            {% ifchanged log.dj %}
+                                <tr class="dj"><td class="djrow" colspan="4">{{ log.dj }}</td></tr>
+                            {% endifchanged %}
+                            <tr class="{% cycle 'row1' 'row2' %}">
+                                <td class="image">
+                                    {% if log.album.status == 2 and log.album.image_medium %}
+                                    <a href="{{ log.album.lastfm_url }}" title="listen on last.fm">
+                                        <img src="{{ log.album.image_medium }}" alt="{{ log.album.name }}" />
+                                    </a>
+                                    {% else %}
+
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <p>{{ log.artist.name }}</p>
+                                </td>
+                                <td>
+                                    <p>{{ log.album.name }}</p>
+                                </td>
+                                <td>
+                                    <div>
+                                    <p class="hidden">
+                                        {{ log.submitted|date:"l, N jS g:ia" }}
+                                    </p>
+                                    </div>
+                                    <p>{{ log.track.name }}</p>
+                                </td>
                             </tr>
-                        {% endfor %}
+                            {% endfor %}
                         </tbody>
                     </table>
                     <a href="{% url logs-time-now %}" title="view more logs">more logs&hellip;</a>

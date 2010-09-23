@@ -42,6 +42,7 @@ body { font-family:"Helvetica Neue", "Helvetica"; font-size:16px; }
 #promotion          { position:absolute; right:-155px; top:0px; background:no-repeat url('../img/promotion_outer.png'); height:358px; width:175px; }
 #promotion a img    { position:absolute; top:50px; left:15px; width:151px; height:302px; }
 
+table .djrow                    { font-size:1.3em; }
 #navigation                     { position:absolute; top:180px; width:100%; z-index:4000; background:rgba(158, 19, 19, 0.8); overflow:hidden; }
 #navigation ul                  { width:600px; margin:0pt auto; }
 #navigation ul li               { float:left; margin-left:32px; border-right:1px dotted rgba(255, 255, 255, 0.3); }
