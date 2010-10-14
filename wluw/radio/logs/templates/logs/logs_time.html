@@ -54,8 +54,8 @@
             <thead>
                 <th></th>
                 <th>Artist</th>
-                <th>Album</th>
                 <th>Track</th>
+                <th>Album</th>
             </thead>
             <tbody>
                 {% for log in entries %}
@@ -76,7 +76,7 @@
                         <p>{{ log.artist.name }}</p>
                     </td>
                     <td>
-                        <p>{{ log.album.name }}</p>
+                        <p>{{ log.track.name }}</p>
                     </td>
                     <td>
                         <div>
@@ -84,7 +84,7 @@
                             {{ log.submitted|date:"l, N jS g:ia" }}
                         </p>
                         </div>
-                        <p>{{ log.track.name }}</p>
+                        <p>{{ log.album.name }}</p>
                     </td>
                 </tr>
                 {% endfor %}
