@@ -28,7 +28,6 @@ def home(request):
     day_after = tomorrow+datetime.timedelta(days=1)
 
     roles = StaffRoleRelation.objects.filter(Q(schedule__pk=schedule.pk)|Q(schedule__pk__isnull=True))
-    about_page = FlatPage.objects.get(url='/about/')
 
     events = {
         'today':Event.objects.filter(date=today).order_by('-weight')[:3],
@@ -45,7 +44,6 @@ def home(request):
         'events':events,
         'schedule':schedule,
         'logs':latest_logs,
-        'about_page':about_page,
         'week':[(start_of_week + datetime.timedelta(days=i)).date() for i in range(0, 7)],
         'now':now.date(),
         'roles':roles,

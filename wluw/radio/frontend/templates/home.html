@@ -168,27 +168,6 @@
         </div>
         <div class="scene about">
             <div class="wrap">
-                <div id="about" class="logo"><h2>About</h2></div>
-                <div>
-                    {{ about_page.content|safe }}
-                </div>
-                <ul>
-                {% for role in roles %}
-                    <li>
-                            {% if role.user.email %}
-                                <img style="display:inline-block;" src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
-                            {% else %}
-                                <img style="display:inline-block;" src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
-                            {% endif %} 
-                            <div class="right" style="display:inline-block; width:240px;">
-                            {{ role.role.title }}<br />
-                            {{ role.user.get_full_name }}<br />
-                            {{ role.get_email }}<br />
-                            {{ role.get_phone }}<br />
-                            </div>
-                    </li>
-                {% endfor %}
-                </ul>
             </div>
         </div>
 {% endblock %}
