@@ -41,10 +41,25 @@
                 </ul> 
             </div>
         </div>
+        <div id="swf"></div>
     </body>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
     <script type="text/javascript">
         $(function() {
+            var swf = '{{ MEDIA_URL }}flash/audio.swf',
+                attributes = {'id':'player', 'name':'player'},
+                swfObj = swfobject.embedSWF(swf, 'swf', 1,1, '9.0.0', 'expressInstall.swf', false, {}, attributes),
+                player = $('#player').get()[0],
+                listenButton = $('a.listen-link'),
+                playing = false;
+
+            listenButton.bind('click', function(ev) {
+                ev.preventDefault();
+                playing = !playing;
+                $('#player').get()[0].startStop(playing);
+            });
+
             var nav = document.getElementById('navigation'),
                 initial = nav.offsetTop,
                 docked = false;
