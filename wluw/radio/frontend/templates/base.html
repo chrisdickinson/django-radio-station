@@ -51,11 +51,20 @@
                 attributes = {'id':'player', 'name':'player'},
                 swfObj = swfobject.embedSWF(swf, 'swf', 1,1, '9.0.0', 'expressInstall.swf', false, {}, attributes),
                 player = $('#player').get()[0],
-                listenButton = $('a.listen-link'),
+                listenButton = $('#listen a'),
                 playing = false;
+
+            window.audioReady = function(state) {
+                $('#listen').removeClass('buffering').addClass('pause');
+            };
 
             listenButton.bind('click', function(ev) {
                 ev.preventDefault();
+                if(!playing) {
+                    $('#listen').removeClass('play').addClass('buffering');
+                } else {
+                    $('#listen').removeClass('pause').removeClass('buffering').addClass('play');
+                }
                 playing = !playing;
                 $('#player').get()[0].startStop(playing);
             });

@@ -33,7 +33,11 @@
                         <p>
                             <span>show</span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}
                         </p>
-                        <a class="listen-link" href="#"><span>listen now &raquo;</span></a>
+                        <div id="listen" class="play">
+                            <a class="play" href="#"><span>listen now &raquo;</span></a>
+                            <a class="buffering" href="#"><span>Buffering&hellip;</span></a>
+                            <a class="pause" href="#"><span>Pause</span></a>
+                        </div>
                     </div>
                     {% endwith %}
                 </div>
