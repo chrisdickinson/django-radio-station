@@ -2,9 +2,33 @@ from wluw.radio.library.models import Album
 from django.conf import settings
 from waiter import Waiter
 from celery.decorators import task
+from wluw.radio.logs.models import Entry
 
 @task
-def grab_album_art(album_pk):
+def ping_nodejs_with(entry_pk):
+    if entry_pk:
+        try:
+            entry = Entry.objects.get(pk=entry_pk)        
+            waiter = Waiter()
+            show_name = 'Rotation'
+            try:
+                show_name = entry.show.name
+            except:
+                pass 
+
+            waiter/("http://127.0.0.1:%d"%settings.NODE_PORT)/{
+                'artist':entry.artist.name,
+                'album':entry.album.name,
+                'track':entry.track.name,
+                'show':show_name,
+                'dj':str(entry.dj),
+                'when':str(entry.submitted),
+                'image':entry.album.image_large,
+            }   
+        except Entry.DoesNotExist:
+            pass
+@task
+def grab_album_art(album_pk, from_log_pk=None):
     try:
         album = Album.objects.get(pk=album_pk)
     except Album.DoesNotExist:
@@ -34,6 +58,7 @@ def grab_album_art(album_pk):
             album.status = Album.Status.OKAY
 
             album.save()
+            ping_nodejs_with.delay(from_log_pk)
         except Exception, e:
             print e
             Album.objects.filter(pk=album_pk).update(status=Album.Status.PENDING)

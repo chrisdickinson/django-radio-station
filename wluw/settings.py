@@ -80,6 +80,8 @@ TEMPLATE_DIRS = (
 AUTH_PROFILE_MODULE = 'radio_station.DJ'
 SITE_ID = 1
 
+NODE_PORT = 8124
+
 try:
     from local_settings import *
 except ImportError:

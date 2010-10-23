@@ -25,10 +25,12 @@ class EntryAdmin(admin.ModelAdmin):
         except:
             pass
 
-        if obj.album.status == 0:
-            grab_album_art.delay(obj.album.pk)
+        result = super(EntryAdmin, self).save_model(request, obj, form, change)
 
-        return super(self.__class__, self).save_model(request, obj, form, change)
+        if obj.album.status == 0:
+            grab_album_art.delay(obj.album.pk, obj.pk)
+
+        return result
 
     class Media:
         js = ('site/js/ac_global_fns.js', 'site/js/last_logs.js')
