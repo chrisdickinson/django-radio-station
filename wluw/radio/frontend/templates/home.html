@@ -69,13 +69,9 @@
                             {% endifchanged %}
                             <tr class="{% cycle 'row1' 'row2' %}">
                                 <td class="image">
-                                    {% if log.album.status == 2 and log.album.image_medium %}
-                                    <a href="{{ log.album.lastfm_url }}" title="listen on last.fm">
-                                        <img src="{{ log.album.image_medium }}" alt="{{ log.album.name }}" />
+                                    <a href="{{ log.album.lastfm_url|default:"#" }}" title="listen on last.fm">
+                                        <img src="{{ log.album.image_medium|default:"/media/img/missingart.png" }}" alt="{{ log.album.name }}" />
                                     </a>
-                                    {% else %}
-
-                                    {% endif %}
                                 </td>
                                 <td>
                                     <p>{{ log.artist.name }}</p>
