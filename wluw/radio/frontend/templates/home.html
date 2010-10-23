@@ -9,7 +9,6 @@
                 <h1>
                     <a href="{% url home %}" title="WLUW.org">Wluw</a>
                 </h1>
-                <p>the chicago sound alliance<strong>88.7fm</strong><p>
             </div>
             <div class="scene-left"></div>
             <div class="scene-right"></div>
@@ -92,7 +91,7 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <a href="{% url logs-time-now %}" title="view more logs">more logs&hellip;</a>
+                    <a class="more-link" href="{% url logs-time-now %}" title="view more logs">more logs&hellip;</a>
                 </div>
             </div>
         </div>
@@ -162,7 +161,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                    <a href="{% url for-day today.weekday %}" title="View the entire schedule">Schedule&hellip;</a>
+                    <a class="more-link" href="{% url for-day today.weekday %}" title="View the entire schedule">View the entire schedule&hellip;</a>
                 </div>
             </div>
         </div>
