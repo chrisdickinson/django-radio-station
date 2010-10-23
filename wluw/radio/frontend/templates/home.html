@@ -171,4 +171,55 @@
         </div>
 {% endblock %}
 
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+        $(function() {
+            var swf = '{{ MEDIA_URL }}flash/audio.swf',
+                attributes = {'id':'player', 'name':'player'},
+                swfObj = swfobject.embedSWF(swf, 'swf', 1,1, '9.0.0', 'expressInstall.swf', false, {}, attributes),
+                player = $('#player').get()[0],
+                listenButton = $('#listen a'),
+                playing = false;
+
+            window.audioReady = function(state) {
+                $('#listen').removeClass('buffering').addClass('pause');
+            };
+
+            listenButton.bind('click', function(ev) {
+                ev.preventDefault();
+                if(!playing) {
+                    $('#listen').removeClass('play').addClass('buffering');
+                } else {
+                    $('#listen').removeClass('pause').removeClass('buffering').addClass('play');
+                }
+                playing = !playing;
+                $('#player').get()[0].startStop(playing);
+            });
+
+            var nav = document.getElementById('navigation'),
+                initial = nav.offsetTop,
+                docked = false;
+            window.onscroll = function () {
+                var scrollTop = document.body.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop;
+                if(!docked && nav.offsetTop - scrollTop < 0) {
+                    nav.style.position = 'fixed';
+                    nav.style.top = 0;
+                    docked = true;
+                } else if(docked && scrollTop < initial) {
+                    nav.style.position = 'absolute';
+                    nav.style.top = initial + 'px';
+                    docked = false;
+                }
+            };
+        });
+    </script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+        var socket = new io.Socket();
+        socket.on('message', function(data) {
+            console.log(data);
+        });
+    </script>
+{% endblock %}
 
