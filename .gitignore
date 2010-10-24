@@ -16,3 +16,4 @@ bin
 include
 lib
 src
+node/socket.io-node
