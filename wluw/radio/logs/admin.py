@@ -5,7 +5,7 @@ from django.db.models import Count, Sum
 from radio.station.models import Spot
 from .models import Entry 
 import datetime
-from wluw.radio.library.tasks import grab_album_art
+from wluw.radio.library.tasks import grab_album_art, ping_nodejs_with
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('artist', 'track', 'album', 'genre', 'submitted', 'dj')
@@ -29,6 +29,8 @@ class EntryAdmin(admin.ModelAdmin):
 
         if obj.album.status == 0:
             grab_album_art.delay(obj.album.pk, obj.pk)
+        else:
+            ping_nodejs_with.delay(obj.pk)
 
         return result
 
