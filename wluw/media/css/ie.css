@@ -1,0 +1,10 @@
+
+#navigation { background:url('../img/ie_navigation_bg.png') !important; }
+#twocolumn #content #breadcrumbs { background:url('../img/ie_navigation_bg.png') !important; }
+#listen     { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FD6E8A, endColorstr=#E0627A) !important; }
+#listen     { -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#FD6E8A, endColorstr=#E0627A) !important; }
+
+.scene.shows { filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#2A3133, endColorstr=#000000) !important; }
+.scene.shows { overflow:hidden; -ms-filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#2A3133, endColorstr=#000000) !important; }
+
+#events-top { position:relative; top:-87px; }
