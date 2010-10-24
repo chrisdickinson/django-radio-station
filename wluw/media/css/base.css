@@ -64,7 +64,9 @@ h1, h1, h2, h3, h4, h5          { font-family:"MuseoSlab"; color:#056CA9; font-s
 h2, h3, h4                      { color:#230f31; }
 
 .scene.logs                     { background:url('../img/city_bg.png') repeat-x #2e2e2e; }
+#twocolumn .scene-left,
 .scene.logs .scene-left         { width:300px; height:600px; background:url('../img/city.png') no-repeat; position:absolute; top:12px; left:0px; }
+#twocolumn .scene-right,
 .scene.logs .scene-right        { width:300px; height:600px; background:url('../img/city.png') no-repeat scroll -300px 0px; position:absolute; top:12px; right:0px; }
 
 #current-show                   { overflow:hidden; position:relative; }
@@ -159,20 +161,22 @@ h2 a                            { padding:0px 8px; }
 .wrap ul li h3                   { color:#c6e9f1; }
 .wrap ul li h3 a                 { color:#c6e9f1; text-decoration:none; }
 
-#footer                         { background:black; color:white; padding:32px 0px; font-size:0.8em;  }
+#footer                         { background:black; color:white; padding:32px 0px; font-size:0.8em; position:relative; }
 #footer .wrap ul                { width:100%; overflow:hidden; }
 #footer .wrap ul li             { float:left; margin:0px; padding:0px; width:50%; height:3.5em; border:none; }
 #footer .wrap ul li a           { color:#c6e9f1; padding:12px; display:block;  }
 #footer .wrap ul li p           { padding:12px; display:block; }
 
 #twocolumn                              { }
-#twocolumn #navigation                     { top:0px; }
-#twocolumn #content                     { padding-top:64px; width:600px; margin:0pt auto; }
-#twocolumn #content #breadcrumbs        { width:100%; margin:0pt; padding:0pt; width:100%; overflow:hidden; margin-bottom:8px; padding-left:6px; }
+#twocolumn #content                     { padding-top:16px; width:600px; margin:0pt auto; margin-bottom:32px; }
+#twocolumn #content #breadcrumbs        { background:#9e1313; background:rgba(158, 19, 19, 0.8); border-radius:6px; }
+
+#twocolumn #content #breadcrumbs        { margin:0pt; padding:0pt; overflow:hidden; padding-bottom:8px; padding-top:6px; padding-left:18px; }
 #twocolumn #content #breadcrumbs li     { float:left; margin-right:8px; }
 #twocolumn #content #breadcrumbs li a:after { content:" \00BB"; }
 #twocolumn #content #breadcrumbs li:last-child a:after { content:""; }
 #twocolumn #content #breadcrumbs li a   { text-decoration:none; font-size:0.7em; }
+#twocolumn #breadcrumbs a { color:#c6e9f1; color:white; }
 #twocolumn #innercontent        { padding:16px; }
 #twocolumn #innercontent:after  { content:"\0010"; display:block; clear:both; }
 #twocolumn #header              { }
@@ -189,9 +193,9 @@ h2 a                            { padding:0px 8px; }
 #twocolumn #sidebar ul li.active > a { font-weight:bold; }
 #twocolumn #sidebar ul li a + ul { padding-top:8px; }
 
-#twocolumn #breadcrumbs a { color:#c6e9f1; }
 #twocolumn { background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#2E2E2E), to(black)); }
 #twocolumn { background:-moz-linear-gradient(0% 100% 90deg,#2E2E2E, #000000); }
+#twocolumn { background:url('../img/city_bg.png') repeat-x #2e2e2e; }
 #twocolumn #innercontent { background:rgba(255,255,255,1.0);  border-radius:6px;}
 #twocolumn #innercontent #header h2 { background:#C03939; color:white; padding:8px; border-radius:6px; }
 
@@ -238,8 +242,15 @@ table tbody td.image a img { width:64px; border-radius:6px; }
 #twocolumn.events #stage ul li strong   { padding-bottom:8px; display:block; }
 #twocolumn.events .event-description    { font-size:1.1em; line-height:1.5em; padding-bottom:10px; border-bottom:1px solid #C03939; margin-bottom:15px; }
 
-
 #twocolumn.station #stage .time { display:inline-block; width:100px; height:50px; float:left; }
 #twocolumn.station #stage .spot a { display:block; margin-bottom:4px; color:#C03939; text-decoration:none; }
 #twocolumn.station #stage ul li { clear:both; }
 small   { font-size:0.8em; }
+
+#twocolumn.about #stage ul li              { width:100%; overflow:hidden; padding:5px 0px; margin:5px 0px; border-bottom:1px solid rgba(0, 0, 0, 0.3); }
+#twocolumn.about #stage ul li img          { float:left; }
+#twocolumn.about #stage ul li div          { float:right; width:80%; line-height:1.5em; }
+#twocolumn.about #stage ul li div h4       { font-size:1.2em; position:relative; top:-3px; }
+#twocolumn.about #sidebar h3               { margin-bottom:6px; margin-top:12px; }
+#twocolumn.about #sidebar h3:first-child   { margin-top:8px; }
+#twocolumn.about #sidebar p                { margin-bottom:3px; line-height:1.5em; }

@@ -2,6 +2,13 @@
 {% block body_id %}twocolumn{% endblock %}
 
 {% block content %}
+    <div id="logo">
+        <h1>
+            <a href="{% url home %}" title="WLUW.org">Wluw</a>
+        </h1>
+    </div>
+    <div class="scene-left"></div>
+    <div class="scene-right"></div>
     <div id="content">
         <ul id="breadcrumbs">
             {% block breadcrumbs %}
