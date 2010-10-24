@@ -1,46 +1,48 @@
-{% extends "staff/base.html" %}
-{% block body_id %}about{% endblock %}
+{% extends "inner.html" %}
+{% block body_id %}twocolumn{% endblock %}
+{% block body_class %}about{% endblock %}
 
-{% block staff_content_header %}
+{% block header %}
         <h2 class="header">About WLUW</h2>
 {% endblock %}
 
-{% block staff_content_sub %}
-        <div class="object-description">
-            <strong>Get your music on WLUW-FM!</strong> 
-            Mail us your album:<br /> 
-            WLUW-FM<br /> 
-            c/o Music Department<br /> 
-            820 N. Michigan Ave.<br /> 
-            Chicago, IL  60611<br />
-        </div>
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="#" title="about">About</a></li>
 {% endblock %}
-{% block staff_content_main %}
+
+{% block sidebar %}
+        <h3>Submit Music:</h3>
+        <p>Get your music on WLUW-FM!</p> 
+        <p>Mail us your album:</p> 
+        <p>WLUW-FM</p> 
+        <p>c/o Music Department</p> 
+        <p>820 N. Michigan Ave.</p> 
+        <p>Chicago, IL  60611</p>
+        <h3>Applications:</h3>
+        <p>
+            Applications for WLUW-FM can be found <a href="#">here</a>.
+        </p>
+{% endblock %}
+{% block stage %}
     {% load gravatar %}
-    <div id="content-main-object-list-container"> 
-        <h2 id="staff" class="header"><a name="contact">We are:</a></h2>
-        <ul class="object-list">
+    <div> 
+        <ul>
         {% for role in roles %}
-            <li class="object-list-item">
+            <li>
                     {% if role.user.email %}
-                        <img style="display:inline-block;" src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
+                        <img src="{% gravatar_for_email role.user.email %}" height="60" width="60" />
                     {% else %}
-                        <img style="display:inline-block;" src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
+                        <img src="{% gravatar_for_email role.get_email %}" height="60" width="60" />
                     {% endif %} 
-                    <div class="right" style="display:inline-block; width:240px;">
-                    {{ role.role.title }}<br />
-                    {{ role.user.get_full_name }}<br />
-                    {{ role.get_email }}<br />
-                    {{ role.get_phone }}<br />
+                    <div>
+                    <h4>{{ role.role.title }}</h4>
+                    <p>{{ role.user.get_full_name }}</p>
+                    <p>{{ role.get_email }}</p> 
+                    <p>{{ role.get_phone }}</p>
                     </div>
             </li>
         {% endfor %}
-        </ul>
-        <h2 id="applications" class="header">Applications:</a></h2>
-        <ul class="object-list">
-            <li class="object-list-item">
-                Applications for WLUW-FM can be found <a href="#">here</a>.
-            </li>
         </ul>
     </div>
 {% endblock %}
