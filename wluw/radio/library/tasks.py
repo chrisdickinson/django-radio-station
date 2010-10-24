@@ -32,7 +32,7 @@ def grab_album_art(album_pk, from_log_pk=None):
     try:
         album = Album.objects.get(pk=album_pk)
     except Album.DoesNotExist:
-        ping_nodejs_with.delay(from_log_pk)
+        ping_nodejs_with(from_log_pk)
     else:
         Album.objects.filter(pk=album_pk).update(status=Album.Status.WORKING)
         waiter = Waiter()
@@ -58,9 +58,9 @@ def grab_album_art(album_pk, from_log_pk=None):
             album.status = Album.Status.OKAY
 
             album.save()
-            ping_nodejs_with.delay(from_log_pk)
+            ping_nodejs_with(from_log_pk)
         except Exception, e:
             Album.objects.filter(pk=album_pk).update(status=Album.Status.PENDING)
-            ping_nodejs_with.delay(from_log_pk)
+            ping_nodejs_with(from_log_pk)
 
 
