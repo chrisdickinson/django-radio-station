@@ -24,7 +24,7 @@ var server = http.createServer(function(req, resp) {
     }
 });
 
-server.listen(8124);
+server.listen(8124, 'localhost');
 socket = io.listen(server);
 
 socket.on('connection', function(client) {
