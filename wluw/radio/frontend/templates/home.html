@@ -17,21 +17,21 @@
                     {% with logs|slice:"0:1" as latest_log %}
                     <div>
                         <h2>now playing</h2>
-                        <img src="{{ latest_log.0.album.image_large|default:"/media/img/missingart.png" }}" alt="{{ latest_log.0.album.name }}" />
+                        <img class="latest album-image" src="{{ latest_log.0.album.image_large|default:"/media/img/missingart.png" }}" alt="{{ latest_log.0.album.name }}" />
                         <p>
-                            <span>artist</span>{{ latest_log.0.artist.name|slice:":30" }}
+                            <span class="caption">artist</span><span class="latest artist">{{ latest_log.0.artist.name|slice:":30" }}</span>
                             {% if latest_log.0.artist.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
-                            <span>track</span>{{ latest_log.0.track.name|slice:":30" }}
+                            <span class="caption">track</span><span class="latest track">{{ latest_log.0.track.name|slice:":30" }}</span>
                             {% if latest_log.0.track.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
-                            <span>album</span>{{ latest_log.0.album.name|slice:":30" }}
+                            <span class="caption">album</span><span class="latest album">{{ latest_log.0.album.name|slice:":30" }}</span>
                             {% if latest_log.0.album.name|length > 30 %}&hellip;{% endif %}
                         </p>
                         <p>
-                            <span>show</span>{{ current_spot.show }} &mdash; {{ latest_log.0.dj }}
+                            <span class="caption">show</span><span class="latest show">{{ current_spot.show }}</span> &mdash; <span class="latest dj">{{ latest_log.0.dj }}</span>
                         </p>
                         <div id="listen" class="play">
                             <a class="play" href="#"><span>listen now &raquo;</span></a>
@@ -216,9 +216,30 @@
     </script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript">
-        var socket = new io.Socket();
+        var socket = new io.Socket(),
+            parse = typeof(JSON) === 'undefined' ? function(data) {
+                return eval('('+data+')');
+            }, JSON.parse;
+
         socket.on('message', function(data) {
-            console.log(data);
+            data = parse(data);
+
+            $('#nowplaying .latest').animate({opacity:0.0}, 250, 'swing', function() {
+                $('#nowplaying .latest').each(function() {
+                    var $this = $(this),
+                        name = (function(items) {
+                            for(var i = 0, len = items.length; i < len; ++i) {
+                                if(items[i] !== 'latest') return items[i];
+                            }
+                        })($this.attr('class').split(' '));
+                    if($this.is('img')) {
+                        $this.attr('src', data[name]);
+                    } else {
+                        $this.text(data[name]);
+                    }
+                });
+                $('#nowplaying .latest').animate({opacity:1.0}, 500, 'swing');
+            });
         });
         socket.connect();
     </script>
