@@ -238,7 +238,9 @@
                         $this.text(data[name]);
                     }
                 });
-                $('#nowplaying .latest').animate({opacity:1.0}, 500, 'swing');
+                setTimeout(function() {
+                    $('#nowplaying .latest').animate({opacity:1.0}, 500, 'swing');
+                }, 500);
             });
         });
         socket.connect();
