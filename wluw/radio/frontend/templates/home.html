@@ -219,7 +219,7 @@
         var socket = new io.Socket(),
             parse = typeof(JSON) === 'undefined' ? function(data) {
                 return eval('('+data+')');
-            }, JSON.parse;
+            } : JSON.parse;
 
         socket.on('message', function(data) {
             data = parse(data);
