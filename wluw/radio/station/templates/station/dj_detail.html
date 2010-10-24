@@ -4,6 +4,13 @@
         <h2>{{ dj.display_name }}&rsquo;s shows:</h2>
 {% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url for-day today.weekday %}" title="Schedule">Schedule</a></li>
+    <li><a href="#" title="DJ">{{ dj.display_name }}</a></li>
+{% endblock %}
+
+
 {% block sidebar %}
     {% load markup %}
     {% load gravatar %}

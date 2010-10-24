@@ -4,6 +4,12 @@
 <h2>{{ show.name }}</h2>
 {% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="{% url for-day today.weekday %}" title="Schedule">Schedule</a></li>
+    <li><a href="#" title="{{ show }}">{{ show }}</a></li>
+{% endblock %}
+
 {% block sidebar %}
     <div>
     {% for spot in spots %}

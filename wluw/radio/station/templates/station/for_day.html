@@ -4,6 +4,11 @@
 <h2>Schedule for {{ weekday_as_datetime|date:"l" }}s</h2>
 {% endblock %}
 
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li><a href="#" title="Schedule for {{ weekday_as_datetime|date:"l" }}">Schedule for {{ weekday_as_datetime|date:"l" }}</a></li>
+{% endblock %}
+
 {% block stage %}
 <div>
     <ul>
