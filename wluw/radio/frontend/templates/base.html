@@ -7,6 +7,9 @@
         <!--[if IE]>
         <link rel="stylesheet" href="{{ MEDIA_URL }}css/ie.css"/>
         <![endif]-->
+        <!--[if IE lt 8]>
+        <link rel="stylesheet" href="{{ MEDIA_URL }}css/ie7.css"/>
+        <![endif]-->
         {% block extra_head %}
         {% endblock %}
     </head>
