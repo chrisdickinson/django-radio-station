@@ -160,6 +160,7 @@
                                 <h3><a href="{{ spot.show.get_absolute_url }}" title="{{ spot.show }}">{{ spot.show }}</a></h3>
                                 <p class="dj"><a href="{{ spot.dj.get_absolute_url }}" title="{{ spot.dj }}">{{ spot.dj }}</a></p>
                                 <p>{{ spot.show.blurb }}</p>
+                                <p class="datetime">{{ spot.to_datetime|date:"g:ia" }}</p>
                             </li>
                         {% endfor %}
                     </ul>
